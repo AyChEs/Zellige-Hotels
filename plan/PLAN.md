@@ -23,7 +23,7 @@ Después de la revisión, Opus solo revisa el resultado final (no ejecuta).
 
 | NN | Sesión | Modelo | Depende de | Estado |
 |---|---|---|---|---|
-| 00 | Arreglos urgentes y entorno | Flash | | pendiente |
+| 00 | Arreglos urgentes y entorno | Flash | | hecha |
 | 01 | Auditoría (solo informe) | Flash | 00 | pendiente |
 | 02 | Tokens de diseño y tipografía autoalojada | GLM | 01 | pendiente |
 | 03 | Componentes base | GLM | 02 | pendiente |
