@@ -1,0 +1,62 @@
+[
+ {
+  "url": "/",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious link-in-text-block (1)"
+  ]
+ },
+ {
+  "url": "/hotels",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious aria-hidden-focus (1)",
+   "serious link-in-text-block (1)"
+  ]
+ },
+ {
+  "url": "/login",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious aria-hidden-focus (1)",
+   "serious color-contrast (1)",
+   "serious link-in-text-block (1)"
+  ]
+ },
+ {
+  "w": 390,
+  "consoleErrors": []
+ },
+ {
+  "url": "/",
+  "w": 1440,
+  "hscroll": false,
+  "violations": [
+   "serious link-in-text-block (1)"
+  ]
+ },
+ {
+  "url": "/hotels",
+  "w": 1440,
+  "hscroll": false,
+  "violations": [
+   "serious link-in-text-block (1)"
+  ]
+ },
+ {
+  "url": "/login",
+  "w": 1440,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (1)",
+   "serious link-in-text-block (1)"
+  ]
+ },
+ {
+  "w": 1440,
+  "consoleErrors": []
+ }
+]

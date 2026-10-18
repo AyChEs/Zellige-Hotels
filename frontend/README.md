@@ -11,3 +11,11 @@ npm run build
 ```
 
 Lint is [oxlint](https://oxc.rs) (`npm run lint`); rules live in `.oxlintrc.json`.
+
+## Probar sin backend local
+
+```bash
+VITE_PROXY_TARGET=https://zellige-hotels.onrender.com npm run dev
+```
+
+Solo para navegar. No crees ni borres datos: es la base de datos de la demo.

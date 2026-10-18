@@ -99,10 +99,12 @@
       "VIP": "VIP"
     },
     "employeePosition": {
+      "ADMIN": "Administration",
       "MANAGER": "Manager",
       "RECEPTIONIST": "Receptionist",
       "HOUSEKEEPER": "Housekeeping",
-      "MAINTENANCE": "Maintenance"
+      "MAINTENANCE": "Maintenance",
+      "CLIENT": "Guest"
     },
     "employeeStatus": {
       "ACTIVE": "Active",
@@ -152,6 +154,8 @@
   "public": {
     "nav": {
       "hotels": "Hotels",
+      "home": "Home",
+      "staffPanel": "Staff panel",
       "myAccount": "My account",
       "login": "Sign in",
       "logout": "Log out"
