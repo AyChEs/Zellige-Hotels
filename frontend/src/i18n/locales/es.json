@@ -99,10 +99,12 @@
       "VIP": "VIP"
     },
     "employeePosition": {
+      "ADMIN": "Administración",
       "MANAGER": "Dirección",
       "RECEPTIONIST": "Recepción",
       "HOUSEKEEPER": "Limpieza",
-      "MAINTENANCE": "Mantenimiento"
+      "MAINTENANCE": "Mantenimiento",
+      "CLIENT": "Cliente"
     },
     "employeeStatus": {
       "ACTIVE": "Activo",
@@ -152,6 +154,8 @@
   "public": {
     "nav": {
       "hotels": "Hoteles",
+      "home": "Inicio",
+      "staffPanel": "Panel de gestión",
       "myAccount": "Mi cuenta",
       "login": "Iniciar sesión",
       "logout": "Cerrar sesión"
