@@ -31,6 +31,7 @@ Léelo entero antes de empezar cualquier sesión. Si una skill choca con esto, m
 ## Entorno de esta máquina
 
 - Hay Node 22 y `gh` con sesión de `AyChEs`. **No hay Java ni Docker** (comprobado el 2026-10-18).
+- JDK 21 en `~/.local/jdk/jdk-21…`: `export JAVA_HOME=$(echo ~/.local/jdk/jdk-21*) PATH=$JAVA_HOME/bin:$PATH`. Con él, `./mvnw -B -DskipTests compile` funciona en local; los tests de Testcontainers siguen necesitando Docker y se verifican en CI.
 - Backend: la verificación de `./mvnw verify` la hace el CI de GitHub (`.github/workflows/ci.yml`, job `backend`) en cada PR. Espera a que pase con `gh pr checks --watch`. Si la sesión 00 dejó un JDK local, úsalo también; Testcontainers sin Docker no corre en local, y eso no es un fallo tuyo.
 - Frontend en local: `cd frontend && npm ci && npm run dev`. Para ver datos sin backend local, arranca con `VITE_PROXY_TARGET=https://zellige-hotels.onrender.com npm run dev` (lo configura la sesión 00). La primera petición puede tardar 50 s: Render se duerme.
 - **Contra la API de producción solo se navega y se inicia sesión.** No crees, edites ni borres reservas, clientes ni nada. Para probar mutaciones, usa pruebas con Vitest y dobles.

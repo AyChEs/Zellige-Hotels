@@ -10,8 +10,9 @@ export default defineConfig({
     proxy: {
       // Local dev: talk to the Spring Boot backend without CORS friction
       '/api': {
-        target: 'http://localhost:8080',
+        target: process.env.VITE_PROXY_TARGET ?? 'http://localhost:8080',
         changeOrigin: true,
+        secure: true,
       },
     },
   },

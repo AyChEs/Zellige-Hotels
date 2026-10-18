@@ -14,7 +14,6 @@ export function PublicShell() {
   const { t } = useTranslation()
   const { user, logout } = useAuth()
   const [open, setOpen] = useState(false)
-  const home = t('public.nav.hotels') === 'Hotels' ? 'Home' : 'Inicio'
 
   const close = () => setOpen(false)
 
@@ -29,7 +28,7 @@ export function PublicShell() {
           {/* Desktop nav */}
           <nav className="hidden items-center gap-1 md:flex">
             <NavLink to="/" end className={navLink}>
-              {home}
+                {t('public.nav.home')}
             </NavLink>
             <NavLink to="/hotels" className={navLink}>
               {t('public.nav.hotels')}
@@ -37,7 +36,7 @@ export function PublicShell() {
             {user ? (
               <>
                 <NavLink to={homeFor(user.role)} className={navLink}>
-                  {user.role === 'CLIENT' ? t('public.nav.myAccount') : 'Panel ERP'}
+                  {user.role === 'CLIENT' ? t('public.nav.myAccount') : t('public.nav.staffPanel')}
                 </NavLink>
                 <button
                   onClick={logout}
@@ -108,10 +107,10 @@ export function PublicShell() {
         </div>
         <nav className="flex-1 overflow-y-auto px-4 py-4">
           <ul className="space-y-1">
-            <li><NavLink to="/" end onClick={close} className={({ isActive }) => `block rounded-(--radius-tile) px-3 py-2.5 text-sm transition ${isActive ? 'bg-teal-800/80 text-gold-300' : 'text-glaze-100 hover:bg-teal-900'}`}>{home}</NavLink></li>
+            <li><NavLink to="/" end onClick={close} className={({ isActive }) => `block rounded-(--radius-tile) px-3 py-2.5 text-sm transition ${isActive ? 'bg-teal-800/80 text-gold-300' : 'text-glaze-100 hover:bg-teal-900'}`}>{t('public.nav.home')}</NavLink></li>
             <li><NavLink to="/hotels" onClick={close} className={({ isActive }) => `block rounded-(--radius-tile) px-3 py-2.5 text-sm transition ${isActive ? 'bg-teal-800/80 text-gold-300' : 'text-glaze-100 hover:bg-teal-900'}`}>{t('public.nav.hotels')}</NavLink></li>
             {user && (
-              <li><NavLink to={homeFor(user.role)} onClick={close} className={({ isActive }) => `block rounded-(--radius-tile) px-3 py-2.5 text-sm transition ${isActive ? 'bg-teal-800/80 text-gold-300' : 'text-glaze-100 hover:bg-teal-900'}`}>{user.role === 'CLIENT' ? t('public.nav.myAccount') : 'Panel ERP'}</NavLink></li>
+              <li><NavLink to={homeFor(user.role)} onClick={close} className={({ isActive }) => `block rounded-(--radius-tile) px-3 py-2.5 text-sm transition ${isActive ? 'bg-teal-800/80 text-gold-300' : 'text-glaze-100 hover:bg-teal-900'}`}>{user.role === 'CLIENT' ? t('public.nav.myAccount') : t('public.nav.staffPanel')}</NavLink></li>
             )}
           </ul>
         </nav>
