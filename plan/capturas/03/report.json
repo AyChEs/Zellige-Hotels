@@ -1,0 +1,108 @@
+[
+ {
+  "id": "landing",
+  "url": "/",
+  "w": 390,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "hoteles",
+  "url": "/hotels",
+  "w": 390,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "login",
+  "url": "/login",
+  "w": 390,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "registro",
+  "url": "/register",
+  "w": 390,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "cuenta",
+  "url": "/account",
+  "w": 390,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "admin",
+  "url": "/admin",
+  "w": 390,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "reservas-admin",
+  "url": "/admin/bookings",
+  "w": 390,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "w": 390,
+  "consoleErrors": []
+ },
+ {
+  "id": "landing",
+  "url": "/",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "hoteles",
+  "url": "/hotels",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "login",
+  "url": "/login",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "registro",
+  "url": "/register",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "cuenta",
+  "url": "/account",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "admin",
+  "url": "/admin",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "reservas-admin",
+  "url": "/admin/bookings",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "w": 1440,
+  "consoleErrors": []
+ }
+]
