@@ -1,7 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { meApi } from '../../api/endpoints'
+import { useMyInvoices } from '../../api/hooks/useMe'
 import type { InvoiceDto } from '../../api/types'
 import { InvoiceBadge } from '../../components/ui/StatusBadge'
 import { EmptyState, ErrorNote, ListSkeleton } from '../../components/ui/Feedback'
@@ -80,10 +79,7 @@ function InvoiceDetail({ invoice, onClose }: { invoice: InvoiceDto; onClose: () 
 export default function MyInvoicesPage() {
   const { t } = useTranslation()
   const [selected, setSelected] = useState<InvoiceDto | null>(null)
-  const { data, isPending, error, refetch } = useQuery({
-    queryKey: ['me', 'invoices'],
-    queryFn: () => meApi.invoices({ size: 20 }),
-  })
+  const { data, isPending, error, refetch } = useMyInvoices()
 
   if (isPending) return <ListSkeleton />
   if (error) return <ErrorNote error={error} onRetry={() => refetch()} />

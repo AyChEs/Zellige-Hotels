@@ -1,7 +1,5 @@
-import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { categoryApi } from '../../api/endpoints'
 import type { CategoryDto } from '../../api/types'
 import { ConfirmDialog } from '../../components/ui/ConfirmDialog'
 import { Field, Input, Textarea } from '../../components/ui/Field'
@@ -10,20 +8,24 @@ import { Button } from '../../components/ui/Button'
 import { Card } from '../../components/ui/Card'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { EmptyState, ErrorNote, ListSkeleton } from '../../components/ui/Feedback'
-import { useCrud } from '../../hooks/useCrud'
+import { useCategories, useRemoveCategory, useSaveCategory } from '../../api/hooks/useCategories'
+import { problemMessage } from '../../api/client'
+import { useToast } from '../../components/ui/toast-context'
 
 export default function CategoriesPage() {
   const { t } = useTranslation()
   const [editing, setEditing] = useState<CategoryDto | null | 'new'>(null)
-  const { data, isPending, error } = useQuery({
-    queryKey: ['categories'],
-    queryFn: categoryApi.list,
+  const { data, isPending, error, refetch } = useCategories()
+  const toast = useToast()
+  const save = useSaveCategory(() => {
+    setEditing(null)
+    toast.success(t('common.savedToast'))
   })
-  const { save, remove } = useCrud('categories', categoryApi, () => setEditing(null))
+  const remove = useRemoveCategory()
   const [toDelete, setToDelete] = useState<{ id: number; title: string } | null>(null)
 
   if (isPending) return <ListSkeleton rows={3} />
-  if (error) return <ErrorNote error={error} />
+  if (error) return <ErrorNote error={error} onRetry={() => refetch()} />
 
   const current = editing === 'new' ? null : editing
 
@@ -121,7 +123,14 @@ export default function CategoriesPage() {
         confirmLabel={t('common.delete')}
         loading={remove.isPending}
         onCancel={() => setToDelete(null)}
-        onConfirm={() => toDelete && remove.mutate(toDelete.id, { onSettled: () => setToDelete(null) })}
+        onConfirm={() =>
+          toDelete &&
+          remove.mutate(toDelete.id, {
+            onSuccess: () => toast.success(t('common.deletedToast')),
+            onError: (e) => toast.error(problemMessage(e)),
+            onSettled: () => setToDelete(null),
+          })
+        }
       />
     </>
   )

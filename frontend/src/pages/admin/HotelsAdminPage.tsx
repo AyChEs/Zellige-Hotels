@@ -1,7 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
+import { useCategories } from '../../api/hooks/useCategories'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { categoryApi, hotelApi } from '../../api/endpoints'
 import type { HotelDto } from '../../api/types'
 import { Button } from '../../components/ui/Button'
 import { DataTable, type Column } from '../../components/ui/DataTable'
@@ -11,19 +10,23 @@ import { Modal } from '../../components/ui/Modal'
 import { Badge } from '../../components/ui/StatusBadge'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { ErrorNote } from '../../components/ui/Feedback'
-import { useCrud } from '../../hooks/useCrud'
+import { useRemoveHotel, useSaveHotel, useHotelList } from '../../api/hooks/useHotels'
+import { problemMessage } from '../../api/client'
+import { useToast } from '../../components/ui/toast-context'
 
 export default function HotelsAdminPage() {
   const { t } = useTranslation()
   const [page, setPage] = useState(0)
   const [editing, setEditing] = useState<HotelDto | null | 'new'>(null)
 
-  const { data, isPending, error } = useQuery({
-    queryKey: ['hotels', 'admin', page],
-    queryFn: () => hotelApi.search({ page }),
+  const { data, isPending, isFetching, error, refetch } = useHotelList({ page })
+  const categories = useCategories()
+  const toast = useToast()
+  const save = useSaveHotel(() => {
+    setEditing(null)
+    toast.success(t('common.savedToast'))
   })
-  const categories = useQuery({ queryKey: ['categories'], queryFn: categoryApi.list })
-  const { save, remove } = useCrud('hotels', hotelApi, () => setEditing(null))
+  const remove = useRemoveHotel()
   const [toDelete, setToDelete] = useState<{ id: number; title: string } | null>(null)
 
   const current = editing === 'new' ? null : editing
@@ -77,7 +80,8 @@ export default function HotelsAdminPage() {
 
       <DataTable
         caption={t('admin.hotels.caption')}
-        columns={columns} data={data} isPending={isPending} error={error}
+        columns={columns} data={data} isPending={isPending} isFetching={isFetching && !isPending} error={error}
+        onRetry={() => refetch()}
         page={page} onPageChange={setPage}
         emptyTitle={t('admin.hotels.emptyTitle')} rowKey={(h) => h.id}
       />
@@ -162,7 +166,14 @@ export default function HotelsAdminPage() {
         confirmLabel={t('common.delete')}
         loading={remove.isPending}
         onCancel={() => setToDelete(null)}
-        onConfirm={() => toDelete && remove.mutate(toDelete.id, { onSettled: () => setToDelete(null) })}
+        onConfirm={() =>
+          toDelete &&
+          remove.mutate(toDelete.id, {
+            onSuccess: () => toast.success(t('common.deletedToast')),
+            onError: (e) => toast.error(problemMessage(e)),
+            onSettled: () => setToDelete(null),
+          })
+        }
       />
     </>
   )

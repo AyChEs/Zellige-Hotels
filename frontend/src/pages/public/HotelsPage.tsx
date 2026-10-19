@@ -1,7 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { hotelApi } from '../../api/endpoints'
+import { useHotelList } from '../../api/hooks/useHotels'
 import { EmptyState, ErrorNote } from '../../components/ui/Feedback'
 import { Field, Input } from '../../components/ui/Field'
 import { HotelCard, HotelCardSkeleton } from './HotelCard'
@@ -11,15 +10,11 @@ export default function HotelsPage() {
   const [search, setSearch] = useState('')
   const [city, setCity] = useState('')
 
-  const { data, isPending, error, refetch } = useQuery({
-    queryKey: ['hotels', 'list', search, city],
-    queryFn: () =>
-      hotelApi.search({
-        active: true,
-        search: search || undefined,
-        city: city || undefined,
-        size: 24,
-      }),
+  const { data, isPending, error, refetch } = useHotelList({
+    active: true,
+    search: search || undefined,
+    city: city || undefined,
+    size: 24,
   })
 
   return (

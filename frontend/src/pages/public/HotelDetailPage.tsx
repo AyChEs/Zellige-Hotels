@@ -1,8 +1,8 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { hotelApi, roomApi } from '../../api/endpoints'
+import { useHotel } from '../../api/hooks/useHotels'
+import { useAvailability } from '../../api/hooks/useRooms'
 import type { BoardType, BookingDto, RoomDto } from '../../api/types'
 import { date, nights, plusDaysIso } from '../../lib/format'
 import { Button } from '../../components/ui/Button'
@@ -18,7 +18,6 @@ import { BOARDS, type Stay } from './hotel-detail/types'
 export default function HotelDetailPage() {
   const { t } = useTranslation()
   const toast = useToast()
-  const queryClient = useQueryClient()
   const hotelId = Number(useParams().id)
   const [params, setParams] = useSearchParams()
   const checkInRef = useRef<HTMLInputElement>(null)
@@ -34,12 +33,8 @@ export default function HotelDetailPage() {
   }
   const nightCount = nights(stay.checkIn, stay.checkOut)
 
-  const { data: hotel } = useQuery({ queryKey: ['hotel', hotelId], queryFn: () => hotelApi.byId(hotelId) })
-  const availability = useQuery({
-    queryKey: ['availability', hotelId, stay.checkIn, stay.checkOut, stay.guests],
-    queryFn: () => roomApi.available(hotelId, stay.checkIn, stay.checkOut, stay.guests),
-    enabled: nightCount > 0,
-  })
+  const { data: hotel } = useHotel(hotelId)
+  const availability = useAvailability(hotelId, stay.checkIn, stay.checkOut, stay.guests, nightCount > 0)
 
   const updateStay = (next: Stay) => {
     setParams({ checkIn: next.checkIn, checkOut: next.checkOut, guests: String(next.guests), board: next.board })
@@ -50,8 +45,6 @@ export default function HotelDetailPage() {
     setChoice(null)
     setCreated(booking)
     toast.success(t('booking.created', { code: booking.code }))
-    queryClient.invalidateQueries({ queryKey: ['availability'] })
-    queryClient.invalidateQueries({ queryKey: ['me', 'bookings'] })
   }
 
   const onTaken = () => {

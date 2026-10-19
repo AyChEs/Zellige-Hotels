@@ -42,7 +42,8 @@
   "dataTable": {
     "page": "Página {{page}} de {{total}} · {{count}} registros",
     "ariaLabel": "Paginación",
-    "scroll": "desliza para ver más"
+    "scroll": "desliza para ver más",
+    "updating": "Actualizando…"
   },
   "labels": {
     "boardType": {
@@ -547,7 +548,13 @@
     "validation": "Revisa los campos marcados.",
     "server": "El servidor ha fallado. Inténtalo en unos minutos.",
     "conflict": "Conflicto con el estado actual.",
-    "loadingFailed": "No se han podido cargar los datos."
+    "loadingFailed": "No se han podido cargar los datos.",
+    "pageTitle": "Esta pantalla ha fallado",
+    "pageBody": "El resto de la aplicación sigue funcionando. Vuelve a intentarlo o usa el menú.",
+    "tryAgain": "Volver a intentarlo",
+    "notFoundTitle": "No encontramos esta página",
+    "notFoundBody": "Puede que la dirección esté mal escrita o que la página ya no exista.",
+    "backHome": "Volver a la portada"
   },
   "booking": {
     "summaryTitle": "Revisa tu reserva",

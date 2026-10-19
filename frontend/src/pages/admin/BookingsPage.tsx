@@ -1,7 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { bookingApi } from '../../api/endpoints'
+import { useBookingAction, useBookingList, type BookingAction } from '../../api/hooks/useBookings'
 import type { BookingDto, BookingStatus } from '../../api/types'
 import { problemMessage } from '../../api/client'
 import { Button } from '../../components/ui/Button'
@@ -16,7 +15,7 @@ import { date, money } from '../../lib/format'
 import { useLabels } from '../../lib/labels'
 import { CreateBookingForm } from './bookings/CreateBookingForm'
 
-type Action = 'confirm' | 'checkIn' | 'checkOut' | 'cancel'
+type Action = BookingAction
 const STATUSES: BookingStatus[] = ['PENDING', 'CONFIRMED', 'CHECKED_IN', 'CHECKED_OUT', 'CANCELLED']
 
 export default function BookingsPage() {
@@ -26,23 +25,14 @@ export default function BookingsPage() {
   const [status, setStatus] = useState<BookingStatus | ''>('')
   const [creating, setCreating] = useState(false)
   const [toCancel, setToCancel] = useState<BookingDto | null>(null)
-  const queryClient = useQueryClient()
   const toast = useToast()
+  const onError = (e: unknown) => toast.error(problemMessage(e))
 
-  const { data, isPending, error, refetch } = useQuery({
-    queryKey: ['bookings', page, status],
-    queryFn: () => bookingApi.search({ page, status: status || undefined }),
-  })
+  const { data, isPending, isFetching, error, refetch } = useBookingList({ page, status: status || undefined })
 
-  const act = useMutation({
-    mutationFn: ({ booking, action }: { booking: BookingDto; action: Action }) => bookingApi[action](booking.id),
-    onSuccess: (_, { booking, action }) => {
-      setToCancel(null)
-      toast.success(t(`admin.bookings.done.${action}`, { code: booking.code }))
-      queryClient.invalidateQueries({ queryKey: ['bookings'] })
-      queryClient.invalidateQueries({ queryKey: ['dashboard'] })
-    },
-    onError: (e) => toast.error(problemMessage(e)),
+  const act = useBookingAction((booking, action) => {
+    setToCancel(null)
+    toast.success(t(`admin.bookings.done.${action}`, { code: booking.code }))
   })
 
   const ACTION_LABELS: Record<Action, string> = {
@@ -100,7 +90,7 @@ export default function BookingsPage() {
               variant={action === 'cancel' ? 'secondary' : 'primary'}
               disabled={act.isPending}
               aria-label={`${ACTION_LABELS[action]} ${b.code}`}
-              onClick={() => (action === 'cancel' ? setToCancel(b) : act.mutate({ booking: b, action }))}
+              onClick={() => (action === 'cancel' ? setToCancel(b) : act.mutate({ booking: b, action }, { onError }))}
             >
               {ACTION_LABELS[action]}
             </Button>
@@ -138,6 +128,7 @@ export default function BookingsPage() {
         columns={columns}
         data={data}
         isPending={isPending}
+        isFetching={isFetching && !isPending}
         error={error}
         onRetry={() => refetch()}
         page={page}
@@ -157,7 +148,7 @@ export default function BookingsPage() {
         confirmLabel={t('admin.bookings.cancel')}
         loading={act.isPending}
         onCancel={() => setToCancel(null)}
-        onConfirm={() => toCancel && act.mutate({ booking: toCancel, action: 'cancel' })}
+        onConfirm={() => toCancel && act.mutate({ booking: toCancel, action: 'cancel' }, { onError })}
       >
         {toCancel && `${toCancel.clientFullName} · ${toCancel.hotelName} · ${date(toCancel.checkInDate)} - ${date(toCancel.checkOutDate)}`}
       </ConfirmDialog>

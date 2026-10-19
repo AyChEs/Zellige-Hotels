@@ -1,15 +1,14 @@
-import { useQuery } from '@tanstack/react-query'
 import { Navigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
   Bar, BarChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from 'recharts'
-import { dashboardApi } from '../../api/endpoints'
+import { useDashboard } from '../../api/hooks/useDashboard'
 import { useAuth } from '../../auth/AuthContext'
 import { Card } from '../../components/ui/Card'
 import { ErrorNote } from '../../components/ui/Feedback'
 import { PageHeader } from '../../components/ui/PageHeader'
-import { money, plusDaysIso, todayIso } from '../../lib/format'
+import { money, todayIso } from '../../lib/format'
 import { useLabels } from '../../lib/labels'
 import type { BookingStatus } from '../../api/types'
 
@@ -110,21 +109,7 @@ export default function DashboardPage() {
   const { hasRole } = useAuth()
   const locale = i18n.resolvedLanguage?.slice(0, 2) || 'es'
 
-  const summary = useQuery({
-    queryKey: ['dashboard', 'summary'],
-    queryFn: dashboardApi.summary,
-    enabled: hasRole('ADMIN', 'MANAGER'),
-  })
-  const revenue = useQuery({
-    queryKey: ['dashboard', 'revenue'],
-    queryFn: () => dashboardApi.revenue(12),
-    enabled: hasRole('ADMIN', 'MANAGER'),
-  })
-  const occupancy = useQuery({
-    queryKey: ['dashboard', 'occupancy'],
-    queryFn: () => dashboardApi.occupancy(plusDaysIso(-14), plusDaysIso(14)),
-    enabled: hasRole('ADMIN', 'MANAGER'),
-  })
+  const { summary, revenue, occupancy } = useDashboard(hasRole('ADMIN', 'MANAGER'))
 
   if (!hasRole('ADMIN', 'MANAGER')) return <Navigate to="/admin/bookings" replace />
 

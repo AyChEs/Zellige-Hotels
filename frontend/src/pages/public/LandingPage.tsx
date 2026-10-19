@@ -1,9 +1,8 @@
-import { useQuery } from '@tanstack/react-query'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState, type FormEvent } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { useTranslation } from 'react-i18next'
-import { hotelApi } from '../../api/endpoints'
+import { useHotelList } from '../../api/hooks/useHotels'
 import { plusDaysIso, todayIso } from '../../lib/format'
 import { Button } from '../../components/ui/Button'
 import { Card } from '../../components/ui/Card'
@@ -20,10 +19,7 @@ export default function LandingPage() {
   const [guests, setGuests] = useState(2)
   const [hotelId, setHotelId] = useState<number | null>(null)
 
-  const { data: hotels, isPending } = useQuery({
-    queryKey: ['hotels', 'landing'],
-    queryFn: () => hotelApi.search({ active: true, size: 3 }),
-  })
+  const { data: hotels, isPending } = useHotelList({ active: true, size: 3 })
   const first = hotels?.content[0]
   const chosen = hotelId ?? first?.id
 

@@ -1,4 +1,5 @@
-import { Link, NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
+import { ErrorBoundary } from '../ErrorBoundary'
 import { useEffect, useRef, useState, type ComponentType } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../auth/AuthContext'
@@ -26,6 +27,7 @@ type NavItem = { to: string; label: string; Icon: ComponentType<{ size?: number 
 
 export function AdminShell() {
   const { t } = useTranslation()
+  const { pathname } = useLocation()
   const { tLabel } = useLabels()
   const { user, logout, hasRole } = useAuth()
   const [open, setOpen] = useState(false)
@@ -166,7 +168,9 @@ export function AdminShell() {
         </div>
 
         <main id="contenido" tabIndex={-1} className="p-4 outline-none sm:p-6 lg:p-8">
+          <ErrorBoundary resetKey={pathname}>
           <Outlet />
+        </ErrorBoundary>
         </main>
       </div>
     </div>

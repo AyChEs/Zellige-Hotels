@@ -1,7 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { bookingApi, invoiceApi } from '../../../api/endpoints'
+import { useInvoiceableBookings } from '../../../api/hooks/useBookings'
+import { useGenerateInvoice } from '../../../api/hooks/useInvoices'
 import type { PaymentMethod } from '../../../api/types'
 import { Button } from '../../../components/ui/Button'
 import { ErrorNote } from '../../../components/ui/Feedback'
@@ -16,29 +16,11 @@ export function GenerateInvoiceForm({ onDone }: { onDone: () => void }) {
   const toast = useToast()
   const [bookingId, setBookingId] = useState<number | ''>('')
   const [method, setMethod] = useState<PaymentMethod>('CARD')
-  const queryClient = useQueryClient()
 
-  // Bookings that can be invoiced: confirmed / checked-in / checked-out without invoice
-  const candidates = useQuery({
-    queryKey: ['bookings', 'invoiceable'],
-    queryFn: async () => {
-      const [confirmed, checkedIn, checkedOut] = await Promise.all([
-        bookingApi.search({ status: 'CONFIRMED', size: 50 }),
-        bookingApi.search({ status: 'CHECKED_IN', size: 50 }),
-        bookingApi.search({ status: 'CHECKED_OUT', size: 50 }),
-      ])
-      return [...confirmed.content, ...checkedIn.content, ...checkedOut.content].filter((b) => !b.invoiceId)
-    },
-  })
-
-  const generate = useMutation({
-    mutationFn: () => invoiceApi.generate(Number(bookingId), method),
-    onSuccess: (invoice) => {
-      queryClient.invalidateQueries({ queryKey: ['invoices'] })
-      queryClient.invalidateQueries({ queryKey: ['bookings'] })
-      toast.success(t('admin.invoices.issuedToast', { number: invoice.invoiceNumber }))
-      onDone()
-    },
+  const candidates = useInvoiceableBookings()
+  const generate = useGenerateInvoice((invoice) => {
+    toast.success(t('admin.invoices.issuedToast', { number: invoice.invoiceNumber }))
+    onDone()
   })
 
   return (
@@ -46,7 +28,7 @@ export function GenerateInvoiceForm({ onDone }: { onDone: () => void }) {
       className="space-y-4"
       onSubmit={(e) => {
         e.preventDefault()
-        if (bookingId) generate.mutate()
+        if (bookingId) generate.mutate({ bookingId: Number(bookingId), method })
       }}
     >
       <Field

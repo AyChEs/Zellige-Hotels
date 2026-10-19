@@ -1,9 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useTranslation } from 'react-i18next'
-import { meApi } from '../../api/endpoints'
+import { useMyProfile, useUpdateProfile } from '../../api/hooks/useMe'
 import { ErrorNote, ListSkeleton } from '../../components/ui/Feedback'
 import { Button } from '../../components/ui/Button'
 import { Card } from '../../components/ui/Card'
@@ -14,7 +13,6 @@ import { useLabels } from '../../lib/labels'
 export default function ProfilePage() {
   const { t } = useTranslation()
   const { tLabel } = useLabels()
-  const queryClient = useQueryClient()
   const toast = useToast()
 
   const schema = z.object({
@@ -26,19 +24,9 @@ export default function ProfilePage() {
   })
   type FormValues = z.infer<typeof schema>
 
-  const { data: profile, isPending, error, refetch } = useQuery({
-    queryKey: ['me', 'profile'],
-    queryFn: () => meApi.profile(),
-  })
+  const { data: profile, isPending, error, refetch } = useMyProfile()
 
-  const save = useMutation({
-    mutationFn: (values: FormValues) =>
-      meApi.updateProfile({ ...values, birthDate: values.birthDate || null }),
-    onSuccess: () => {
-      toast.success(t('account.profileSaved'))
-      queryClient.invalidateQueries({ queryKey: ['me', 'profile'] })
-    },
-  })
+  const save = useUpdateProfile(() => toast.success(t('account.profileSaved')))
 
   const {
     register,
@@ -64,7 +52,7 @@ export default function ProfilePage() {
     <div className="max-w-xl">
       <h2 className="sr-only">{t('account.profile.title')}</h2>
       <Card className="p-5 sm:p-6">
-        <form onSubmit={handleSubmit((values) => save.mutate(values))} noValidate className="space-y-4">
+        <form onSubmit={handleSubmit((values) => save.mutate({ ...values, birthDate: values.birthDate || null }))} noValidate className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <Field id="firstName" label={t('auth.register.firstName')} error={errors.firstName?.message}>
               <Input required autoComplete="given-name" {...register('firstName')} />
