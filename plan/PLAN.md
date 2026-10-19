@@ -25,13 +25,13 @@ Después de la revisión, Opus solo revisa el resultado final (no ejecuta).
 |---|---|---|---|---|
 | 00 | Arreglos urgentes y entorno | Flash | | hecha |
 | 01 | Auditoría (solo informe) | Flash | 00 | hecha |
-| 02 | Tokens de diseño y tipografía autoalojada | GLM | 01 | pendiente |
+| 02 | Tokens de diseño y tipografía autoalojada | GLM | 01 | hecha |
 | 03 | Componentes base | GLM | 02 | pendiente |
 | 04 | Flujo de reserva del cliente | GLM | 03 | pendiente |
 | 05 | Panel de gestión por rol | Flash | 03 | pendiente |
 | 06 | Accesibilidad | GLM | 04, 05 | pendiente |
 | 07 | Arquitectura del frontend | GLM | 06 | pendiente |
-| 08 | Datos de demo que no caducan (backend) | Pro | 00 | pendiente |
+| 08 | Datos de demo que no caducan (backend) | Pro | 00 | hecha |
 | 09 | Revisión final | Revisión | 07, 08 | pendiente |
 
 ## Orden y paralelo
