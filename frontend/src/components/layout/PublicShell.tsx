@@ -60,7 +60,7 @@ export function PublicShell() {
   const accountLabel = user?.role === 'CLIENT' ? t('public.nav.myAccount') : t('public.nav.staffPanel')
 
   return (
-    <div className="flex min-h-screen flex-col bg-cal-50">
+    <div className="flex min-h-screen flex-col overflow-x-clip bg-cal-50">
       <header className="border-b border-cal-200 bg-cal-50 print:hidden" inert={open}>
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-4">
           <Link to="/" className="font-display text-xl text-tinta-900">

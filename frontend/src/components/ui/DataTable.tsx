@@ -77,7 +77,7 @@ export function DataTable<T>({
       <div className="overflow-hidden rounded-(--radius-card) border border-cal-200 bg-white shadow-(--shadow-card)">
         <div
           ref={scrollRef}
-          className="overflow-x-auto"
+          className="relative overflow-x-auto"
           // A scrollable region must be reachable by keyboard (WCAG 2.1.1).
           {...(overflows ? { tabIndex: 0, role: 'region', 'aria-label': caption } : {})}
         >

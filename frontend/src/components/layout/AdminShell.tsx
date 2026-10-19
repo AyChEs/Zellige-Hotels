@@ -122,7 +122,7 @@ export function AdminShell() {
   )
 
   return (
-    <div className="flex min-h-screen bg-cal-50">
+    <div className="flex min-h-screen overflow-x-clip bg-cal-50">
       {open && <div aria-hidden className="fixed inset-0 z-40 bg-tinta-900/40 lg:hidden" onClick={close} />}
 
       <aside

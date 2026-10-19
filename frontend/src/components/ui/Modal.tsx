@@ -49,7 +49,7 @@ export function Modal({ open, title, onClose, children, wide }: Props) {
       onClick={(e) => {
         if (e.target === ref.current) onClose() // backdrop click
       }}
-      className={`m-auto flex w-full max-h-[100dvh] flex-col ${wide ? 'sm:max-w-3xl sm:max-h-[90vh]' : 'sm:max-w-lg sm:max-h-[85vh]'}
+      className={`m-auto hidden w-full open:flex max-h-[100dvh] flex-col ${wide ? 'sm:max-w-3xl sm:max-h-[90vh]' : 'sm:max-w-lg sm:max-h-[85vh]'}
         rounded-(--radius-card) border border-cal-200 bg-white p-0 text-tinta-900 shadow-(--shadow-card) backdrop:bg-tinta-900/40`}
     >
       <div className="overflow-y-auto p-5 sm:p-6" onClick={(e) => e.stopPropagation()}>

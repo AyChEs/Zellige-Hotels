@@ -13,8 +13,8 @@ export function AccountShell() {
   const { t } = useTranslation()
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
-      <h1 className="font-display text-2xl text-tinta-900 sm:text-4xl">{t('public.nav.myAccount')}</h1>
-      <nav aria-label={t('public.nav.myAccount')} className="mt-4 mb-8 flex flex-wrap gap-6 border-b border-cal-200">
+      <h1 className="font-display text-2xl text-tinta-900 sm:text-4xl print:hidden">{t('public.nav.myAccount')}</h1>
+      <nav aria-label={t('public.nav.myAccount')} className="mt-4 mb-8 flex flex-wrap gap-6 border-b border-cal-200 print:hidden">
         <NavLink to="/account" end className={tab}>
           {t('account.nav.myBookings')}
         </NavLink>
