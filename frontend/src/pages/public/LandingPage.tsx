@@ -1,6 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useState, type FormEvent } from 'react'
-import { motion, useReducedMotion } from 'motion/react'
 import { useTranslation } from 'react-i18next'
 import { useHotelList } from '../../api/hooks/useHotels'
 import { plusDaysIso, todayIso } from '../../lib/format'
@@ -13,7 +12,6 @@ import { HotelCard, HotelCardSkeleton } from './HotelCard'
 export default function LandingPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const reduced = useReducedMotion()
   const [checkIn, setCheckIn] = useState(plusDaysIso(7))
   const [checkOut, setCheckOut] = useState(plusDaysIso(10))
   const [guests, setGuests] = useState(2)
@@ -29,21 +27,20 @@ export default function LandingPage() {
     navigate(`/hotels/${chosen}?checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`)
   }
 
-  // At most one 300 ms fade of the text block, and none with reduced motion.
-  const fade = reduced ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.3 } }
 
   return (
     <>
       <section className="reticula border-b border-cal-200">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:py-16 lg:grid-cols-12 lg:items-center lg:gap-12 lg:py-20">
           <div className="lg:col-span-7">
-            <motion.div {...fade}>
+            {/* One 300 ms fade of the text block (CSS, skipped with reduced motion). */}
+            <div className="aparecer">
               <p className="text-sm font-semibold text-granate-700">{t('public.landing.kicker')}</p>
               <h1 className="font-display mt-3 text-[2.25rem] leading-[1.1] text-tinta-900 sm:text-6xl">
                 {t('public.landing.title')}
               </h1>
               <p className="mt-5 max-w-prose text-lg text-tinta-600">{t('public.landing.subtitle')}</p>
-            </motion.div>
+            </div>
 
             <Card as="section" variant="brand" aria-label={t('public.landing.search')} className="mt-8 p-4 sm:p-5">
               <form onSubmit={search} className="grid gap-4 sm:grid-cols-[1fr_7rem_auto] sm:items-end">
