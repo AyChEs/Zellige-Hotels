@@ -7,6 +7,7 @@ import '@fontsource-variable/source-sans-3/wght.css'
 import './styles/theme.css'
 import { AuthProvider } from './auth/AuthContext'
 import App from './App'
+import { ToastProvider } from './components/ui/Toast'
 import './i18n'
 
 const queryClient = new QueryClient({
@@ -22,11 +23,13 @@ const queryClient = new QueryClient({
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </BrowserRouter>
+      <ToastProvider>
+        <BrowserRouter>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </BrowserRouter>
+      </ToastProvider>
     </QueryClientProvider>
   </StrictMode>,
 )

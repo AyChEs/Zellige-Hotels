@@ -1,24 +1,36 @@
+import type { ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import { problemMessage } from '../../api/client'
+import { Button } from './Button'
+import { IconAlerta } from './icons'
 
-export function ErrorNote({ error }: { error: unknown }) {
+export function ErrorNote({ error, onRetry }: { error: unknown; onRetry?: () => void }) {
+  const { t } = useTranslation()
   return (
     <div
       role="alert"
-      className="rounded-(--radius-control) border border-error-700/30 bg-error-50 px-4 py-3 text-sm text-error-ink"
+      className="flex flex-wrap items-start gap-3 rounded-(--radius-card) border border-error-700/30 bg-error-50 px-4 py-3 text-sm text-error-ink"
     >
-      {problemMessage(error)}
+      <IconAlerta size={20} className="mt-px shrink-0" />
+      <p className="min-w-0 flex-1 pt-px">{problemMessage(error)}</p>
+      {onRetry && (
+        <Button variant="secondary" size="sm" onClick={onRetry}>
+          {t('common.retry')}
+        </Button>
+      )}
     </div>
   )
 }
 
-export function EmptyState({ title, hint }: { title: string; hint?: string }) {
+export function EmptyState({ title, hint, action }: { title: string; hint?: string; action?: ReactNode }) {
   return (
-    <div className="card-tile flex flex-col items-center gap-2 px-6 py-12 text-center">
-      <span aria-hidden className="text-2xl text-granate-700">
+    <div className="flex flex-col items-center gap-2 rounded-(--radius-card) border border-cal-200 bg-white px-6 py-12 text-center">
+      <span aria-hidden className="text-xl text-granate-700">
         ◆
       </span>
-      <p className="font-medium text-tinta-900">{title}</p>
+      <p className="font-semibold text-tinta-900">{title}</p>
       {hint && <p className="max-w-md text-sm text-tinta-600">{hint}</p>}
+      {action && <div className="mt-3">{action}</div>}
     </div>
   )
 }
