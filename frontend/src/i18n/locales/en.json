@@ -165,21 +165,23 @@
       "tagline": "Demo hotel ERP"
     },
     "landing": {
-      "kicker": "Zellige Hotels · Granada · Marrakech · Barcelona",
+      "kicker": "Granada · Marrakech · Barcelona",
       "title": "Hospitality is a craft. We practise it with precision.",
-      "subtitle": "Three hotels with character. Direct booking, instant confirmation, no-surprise invoices.",
+      "subtitle": "Three hotels with character. Direct booking, a fixed price per night and no-surprise invoices.",
       "checkIn": "Check-in",
       "checkOut": "Check-out",
       "guests": "Guests",
       "search": "Search",
       "hotelsTitle": "Our hotels",
       "whyTitle": "Why book direct",
-      "why1Title": "Instant confirmation",
-      "why1Body": "Your reservation goes straight into the hotel's system, with an email on the spot.",
+      "why1Title": "Your booking, right away",
+      "why1Body": "It goes straight into the hotel's system and you see it in your account as soon as you make it.",
       "why2Title": "Flexible cancellation",
-      "why2Body": "Cancel any pending or confirmed booking from your account — no phone calls.",
+      "why2Body": "Cancel any pending or confirmed booking from your account, no phone calls.",
       "why3Title": "No surprise invoices",
-      "why3Body": "Locked-in price per night and board, with VAT broken out on the invoice."
+      "why3Body": "Locked-in price per night and board, with VAT broken out on the invoice.",
+      "hotel": "Hotel",
+      "heroAlt": "{{name}}, in {{city}}"
     },
     "hotels": {
       "title": "Hotels",
@@ -189,7 +191,12 @@
       "cityAria": "Filter by city",
       "emptyTitle": "No results",
       "emptyHint": "Try a different name or city; the search is case-insensitive.",
-      "viewRooms": "View rooms"
+      "viewRooms": "View rooms",
+      "count_one": "{{count}} hotel",
+      "count_other": "{{count}} hotels",
+      "searchLabel": "Name",
+      "cityLabel": "City",
+      "viewAvailability": "See availability"
     },
     "hotelDetail": {
       "breadcrumb": "Hotels",
@@ -215,7 +222,11 @@
       "myBookings": "My bookings",
       "noRoomsTitle": "No rooms available for those dates",
       "noRoomsHint": "Change the dates or reduce the number of guests; the hotel may have nearby availability.",
-      "roomTakenHint": "Someone else may have just booked that room; the list refreshes automatically."
+      "roomTakenHint": "Someone else may have just booked that room; the list refreshes automatically.",
+      "stars_one": "{{count}} star",
+      "stars_other": "{{count}} stars",
+      "breadcrumbLabel": "Breadcrumb",
+      "photoAlt": "{{name}}"
     }
   },
   "account": {
@@ -269,7 +280,11 @@
       "documentHint": "Your ID document can only be changed by the hotel reception.",
       "saving": "Saving…",
       "saved": "Profile updated."
-    }
+    },
+    "cancelConfirm": "Cancel booking {{code}}?",
+    "keep": "Keep it",
+    "cancelledToast": "Booking {{code}} cancelled",
+    "profileSaved": "Profile saved"
   },
   "admin": {
     "nav": {
@@ -503,5 +518,27 @@
     "server": "The server failed. Try again in a few minutes.",
     "conflict": "Conflicts with the current state.",
     "loadingFailed": "Couldn't load the data."
+  },
+  "booking": {
+    "summaryTitle": "Review your booking",
+    "confirm": "Confirm booking",
+    "back": "Back",
+    "created": "Booking {{code}} created",
+    "choose": "Choose",
+    "changeDates": "Change dates",
+    "loginToBook": "Log in to book",
+    "hotel": "Hotel",
+    "room": "Room",
+    "dates": "Dates",
+    "nights": "Nights",
+    "guests": "Guests",
+    "board": "Board",
+    "total": "Total, VAT included",
+    "pendingNote": "The hotel will confirm it and you will see it in your account.",
+    "createdTitle": "Booking created",
+    "createdBody": "It is waiting for the hotel to confirm it. You will see the change in your account.",
+    "code": "Code",
+    "seeMyBookings": "See my bookings",
+    "roomLabel": "{{type}} {{number}}"
   }
 }
