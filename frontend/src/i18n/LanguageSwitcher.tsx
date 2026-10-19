@@ -1,50 +1,40 @@
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next'
 
 /**
- * Small ES / EN toggle. Renders as two compact text buttons so it fits
- * in either the public nav or the admin sidebar without taking much room.
+ * Small ES / EN toggle. Two compact buttons so it fits in the public header, the mobile
+ * drawer and the staff sidebar.
  */
 export function LanguageSwitcher({ className = '' }: { className?: string }) {
-  const { i18n } = useTranslation();
-  const current = (i18n.resolvedLanguage || i18n.language || 'es').slice(0, 2);
+  const { t, i18n } = useTranslation()
+  const current = (i18n.resolvedLanguage || i18n.language || 'es').slice(0, 2)
 
   const set = (lng: 'es' | 'en') => {
-    if (current === lng) return;
-    i18n.changeLanguage(lng);
-  };
+    if (current === lng) return
+    i18n.changeLanguage(lng)
+  }
+
+  const button = (lng: 'es' | 'en', label: string) => (
+    <button
+      type="button"
+      lang={lng}
+      onClick={() => set(lng)}
+      aria-pressed={current === lng}
+      className={`inline-flex min-h-8 min-w-10 items-center justify-center rounded-(--radius-pill) px-3 text-xs font-semibold transition-colors duration-150 ${
+        current === lng ? 'bg-noche-900 text-noche-ink' : 'text-tinta-600 hover:text-tinta-900'
+      }`}
+    >
+      {label}
+    </button>
+  )
 
   return (
     <div
-      className={`flex items-center gap-1 rounded-full border border-cal-200 bg-cal-50 p-1 text-[11px] font-semibold ${className}`}
+      className={`inline-flex items-center gap-1 rounded-(--radius-pill) border border-cal-200 bg-cal-50 p-1 ${className}`}
       role="group"
-      aria-label="Language"
+      aria-label={t('common.language')}
     >
-      <button
-        type="button"
-        onClick={() => set('es')}
-        aria-pressed={current === 'es'}
-        className={
-          'rounded-full px-3 py-1 transition-colors ' +
-          (current === 'es'
-            ? 'bg-noche-900 text-noche-ink'
-            : 'text-tinta-600 hover:text-tinta-900')
-        }
-      >
-        ES
-      </button>
-      <button
-        type="button"
-        onClick={() => set('en')}
-        aria-pressed={current === 'en'}
-        className={
-          'rounded-full px-3 py-1 transition-colors ' +
-          (current === 'en'
-            ? 'bg-noche-900 text-noche-ink'
-            : 'text-tinta-600 hover:text-tinta-900')
-        }
-      >
-        EN
-      </button>
+      {button('es', 'ES')}
+      {button('en', 'EN')}
     </div>
-  );
+  )
 }

@@ -33,7 +33,8 @@
     "seeAll": "See all →",
     "viewAll": "View all",
     "created": "Created",
-    "updated": "Updated"
+    "updated": "Updated",
+    "dateOrder": "Check-out must be after check-in"
   },
   "dataTable": {
     "page": "Page {{page}} of {{total}} · {{count}} records",
@@ -281,7 +282,8 @@
       "employees": "Employees",
       "clients": "Clients",
       "invoices": "Invoices",
-      "tasks": "Tasks"
+      "tasks": "Tasks",
+      "label": "Staff panel navigation"
     },
     "dashboard": {
       "title": "Dashboard",

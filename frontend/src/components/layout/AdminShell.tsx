@@ -1,67 +1,119 @@
 import { Link, NavLink, Outlet } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useRef, useState, type ComponentType } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../auth/AuthContext'
 import { LanguageSwitcher } from '../../i18n/LanguageSwitcher'
 import type { Role } from '../../api/types'
 import { useLabels } from '../../lib/labels'
+import {
+  IconCalendario,
+  IconCerrar,
+  IconEdificio,
+  IconEtiqueta,
+  IconFactura,
+  IconGafete,
+  IconLista,
+  IconMenu,
+  IconPanel,
+  IconPersona,
+  IconPuerta,
+  IconReserva,
+} from '../ui/icons'
+
+type NavItem = { to: string; label: string; Icon: ComponentType<{ size?: number }>; roles?: Role[] }
 
 export function AdminShell() {
   const { t } = useTranslation()
   const { tLabel } = useLabels()
   const { user, logout, hasRole } = useAuth()
   const [open, setOpen] = useState(false)
+  const menuButton = useRef<HTMLButtonElement>(null)
+  const drawer = useRef<HTMLElement>(null)
 
-  const items: { to: string; label: string; icon: string; roles?: Role[] }[] = [
-    { to: '/admin', label: t('admin.nav.dashboard'), icon: '▦', roles: ['ADMIN', 'MANAGER'] },
-    { to: '/admin/bookings', label: t('admin.nav.bookings'), icon: '◫' },
-    { to: '/admin/calendar', label: t('admin.nav.calendar'), icon: '▤' },
-    { to: '/admin/invoices', label: t('admin.nav.invoices'), icon: '▥' },
-    { to: '/admin/clients', label: t('admin.nav.clients'), icon: '◧' },
-    { to: '/admin/tasks', label: t('admin.nav.tasks'), icon: '◨' },
-    { to: '/admin/hotels', label: t('admin.nav.hotels'), icon: '⬡', roles: ['ADMIN'] },
-    { to: '/admin/rooms', label: t('admin.nav.rooms'), icon: '⬢', roles: ['ADMIN', 'MANAGER'] },
-    { to: '/admin/categories', label: t('admin.nav.categories'), icon: '✦', roles: ['ADMIN'] },
-    { to: '/admin/employees', label: t('admin.nav.employees'), icon: '◩', roles: ['ADMIN', 'MANAGER'] },
+  // Which role sees what is decided by the backend; this only hides links a role cannot use.
+  const items: NavItem[] = [
+    { to: '/admin', label: t('admin.nav.dashboard'), Icon: IconPanel, roles: ['ADMIN', 'MANAGER'] },
+    { to: '/admin/bookings', label: t('admin.nav.bookings'), Icon: IconReserva },
+    { to: '/admin/calendar', label: t('admin.nav.calendar'), Icon: IconCalendario },
+    { to: '/admin/invoices', label: t('admin.nav.invoices'), Icon: IconFactura },
+    { to: '/admin/clients', label: t('admin.nav.clients'), Icon: IconPersona },
+    { to: '/admin/tasks', label: t('admin.nav.tasks'), Icon: IconLista },
+    { to: '/admin/hotels', label: t('admin.nav.hotels'), Icon: IconEdificio, roles: ['ADMIN'] },
+    { to: '/admin/rooms', label: t('admin.nav.rooms'), Icon: IconPuerta, roles: ['ADMIN', 'MANAGER'] },
+    { to: '/admin/categories', label: t('admin.nav.categories'), Icon: IconEtiqueta, roles: ['ADMIN'] },
+    { to: '/admin/employees', label: t('admin.nav.employees'), Icon: IconGafete, roles: ['ADMIN', 'MANAGER'] },
   ]
 
   const close = () => setOpen(false)
 
-  const sidebarInner = (
+  // Focus moves into the drawer on open; Esc closes it. Once it is closed (and the page is
+  // no longer inert) focus goes back to the menu button.
+  const wasOpen = useRef(false)
+  useEffect(() => {
+    if (!open) {
+      if (wasOpen.current) menuButton.current?.focus()
+      wasOpen.current = false
+      return
+    }
+    wasOpen.current = true
+    drawer.current?.querySelector<HTMLElement>('nav a')?.focus()
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [open])
+
+  const sidebarInner = (closeButton?: boolean) => (
     <>
-      <Link to="/" className="block px-5 py-5 font-display text-lg text-noche-ink" onClick={close}>
-        <span className="text-noche-muted">◆</span> Zellige ERP
-      </Link>
-      <div className="mx-5 mb-4 h-px bg-noche-800" />
-      <nav className="flex-1 space-y-0.5 overflow-y-auto px-3">
-        {items.filter((item) => !item.roles || hasRole(...item.roles)).map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            end={item.to === '/admin'}
+      <div className="flex h-16 items-center justify-between px-5">
+        <Link to="/" className="font-display text-xl text-noche-ink" onClick={close}>
+          <span aria-hidden className="mr-1.5 text-base text-noche-muted">
+            ◆
+          </span>
+          Zellige ERP
+        </Link>
+        {closeButton && (
+          <button
+            type="button"
             onClick={close}
-            className={({ isActive }) =>
-              `flex items-center gap-3 rounded-(--radius-control) px-3 py-2 text-sm transition ${
-                isActive
-                  ? 'bg-noche-800 text-white'
-                  : 'text-noche-muted hover:bg-noche-800/60 hover:text-noche-ink'
-              }`
-            }
+            aria-label={t('common.closeMenu')}
+            className="-mr-2 inline-flex size-11 items-center justify-center rounded-(--radius-control) text-noche-ink hover:bg-noche-800"
           >
-            <span aria-hidden className="text-noche-muted">
-              {item.icon}
-            </span>
-            {item.label}
-          </NavLink>
-        ))}
+            <IconCerrar size={20} />
+          </button>
+        )}
+      </div>
+      <nav aria-label={t('admin.nav.label')} className="flex-1 space-y-0.5 overflow-y-auto px-3 py-2">
+        {items
+          .filter((item) => !item.roles || hasRole(...item.roles))
+          .map(({ to, label, Icon }) => (
+            <NavLink
+              key={to}
+              to={to}
+              end={to === '/admin'}
+              onClick={close}
+              className={({ isActive }) =>
+                `flex min-h-11 items-center gap-3 rounded-(--radius-control) px-3 text-sm font-semibold transition-colors duration-150 lg:min-h-10 ${
+                  isActive ? 'bg-noche-800 text-white' : 'text-noche-muted hover:bg-noche-800 hover:text-noche-ink'
+                }`
+              }
+            >
+              <Icon size={18} />
+              {label}
+            </NavLink>
+          ))}
       </nav>
-      <div className="border-t border-noche-800 p-4 text-xs text-noche-muted">
-        <p className="truncate font-medium text-noche-ink">{user?.email}</p>
-        <p className="mb-2 text-noche-muted">{user && tLabel('employeePosition', user.role)}</p>
-        <LanguageSwitcher className="mb-2" />
+      <div className="space-y-3 border-t border-noche-800 p-4 text-sm">
+        <div>
+          <p className="truncate font-semibold text-noche-ink">{user?.email}</p>
+          <p className="text-noche-muted">{user && tLabel('employeePosition', user.role)}</p>
+        </div>
+        <LanguageSwitcher />
         <button
+          type="button"
           onClick={logout}
-          className="w-full rounded-(--radius-control) border border-noche-muted/60 px-2 py-1.5 text-noche-ink transition hover:bg-noche-800"
+          className="min-h-11 w-full rounded-(--radius-control) border border-noche-muted/60 px-3 font-semibold text-noche-ink transition-colors duration-150 hover:bg-noche-800 lg:min-h-9"
         >
           {t('common.logout')}
         </button>
@@ -71,51 +123,48 @@ export function AdminShell() {
 
   return (
     <div className="flex min-h-screen bg-cal-50">
-      {/* Mobile backdrop */}
-      {open && (
-        <button
-          type="button"
-          aria-label={t('common.closeMenu')}
-          onClick={close}
-          className="fixed inset-0 z-40 bg-noche-900/60 backdrop-blur-sm lg:hidden"
-        />
-      )}
+      {open && <div aria-hidden className="fixed inset-0 z-40 bg-tinta-900/40 lg:hidden" onClick={close} />}
 
-      {/* Mobile drawer */}
       <aside
-        className={`reticula-noche sobre-noche fixed inset-y-0 left-0 z-50 flex w-64 transform flex-col transition-transform duration-200 ease-out lg:hidden ${
-          open ? 'translate-x-0' : '-translate-x-full'
+        ref={drawer}
+        id="menu-panel"
+        inert={!open}
+        className={`reticula-noche sobre-noche fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] flex-col transition-transform duration-200 ease-out lg:hidden ${
+          open ? 'translate-x-0' : 'invisible -translate-x-full'
         }`}
-        aria-hidden={!open}
       >
-        {sidebarInner}
+        {sidebarInner(true)}
       </aside>
 
-      {/* Desktop sidebar */}
-      <aside className="reticula-noche sobre-noche hidden w-60 shrink-0 flex-col lg:flex">{sidebarInner}</aside>
+      <aside className="reticula-noche sobre-noche sticky top-0 hidden h-screen w-60 shrink-0 flex-col lg:flex">
+        {sidebarInner()}
+      </aside>
 
-      <main className="min-w-0 flex-1">
-        {/* Mobile top bar with hamburger */}
-        <div className="sticky top-0 z-30 flex items-center gap-3 border-b border-cal-200 bg-cal-50/90 px-4 py-3 backdrop-blur lg:hidden">
+      <div className="min-w-0 flex-1" inert={open}>
+        <div className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-cal-200 bg-cal-50 px-4 lg:hidden">
           <button
+            ref={menuButton}
             type="button"
             onClick={() => setOpen(true)}
             aria-label={t('common.openMenu')}
-            className="rounded-(--radius-control) border border-cal-200 bg-white p-2 text-tinta-900"
+            aria-expanded={open}
+            aria-controls="menu-panel"
+            className="inline-flex size-11 items-center justify-center rounded-(--radius-control) border border-cal-400 bg-white text-tinta-900"
           >
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M4 7h16M4 12h16M4 17h16" />
-            </svg>
+            <IconMenu size={20} />
           </button>
-          <Link to="/" className="font-display text-base text-tinta-900">
-            <span className="text-granate-700">◆</span> Zellige ERP
+          <Link to="/" className="font-display text-lg text-tinta-900">
+            <span aria-hidden className="mr-1.5 text-sm text-granate-700">
+              ◆
+            </span>
+            Zellige ERP
           </Link>
         </div>
 
-        <div className="p-4 sm:p-6 lg:p-8">
+        <main className="p-4 sm:p-6 lg:p-8">
           <Outlet />
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   )
 }

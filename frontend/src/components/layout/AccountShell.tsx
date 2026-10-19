@@ -2,18 +2,19 @@ import { NavLink, Outlet } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 const tab = ({ isActive }: { isActive: boolean }) =>
-  `rounded-(--radius-control) px-4 py-2 text-sm font-medium transition-colors duration-150 ${
-    isActive ? 'bg-fez-700 text-white' : 'text-tinta-600 hover:bg-fez-50'
+  `inline-flex min-h-11 items-center px-1 text-sm font-semibold transition-colors duration-150 ${
+    isActive
+      ? 'text-fez-700 underline decoration-2 underline-offset-8'
+      : 'text-tinta-600 hover:text-tinta-900'
   }`
 
-/** Client area: rendered inside PublicShell; adds heading + tabbed sub-nav. */
+/** Client area: rendered inside PublicShell; adds the heading and plain links as sub-navigation. */
 export function AccountShell() {
   const { t } = useTranslation()
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-6 sm:py-8">
-      <h1 className="font-display mb-1 text-2xl text-tinta-900">{t('public.nav.myAccount')}</h1>
-      <div className="separador mb-6 max-w-55 text-sm">◆</div>
-      <nav aria-label={t('public.nav.myAccount')} className="mb-6 flex flex-wrap gap-2">
+    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
+      <h1 className="font-display text-2xl text-tinta-900 sm:text-4xl">{t('public.nav.myAccount')}</h1>
+      <nav aria-label={t('public.nav.myAccount')} className="mt-4 mb-8 flex flex-wrap gap-6 border-b border-cal-200">
         <NavLink to="/account" end className={tab}>
           {t('account.nav.myBookings')}
         </NavLink>
