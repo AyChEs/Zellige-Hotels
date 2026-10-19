@@ -82,6 +82,11 @@ h3 {
   outline: 2px solid var(--color-fez-700);
   outline-offset: 2px;
 }
+/* Headings and <main> only receive focus from code (route change, skip link): no ring. */
+h1[tabindex='-1']:focus,
+main[tabindex='-1']:focus {
+  outline: none;
+}
 .sobre-noche :focus-visible {
   outline-color: var(--color-noche-ink);
 }
@@ -97,6 +102,18 @@ h3 {
     transition-duration: 0ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+}
+
+/* Single entrance fade for the landing text; nothing moves with reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .aparecer {
+    animation: aparecer 300ms ease-out both;
+  }
+}
+@keyframes aparecer {
+  from {
+    opacity: 0;
   }
 }
 

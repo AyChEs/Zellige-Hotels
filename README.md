@@ -68,8 +68,9 @@ Demo accounts (seeded):
 ## Tests
 
 ```bash
-cd backend && ./mvnw verify          # 28 tests, incl. Testcontainers (real Postgres)
-cd frontend && npm test -- --run     # Vitest unit tests
+cd backend && ./mvnw verify          # 31 tests, incl. Testcontainers (real Postgres)
+cd frontend && npm test -- --run     # Vitest: components, booking flow, query hooks
+cd frontend && npm run test:a11y     # Playwright + axe on 18 screens at 390 and 1440 px
 ```
 
 CI runs both on every push (`.github/workflows/ci.yml`).
