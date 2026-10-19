@@ -44,8 +44,8 @@ export default function LandingPage() {
 
   return (
     <>
-      {/* Hero — photographic, with teal veil + arabesque pattern on top */}
-      <section className="relative isolate overflow-hidden bg-teal-950">
+      {/* Hero: photographic, with a dark veil and the tile lattice on top */}
+      <section className="relative isolate overflow-hidden bg-noche-900">
         <img
           src={HERO_IMG}
           alt=""
@@ -53,9 +53,9 @@ export default function LandingPage() {
           className="absolute inset-0 h-full w-full object-cover opacity-45"
           loading="eager"
         />
-        <div className="bg-arabesque absolute inset-0 opacity-55" aria-hidden />
+        <div className="reticula-noche sobre-noche absolute inset-0 opacity-55" aria-hidden />
         <div className="relative mx-auto max-w-6xl px-4 py-16 sm:py-24 lg:py-32">
-          <motion.p {...rise(0)} className="mb-3 text-xs text-gold-300 sm:text-sm">
+          <motion.p {...rise(0)} className="mb-3 text-xs text-noche-ink sm:text-sm">
             {t('public.landing.kicker')}
           </motion.p>
           <motion.h1
@@ -64,7 +64,7 @@ export default function LandingPage() {
           >
             {t('public.landing.title')}
           </motion.h1>
-          <motion.p {...rise(0.16)} className="mt-5 max-w-xl text-base text-glaze-100/90 sm:text-lg">
+          <motion.p {...rise(0.16)} className="mt-5 max-w-xl text-base text-noche-muted sm:text-lg">
             {t('public.landing.subtitle')}
           </motion.p>
 
@@ -104,8 +104,8 @@ export default function LandingPage() {
       {/* Hotels */}
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="mb-8 flex items-end justify-between">
-          <h2 className="font-display text-3xl text-teal-900">{t('public.landing.hotelsTitle')}</h2>
-          <Link to="/hotels" className="text-sm font-medium text-teal-600 hover:text-teal-500">
+          <h2 className="font-display text-3xl text-tinta-900">{t('public.landing.hotelsTitle')}</h2>
+          <Link to="/hotels" className="text-sm font-medium text-fez-700 hover:text-fez-700">
             {t('common.seeAll')}
           </Link>
         </div>
@@ -126,7 +126,7 @@ export default function LandingPage() {
                   to={`/hotels/${hotel.id}`}
                   className="card-tile group block overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md motion-reduce:hover:translate-y-0"
                 >
-                  <div className="relative h-48 overflow-hidden bg-teal-900">
+                  <div className="relative h-48 overflow-hidden bg-noche-800">
                     {hotel.imageUrl && (
                       <img
                         src={hotel.imageUrl}
@@ -135,15 +135,15 @@ export default function LandingPage() {
                         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:group-hover:scale-100"
                       />
                     )}
-                    <span className="absolute bottom-0 left-0 bg-teal-950/85 px-3 py-1.5 font-display text-sm text-gold-300">
+                    <span className="absolute bottom-0 left-0 bg-noche-900/85 px-3 py-1.5 font-display text-sm text-noche-ink">
                       {hotel.category.starRating}★ · {hotel.city}
                     </span>
                   </div>
                   <div className="p-5">
-                    <h3 className="font-display text-lg text-teal-900 group-hover:text-teal-700">
+                    <h3 className="font-display text-lg text-tinta-900 group-hover:text-fez-700">
                       {hotel.name}
                     </h3>
-                    <p className="mt-1 line-clamp-2 text-sm text-teal-800">{hotel.description}</p>
+                    <p className="mt-1 line-clamp-2 text-sm text-tinta-600">{hotel.description}</p>
                   </div>
                 </Link>
               </motion.div>
@@ -153,28 +153,28 @@ export default function LandingPage() {
       </section>
 
       {/* Why direct */}
-      <section className="border-t border-glaze-200 bg-white">
+      <section className="border-t border-cal-200 bg-white">
         <div className="mx-auto max-w-6xl px-4 py-14">
           <div className="grid gap-10 md:grid-cols-[1.2fr_2fr]">
-            <h2 className="font-display text-2xl text-teal-900">
+            <h2 className="font-display text-2xl text-tinta-900">
               {t('public.landing.whyTitle')}
             </h2>
             <dl className="grid gap-6 sm:grid-cols-3">
               <div>
-                <dt className="font-medium text-teal-900">{t('public.landing.why1Title')}</dt>
-                <dd className="mt-1 text-sm text-teal-800">
+                <dt className="font-medium text-tinta-900">{t('public.landing.why1Title')}</dt>
+                <dd className="mt-1 text-sm text-tinta-600">
                   {t('public.landing.why1Body')}
                 </dd>
               </div>
               <div>
-                <dt className="font-medium text-teal-900">{t('public.landing.why2Title')}</dt>
-                <dd className="mt-1 text-sm text-teal-800">
+                <dt className="font-medium text-tinta-900">{t('public.landing.why2Title')}</dt>
+                <dd className="mt-1 text-sm text-tinta-600">
                   {t('public.landing.why2Body')}
                 </dd>
               </div>
               <div>
-                <dt className="font-medium text-teal-900">{t('public.landing.why3Title')}</dt>
-                <dd className="mt-1 text-sm text-teal-800">
+                <dt className="font-medium text-tinta-900">{t('public.landing.why3Title')}</dt>
+                <dd className="mt-1 text-sm text-tinta-600">
                   {t('public.landing.why3Body')}
                 </dd>
               </div>

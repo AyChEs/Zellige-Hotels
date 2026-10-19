@@ -4,7 +4,7 @@ export function ErrorNote({ error }: { error: unknown }) {
   return (
     <div
       role="alert"
-      className="rounded-(--radius-tile) border border-terra-600/30 bg-terra-100 px-4 py-3 text-sm text-terra-600"
+      className="rounded-(--radius-control) border border-error-700/30 bg-error-50 px-4 py-3 text-sm text-error-ink"
     >
       {problemMessage(error)}
     </div>
@@ -14,11 +14,11 @@ export function ErrorNote({ error }: { error: unknown }) {
 export function EmptyState({ title, hint }: { title: string; hint?: string }) {
   return (
     <div className="card-tile flex flex-col items-center gap-2 px-6 py-12 text-center">
-      <span aria-hidden className="text-2xl text-gold-500">
+      <span aria-hidden className="text-2xl text-granate-700">
         ◆
       </span>
-      <p className="font-medium text-teal-900">{title}</p>
-      {hint && <p className="max-w-md text-sm text-teal-800">{hint}</p>}
+      <p className="font-medium text-tinta-900">{title}</p>
+      {hint && <p className="max-w-md text-sm text-tinta-600">{hint}</p>}
     </div>
   )
 }

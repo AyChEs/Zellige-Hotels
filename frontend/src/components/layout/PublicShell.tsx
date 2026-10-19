@@ -7,7 +7,7 @@ import { LanguageSwitcher } from '../../i18n/LanguageSwitcher'
 
 const navLink = ({ isActive }: { isActive: boolean }) =>
   `px-3 py-2 text-sm transition ${
-    isActive ? 'text-gold-400' : 'text-glaze-100 hover:text-gold-300'
+    isActive ? 'text-white underline decoration-2 underline-offset-8' : 'text-noche-ink hover:text-white'
   }`
 
 export function PublicShell() {
@@ -18,11 +18,11 @@ export function PublicShell() {
   const close = () => setOpen(false)
 
   return (
-    <div className="flex min-h-screen flex-col bg-glaze-50">
-      <header className="bg-teal-950">
+    <div className="flex min-h-screen flex-col bg-cal-50">
+      <header className="bg-noche-900">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3">
-          <Link to="/" className="font-display text-lg text-glaze-50 sm:text-xl">
-            <span className="text-gold-400">◆</span> Zellige Hotels
+          <Link to="/" className="font-display text-lg text-noche-ink sm:text-xl">
+            <span className="text-noche-muted">◆</span> Zellige Hotels
           </Link>
 
           {/* Desktop nav */}
@@ -40,7 +40,7 @@ export function PublicShell() {
                 </NavLink>
                 <button
                   onClick={logout}
-                  className="ml-2 rounded-(--radius-tile) border border-gold-500/50 px-3 py-1.5 text-sm text-gold-300 transition hover:bg-teal-900"
+                  className="ml-2 rounded-(--radius-control) border border-noche-muted/60 px-3 py-1.5 text-sm text-noche-ink transition hover:bg-noche-800"
                 >
                   {t('public.nav.logout')}
                 </button>
@@ -52,7 +52,7 @@ export function PublicShell() {
                 </NavLink>
                 <Link
                   to="/register"
-                  className="ml-2 rounded-(--radius-tile) bg-gold-500 px-3 py-1.5 text-sm font-medium text-teal-950 transition hover:bg-gold-400"
+                  className="ml-2 rounded-(--radius-control) bg-fez-700 px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-fez-800"
                 >
                   {t('auth.register.submit')}
                 </Link>
@@ -66,7 +66,7 @@ export function PublicShell() {
             type="button"
             onClick={() => setOpen(true)}
             aria-label={t('common.openMenu')}
-            className="rounded-(--radius-tile) border border-gold-500/40 p-2 text-gold-300 md:hidden"
+            className="rounded-(--radius-control) border border-noche-muted/60 p-2 text-noche-ink md:hidden"
           >
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M4 7h16M4 12h16M4 17h16" />
@@ -81,24 +81,24 @@ export function PublicShell() {
           type="button"
           aria-label={t('common.closeMenu')}
           onClick={close}
-          className="fixed inset-0 z-40 bg-teal-950/60 backdrop-blur-sm md:hidden"
+          className="fixed inset-0 z-40 bg-noche-900/60 backdrop-blur-sm md:hidden"
         />
       )}
       <aside
-        className={`bg-teal-950 fixed inset-y-0 right-0 z-50 flex w-72 max-w-[85vw] transform flex-col transition-transform duration-200 ease-out md:hidden ${
+        className={`bg-noche-900 fixed inset-y-0 right-0 z-50 flex w-72 max-w-[85vw] transform flex-col transition-transform duration-200 ease-out md:hidden ${
           open ? 'translate-x-0' : 'translate-x-full'
         }`}
         aria-hidden={!open}
       >
-        <div className="flex items-center justify-between border-b border-gold-500/20 px-5 py-4">
-          <span className="font-display text-lg text-glaze-50">
-            <span className="text-gold-400">◆</span> Zellige Hotels
+        <div className="flex items-center justify-between border-b border-noche-800 px-5 py-4">
+          <span className="font-display text-lg text-noche-ink">
+            <span className="text-noche-muted">◆</span> Zellige Hotels
           </span>
           <button
             type="button"
             onClick={close}
             aria-label={t('common.closeMenu')}
-            className="rounded-(--radius-tile) p-1.5 text-gold-300 hover:bg-teal-900"
+            className="rounded-(--radius-control) p-1.5 text-noche-ink hover:bg-noche-800"
           >
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M6 6l12 12M6 18L18 6" />
@@ -107,28 +107,28 @@ export function PublicShell() {
         </div>
         <nav className="flex-1 overflow-y-auto px-4 py-4">
           <ul className="space-y-1">
-            <li><NavLink to="/" end onClick={close} className={({ isActive }) => `block rounded-(--radius-tile) px-3 py-2.5 text-sm transition ${isActive ? 'bg-teal-800/80 text-gold-300' : 'text-glaze-100 hover:bg-teal-900'}`}>{t('public.nav.home')}</NavLink></li>
-            <li><NavLink to="/hotels" onClick={close} className={({ isActive }) => `block rounded-(--radius-tile) px-3 py-2.5 text-sm transition ${isActive ? 'bg-teal-800/80 text-gold-300' : 'text-glaze-100 hover:bg-teal-900'}`}>{t('public.nav.hotels')}</NavLink></li>
+            <li><NavLink to="/" end onClick={close} className={({ isActive }) => `block rounded-(--radius-control) px-3 py-2.5 text-sm transition ${isActive ? 'bg-noche-800 text-white' : 'text-noche-ink hover:bg-noche-800'}`}>{t('public.nav.home')}</NavLink></li>
+            <li><NavLink to="/hotels" onClick={close} className={({ isActive }) => `block rounded-(--radius-control) px-3 py-2.5 text-sm transition ${isActive ? 'bg-noche-800 text-white' : 'text-noche-ink hover:bg-noche-800'}`}>{t('public.nav.hotels')}</NavLink></li>
             {user && (
-              <li><NavLink to={homeFor(user.role)} onClick={close} className={({ isActive }) => `block rounded-(--radius-tile) px-3 py-2.5 text-sm transition ${isActive ? 'bg-teal-800/80 text-gold-300' : 'text-glaze-100 hover:bg-teal-900'}`}>{user.role === 'CLIENT' ? t('public.nav.myAccount') : t('public.nav.staffPanel')}</NavLink></li>
+              <li><NavLink to={homeFor(user.role)} onClick={close} className={({ isActive }) => `block rounded-(--radius-control) px-3 py-2.5 text-sm transition ${isActive ? 'bg-noche-800 text-white' : 'text-noche-ink hover:bg-noche-800'}`}>{user.role === 'CLIENT' ? t('public.nav.myAccount') : t('public.nav.staffPanel')}</NavLink></li>
             )}
           </ul>
         </nav>
-        <div className="border-t border-gold-500/20 p-4">
+        <div className="border-t border-noche-800 p-4">
           <LanguageSwitcher className="mb-3" />
           {user ? (
             <button
               onClick={() => { logout(); close() }}
-              className="w-full rounded-(--radius-tile) border border-gold-500/50 px-3 py-2 text-sm text-gold-300 transition hover:bg-teal-900"
+              className="w-full rounded-(--radius-control) border border-noche-muted/60 px-3 py-2 text-sm text-noche-ink transition hover:bg-noche-800"
             >
               {t('public.nav.logout')}
             </button>
           ) : (
             <div className="flex flex-col gap-2">
-              <NavLink to="/login" onClick={close} className="rounded-(--radius-tile) border border-gold-500/40 px-3 py-2 text-center text-sm text-gold-300">
+              <NavLink to="/login" onClick={close} className="rounded-(--radius-control) border border-noche-muted/60 px-3 py-2 text-center text-sm text-noche-ink">
                 {t('public.nav.login')}
               </NavLink>
-              <Link to="/register" onClick={close} className="rounded-(--radius-tile) bg-gold-500 px-3 py-2 text-center text-sm font-medium text-teal-950">
+              <Link to="/register" onClick={close} className="rounded-(--radius-control) bg-fez-700 px-3 py-2 text-center text-sm font-semibold text-white">
                 {t('auth.register.submit')}
               </Link>
             </div>
@@ -140,13 +140,13 @@ export function PublicShell() {
         <Outlet />
       </main>
 
-      <footer className="bg-teal-950 py-6">
-        <div className="mx-auto max-w-6xl px-4 text-center text-xs text-glaze-100/60">
-          <div className="divider-arabesque mx-auto mb-3 max-w-xs">◆</div>
+      <footer className="bg-noche-900 py-6">
+        <div className="mx-auto max-w-6xl px-4 text-center text-xs text-noche-muted">
+          <div className="separador mx-auto mb-3 max-w-xs">◆</div>
           Zellige Hotels · {t('public.footer.tagline')} ·{' '}
           <a
             href="https://github.com/AyChEs"
-            className="text-gold-400 hover:text-gold-300"
+            className="text-noche-ink underline underline-offset-2 hover:text-white"
             target="_blank"
             rel="noreferrer"
           >

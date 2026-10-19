@@ -15,7 +15,7 @@ export function LanguageSwitcher({ className = '' }: { className?: string }) {
 
   return (
     <div
-      className={`flex items-center gap-1 rounded-full border border-glaze-200 bg-glaze-50 p-1 text-[11px] font-semibold ${className}`}
+      className={`flex items-center gap-1 rounded-full border border-cal-200 bg-cal-50 p-1 text-[11px] font-semibold ${className}`}
       role="group"
       aria-label="Language"
     >
@@ -26,8 +26,8 @@ export function LanguageSwitcher({ className = '' }: { className?: string }) {
         className={
           'rounded-full px-3 py-1 transition-colors ' +
           (current === 'es'
-            ? 'bg-teal-950 text-glaze-50'
-            : 'text-teal-800 hover:text-teal-950')
+            ? 'bg-noche-900 text-noche-ink'
+            : 'text-tinta-600 hover:text-tinta-900')
         }
       >
         ES
@@ -39,8 +39,8 @@ export function LanguageSwitcher({ className = '' }: { className?: string }) {
         className={
           'rounded-full px-3 py-1 transition-colors ' +
           (current === 'en'
-            ? 'bg-teal-950 text-glaze-50'
-            : 'text-teal-800 hover:text-teal-950')
+            ? 'bg-noche-900 text-noche-ink'
+            : 'text-tinta-600 hover:text-tinta-900')
         }
       >
         EN

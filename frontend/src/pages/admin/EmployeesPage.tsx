@@ -14,9 +14,9 @@ import { money, todayIso } from '../../lib/format'
 import { useLabels } from '../../lib/labels'
 
 const STATUS_TONE: Record<EmployeeStatus, string> = {
-  ACTIVE: 'bg-teal-100 text-teal-800',
-  ON_LEAVE: 'bg-gold-100 text-gold-600',
-  TERMINATED: 'bg-glaze-200 text-teal-900',
+  ACTIVE: 'bg-fez-50 text-tinta-600',
+  ON_LEAVE: 'bg-aviso-50 text-aviso-ink',
+  TERMINATED: 'bg-cal-200 text-tinta-900',
 }
 
 export default function EmployeesPage() {
@@ -41,8 +41,8 @@ export default function EmployeesPage() {
       header: t('admin.employees.name'),
       cell: (e) => (
         <div>
-          <p className="font-medium text-teal-950">{e.lastName}, {e.firstName}</p>
-          <p className="text-xs text-teal-800">{e.email ?? e.documentId}</p>
+          <p className="font-medium text-tinta-900">{e.lastName}, {e.firstName}</p>
+          <p className="text-xs text-tinta-600">{e.email ?? e.documentId}</p>
         </div>
       ),
     },
@@ -76,7 +76,7 @@ export default function EmployeesPage() {
             </button>
           </div>
         ) : (
-          <span className="text-xs text-teal-800">{t('admin.employees.readOnly')}</span>
+          <span className="text-xs text-tinta-600">{t('admin.employees.readOnly')}</span>
         ),
     },
   ]

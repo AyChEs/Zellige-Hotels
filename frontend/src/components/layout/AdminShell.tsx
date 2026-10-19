@@ -29,10 +29,10 @@ export function AdminShell() {
 
   const sidebarInner = (
     <>
-      <Link to="/" className="block px-5 py-5 font-display text-lg text-glaze-50" onClick={close}>
-        <span className="text-gold-400">◆</span> Zellige ERP
+      <Link to="/" className="block px-5 py-5 font-display text-lg text-noche-ink" onClick={close}>
+        <span className="text-noche-muted">◆</span> Zellige ERP
       </Link>
-      <div className="mx-5 mb-4 h-px bg-gold-500/30" />
+      <div className="mx-5 mb-4 h-px bg-noche-800" />
       <nav className="flex-1 space-y-0.5 overflow-y-auto px-3">
         {items.filter((item) => !item.roles || hasRole(...item.roles)).map((item) => (
           <NavLink
@@ -41,27 +41,27 @@ export function AdminShell() {
             end={item.to === '/admin'}
             onClick={close}
             className={({ isActive }) =>
-              `flex items-center gap-3 rounded-(--radius-tile) px-3 py-2 text-sm transition ${
+              `flex items-center gap-3 rounded-(--radius-control) px-3 py-2 text-sm transition ${
                 isActive
-                  ? 'bg-teal-800/80 text-gold-300'
-                  : 'text-glaze-100/80 hover:bg-teal-900/60 hover:text-glaze-50'
+                  ? 'bg-noche-800 text-white'
+                  : 'text-noche-muted hover:bg-noche-800/60 hover:text-noche-ink'
               }`
             }
           >
-            <span aria-hidden className="text-gold-400/90">
+            <span aria-hidden className="text-noche-muted">
               {item.icon}
             </span>
             {item.label}
           </NavLink>
         ))}
       </nav>
-      <div className="border-t border-gold-500/20 p-4 text-xs text-glaze-100/70">
-        <p className="truncate font-medium text-glaze-50">{user?.email}</p>
-        <p className="mb-2 text-gold-400">{user && tLabel('employeePosition', user.role)}</p>
+      <div className="border-t border-noche-800 p-4 text-xs text-noche-muted">
+        <p className="truncate font-medium text-noche-ink">{user?.email}</p>
+        <p className="mb-2 text-noche-muted">{user && tLabel('employeePosition', user.role)}</p>
         <LanguageSwitcher className="mb-2" />
         <button
           onClick={logout}
-          className="w-full rounded-(--radius-tile) border border-gold-500/40 px-2 py-1.5 text-gold-300 transition hover:bg-teal-900"
+          className="w-full rounded-(--radius-control) border border-noche-muted/60 px-2 py-1.5 text-noche-ink transition hover:bg-noche-800"
         >
           {t('common.logout')}
         </button>
@@ -70,20 +70,20 @@ export function AdminShell() {
   )
 
   return (
-    <div className="flex min-h-screen bg-glaze-50">
+    <div className="flex min-h-screen bg-cal-50">
       {/* Mobile backdrop */}
       {open && (
         <button
           type="button"
           aria-label={t('common.closeMenu')}
           onClick={close}
-          className="fixed inset-0 z-40 bg-teal-950/60 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-noche-900/60 backdrop-blur-sm lg:hidden"
         />
       )}
 
       {/* Mobile drawer */}
       <aside
-        className={`bg-arabesque fixed inset-y-0 left-0 z-50 flex w-64 transform flex-col transition-transform duration-200 ease-out lg:hidden ${
+        className={`reticula-noche sobre-noche fixed inset-y-0 left-0 z-50 flex w-64 transform flex-col transition-transform duration-200 ease-out lg:hidden ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
         aria-hidden={!open}
@@ -92,23 +92,23 @@ export function AdminShell() {
       </aside>
 
       {/* Desktop sidebar */}
-      <aside className="bg-arabesque hidden w-60 shrink-0 flex-col lg:flex">{sidebarInner}</aside>
+      <aside className="reticula-noche sobre-noche hidden w-60 shrink-0 flex-col lg:flex">{sidebarInner}</aside>
 
       <main className="min-w-0 flex-1">
         {/* Mobile top bar with hamburger */}
-        <div className="sticky top-0 z-30 flex items-center gap-3 border-b border-glaze-200 bg-glaze-50/90 px-4 py-3 backdrop-blur lg:hidden">
+        <div className="sticky top-0 z-30 flex items-center gap-3 border-b border-cal-200 bg-cal-50/90 px-4 py-3 backdrop-blur lg:hidden">
           <button
             type="button"
             onClick={() => setOpen(true)}
             aria-label={t('common.openMenu')}
-            className="rounded-(--radius-tile) border border-glaze-200 bg-white p-2 text-teal-900 shadow-sm"
+            className="rounded-(--radius-control) border border-cal-200 bg-white p-2 text-tinta-900"
           >
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M4 7h16M4 12h16M4 17h16" />
             </svg>
           </button>
-          <Link to="/" className="font-display text-base text-teal-950">
-            <span className="text-gold-500">◆</span> Zellige ERP
+          <Link to="/" className="font-display text-base text-tinta-900">
+            <span className="text-granate-700">◆</span> Zellige ERP
           </Link>
         </div>
 

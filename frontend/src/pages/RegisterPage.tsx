@@ -66,10 +66,10 @@ export function RegisterPage() {
   )
 
   return (
-    <div className="bg-arabesque-light flex min-h-[70vh] items-center justify-center px-4 py-12">
+    <div className="reticula flex min-h-[70vh] items-center justify-center px-4 py-12">
       <div className="card-tile-accent w-full max-w-lg p-8">
-        <h1 className="mb-1 text-center text-2xl text-teal-900">{t('auth.register.title')}</h1>
-        <div className="divider-arabesque mx-auto mb-6 max-w-45 text-sm">◆</div>
+        <h1 className="mb-1 text-center text-2xl text-tinta-900">{t('auth.register.title')}</h1>
+        <div className="separador mx-auto mb-6 max-w-45 text-sm">◆</div>
 
         <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
@@ -84,7 +84,7 @@ export function RegisterPage() {
           {field('password', t('auth.register.password'), 'password', 'new-password')}
 
           {serverError && (
-            <p role="alert" className="rounded-(--radius-tile) bg-terra-100 px-3 py-2 text-sm text-terra-600">
+            <p role="alert" className="rounded-(--radius-control) bg-error-50 px-3 py-2 text-sm text-error-ink">
               {serverError}
             </p>
           )}
@@ -94,9 +94,9 @@ export function RegisterPage() {
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-teal-800">
+        <p className="mt-6 text-center text-sm text-tinta-600">
           {t('auth.register.hasAccount')}{' '}
-          <Link to="/login" className="font-medium text-gold-600 hover:text-gold-500">
+          <Link to="/login" className="font-semibold text-fez-700 underline underline-offset-2 hover:text-fez-800">
             {t('auth.register.login')}
           </Link>
         </p>

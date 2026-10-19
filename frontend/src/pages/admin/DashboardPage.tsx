@@ -12,17 +12,20 @@ import { money, plusDaysIso, todayIso } from '../../lib/format'
 import { useLabels } from '../../lib/labels'
 import type { BookingStatus } from '../../api/types'
 
-const SERIES = '#1f747d' // teal-600 — single-hue charts, validated ≥3:1 on white
-const INK = '#06282b'
-const MUTED = '#10494f'
-const GRID = '#d5e2e2'
+// Chart colours from plan/DISENO.md (fez-700, granate-700, tinta-900, tinta-600, cal-200).
+// Both series are over 7:1 on white, so they also pass the 3:1 non-text contrast.
+const SERIES = '#1E5B46'
+const SERIES_2 = '#8B2E3C'
+const INK = '#1C211F'
+const MUTED = '#555C58'
+const GRID = '#E3DDD3'
 
 function StatTile({ label, value, context }: { label: string; value: string; context?: string }) {
   return (
     <div className="card-tile p-5">
-      <p className="text-xs font-semibold tracking-wide text-teal-800 uppercase">{label}</p>
-      <p className="mt-1 text-2xl font-semibold text-teal-950">{value}</p>
-      {context && <p className="mt-0.5 text-xs text-teal-800">{context}</p>}
+      <p className="text-xs font-semibold tracking-wide text-tinta-600 uppercase">{label}</p>
+      <p className="mt-1 text-2xl font-semibold text-tinta-900">{value}</p>
+      {context && <p className="mt-0.5 text-xs text-tinta-600">{context}</p>}
     </div>
   )
 }
@@ -30,7 +33,7 @@ function StatTile({ label, value, context }: { label: string; value: string; con
 function ChartCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="card-tile p-5">
-      <h2 className="mb-4 text-sm font-semibold text-teal-950">{title}</h2>
+      <h2 className="mb-4 text-sm font-semibold text-tinta-900">{title}</h2>
       {children}
     </section>
   )
@@ -181,7 +184,7 @@ export default function DashboardPage() {
                 <Line
                   type="monotone"
                   dataKey="rate"
-                  stroke={SERIES}
+                  stroke={SERIES_2}
                   strokeWidth={2}
                   dot={false}
                   activeDot={{ r: 4, strokeWidth: 2, stroke: '#ffffff' }}
@@ -199,14 +202,14 @@ export default function DashboardPage() {
         <div className="mt-2 space-y-2">
           {statusEntries.map(([status, count]) => (
             <div key={status} className="grid grid-cols-[8rem_1fr_3rem] items-center gap-3 text-sm">
-              <span className="text-teal-800">{tLabel('bookingStatus', status)}</span>
-              <div className="h-4 rounded-[4px] bg-glaze-100">
+              <span className="text-tinta-600">{tLabel('bookingStatus', status)}</span>
+              <div className="h-4 rounded-[4px] bg-cal-100">
                 <div
                   className="h-4 rounded-[4px]"
                   style={{ width: `${(count / maxStatus) * 100}%`, backgroundColor: SERIES }}
                 />
               </div>
-              <span className="text-right font-medium text-teal-950">{count}</span>
+              <span className="text-right font-medium text-tinta-900">{count}</span>
             </div>
           ))}
         </div>

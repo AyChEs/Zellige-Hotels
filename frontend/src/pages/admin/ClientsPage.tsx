@@ -33,8 +33,8 @@ export default function ClientsPage() {
       header: t('admin.clients.name'),
       cell: (c) => (
         <div>
-          <p className="font-medium text-teal-950">{c.lastName}, {c.firstName}</p>
-          <p className="text-xs text-teal-800">{c.email ?? t('admin.clients.noAccount')}</p>
+          <p className="font-medium text-tinta-900">{c.lastName}, {c.firstName}</p>
+          <p className="text-xs text-tinta-600">{c.email ?? t('admin.clients.noAccount')}</p>
         </div>
       ),
     },
@@ -43,7 +43,7 @@ export default function ClientsPage() {
     {
       header: t('admin.clients.type'),
       cell: (c) => (
-        <span className={`badge ${c.clientType === 'VIP' ? 'bg-gold-100 text-gold-600' : 'bg-glaze-100 text-teal-800'}`}>
+        <span className={`badge ${c.clientType === 'VIP' ? 'bg-aviso-50 text-aviso-ink' : 'bg-cal-100 text-tinta-600'}`}>
           {tLabel('clientType', c.clientType)}
         </span>
       ),

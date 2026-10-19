@@ -23,8 +23,8 @@ export default function HotelsPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="font-display mb-1 text-3xl text-teal-900">{t('public.hotels.title')}</h1>
-      <div className="divider-arabesque mb-8 max-w-55 text-sm">◆</div>
+      <h1 className="font-display mb-1 text-3xl text-tinta-900">{t('public.hotels.title')}</h1>
+      <div className="separador mb-8 max-w-55 text-sm">◆</div>
 
       <div className="mb-6 flex flex-wrap gap-3">
         <input
@@ -61,7 +61,7 @@ export default function HotelsPage() {
               to={`/hotels/${hotel.id}`}
               className="card-tile group flex flex-col gap-4 p-4 transition-shadow duration-200 hover:shadow-md sm:flex-row sm:items-center sm:p-5"
             >
-              <div className="relative h-40 w-full shrink-0 overflow-hidden rounded-(--radius-tile) bg-teal-900 sm:h-24 sm:w-44">
+              <div className="relative h-40 w-full shrink-0 overflow-hidden rounded-(--radius-control) bg-noche-800 sm:h-24 sm:w-44">
                 {hotel.imageUrl && (
                   <img
                     src={hotel.imageUrl}
@@ -70,18 +70,18 @@ export default function HotelsPage() {
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:group-hover:scale-100"
                   />
                 )}
-                <span className="absolute bottom-0 left-0 bg-teal-950/85 px-2 py-0.5 font-display text-sm text-gold-300">
+                <span className="absolute bottom-0 left-0 bg-noche-900/85 px-2 py-0.5 font-display text-sm text-noche-ink">
                   {hotel.category.starRating}★
                 </span>
               </div>
               <div className="min-w-0 flex-1">
-                <h2 className="font-display text-lg text-teal-900 group-hover:text-teal-700 sm:text-xl">
+                <h2 className="font-display text-lg text-tinta-900 group-hover:text-fez-700 sm:text-xl">
                   {hotel.name}
                 </h2>
-                <p className="text-sm text-teal-800">
+                <p className="text-sm text-tinta-600">
                   {hotel.address} · {hotel.city}, {hotel.country}
                 </p>
-                <p className="mt-2 line-clamp-2 text-sm text-teal-800/90">
+                <p className="mt-2 line-clamp-2 text-sm text-tinta-600">
                   {hotel.description}
                 </p>
               </div>

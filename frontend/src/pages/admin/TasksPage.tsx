@@ -146,16 +146,16 @@ function TaskCard({ task, onMove }: { task: TaskDto; onMove: (status: TaskStatus
   return (
     <article className="card-tile p-4">
       <div className="flex items-start justify-between gap-2">
-        <h3 className="text-sm font-medium text-teal-950">{task.title}</h3>
+        <h3 className="text-sm font-medium text-tinta-900">{task.title}</h3>
         <PriorityBadge priority={task.priority} />
       </div>
-      <p className="mt-1 text-xs text-teal-800">
+      <p className="mt-1 text-xs text-tinta-600">
         {tLabel('taskType', task.type)} · {task.hotelName}
         {task.roomNumber && ` · ${t('admin.bookings.roomShort', { n: task.roomNumber })}`}
         {task.dueDate && ` · ${t('admin.tasks.due', { date: date(task.dueDate) })}`}
       </p>
       {task.assignees.length > 0 && (
-        <p className="mt-1 text-xs text-teal-800">
+        <p className="mt-1 text-xs text-tinta-600">
           {task.assignees.map((a) => a.fullName).join(', ')}
         </p>
       )}
@@ -226,7 +226,7 @@ export default function TasksPage() {
         <div className="grid gap-4 lg:grid-cols-3">
           {COLUMNS.map((status) => (
             <section key={status} aria-label={tLabel('taskStatus', status)}>
-              <h2 className="mb-3 text-xs font-semibold tracking-wide text-teal-800 uppercase">
+              <h2 className="mb-3 text-xs font-semibold tracking-wide text-tinta-600 uppercase">
                 {tLabel('taskStatus', status)} · {byStatus(status).length}
               </h2>
               <div className="space-y-3">
@@ -238,7 +238,7 @@ export default function TasksPage() {
                   />
                 ))}
                 {byStatus(status).length === 0 && (
-                  <p className="rounded-(--radius-tile) border border-dashed border-glaze-200 px-4 py-6 text-center text-xs text-teal-800">
+                  <p className="rounded-(--radius-control) border border-dashed border-cal-200 px-4 py-6 text-center text-xs text-tinta-600">
                     {t('admin.tasks.emptyColumn')}
                   </p>
                 )}
