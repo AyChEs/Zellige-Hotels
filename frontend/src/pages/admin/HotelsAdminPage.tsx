@@ -3,9 +3,12 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { categoryApi, hotelApi } from '../../api/endpoints'
 import type { HotelDto } from '../../api/types'
-import { problemMessage } from '../../api/client'
+import { Button } from '../../components/ui/Button'
 import { DataTable, type Column } from '../../components/ui/DataTable'
+import { ConfirmDialog } from '../../components/ui/ConfirmDialog'
+import { Field, Input, Select, Textarea } from '../../components/ui/Field'
 import { Modal } from '../../components/ui/Modal'
+import { Badge } from '../../components/ui/StatusBadge'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { ErrorNote } from '../../components/ui/Feedback'
 import { useCrud } from '../../hooks/useCrud'
@@ -21,6 +24,7 @@ export default function HotelsAdminPage() {
   })
   const categories = useQuery({ queryKey: ['categories'], queryFn: categoryApi.list })
   const { save, remove } = useCrud('hotels', hotelApi, () => setEditing(null))
+  const [toDelete, setToDelete] = useState<{ id: number; title: string } | null>(null)
 
   const current = editing === 'new' ? null : editing
 
@@ -35,13 +39,18 @@ export default function HotelsAdminPage() {
       ),
     },
     { header: t('admin.hotels.city'), cell: (h) => `${h.city}, ${h.country}` },
-    { header: t('admin.hotels.category'), cell: (h) => <span className="text-granate-700">{'★'.repeat(h.category.starRating)}</span> },
+    { header: t('admin.hotels.category'), cell: (h) => (
+        <>
+          <span aria-hidden className="text-granate-700">{'★'.repeat(h.category.starRating)}</span>
+          <span className="sr-only">{t('public.hotelDetail.stars', { count: h.category.starRating })}</span>
+        </>
+      ) },
     {
       header: t('admin.hotels.active'),
       cell: (h) => (
-        <span className={`badge ${h.active ? 'bg-fez-50 text-tinta-600' : 'bg-cal-200 text-tinta-900'}`}>
+        <Badge tone={h.active ? 'bg-fez-50 text-fez-700' : 'bg-cal-100 text-tinta-600'}>
           {h.active ? t('common.active') : t('common.inactive')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -49,16 +58,10 @@ export default function HotelsAdminPage() {
       align: 'right',
       cell: (h) => (
         <div className="flex justify-end gap-1.5">
-          <button className="btn-ghost px-2.5 py-1 text-xs" onClick={() => setEditing(h)}>{t('common.edit')}</button>
-          <button
-            className="btn-danger px-2.5 py-1 text-xs"
-            onClick={() => {
-              if (window.confirm(t('admin.hotels.deleteConfirm', { name: h.name })))
-                remove.mutate(h.id)
-            }}
-          >
-            {t('common.delete')}
-          </button>
+          <Button variant="secondary" size="sm" onClick={() => setEditing(h)}>{t('common.edit')}</Button>
+          <Button variant="secondary" size="sm" onClick={() => setToDelete({ id: h.id, title: t('admin.hotels.deleteConfirm', { name: h.name }) })}>
+              {t('common.delete')}
+            </Button>
         </div>
       ),
     },
@@ -69,13 +72,11 @@ export default function HotelsAdminPage() {
       <PageHeader
         title={t('admin.hotels.title')}
         subtitle={t('admin.hotels.subtitle')}
-        actions={<button className="btn-primary" onClick={() => setEditing('new')}>{t('admin.hotels.new')}</button>}
+        actions={<Button onClick={() => setEditing('new')}>{t('admin.hotels.new')}</Button>}
       />
 
-      {remove.error && <div className="mb-4"><ErrorNote error={remove.error} /></div>}
-
       <DataTable
-        caption={t('admin.hotels.title')}
+        caption={t('admin.hotels.caption')}
         columns={columns} data={data} isPending={isPending} error={error}
         page={page} onPageChange={setPage}
         emptyTitle={t('admin.hotels.emptyTitle')} rowKey={(h) => h.id}
@@ -106,64 +107,63 @@ export default function HotelsAdminPage() {
           }}
         >
           <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="field-label" htmlFor="h-name">{t('admin.hotels.name')}</label>
-              <input id="h-name" name="name" className="field-input" required maxLength={120} defaultValue={current?.name} />
-            </div>
-            <div>
-              <label className="field-label" htmlFor="h-cat">{t('admin.hotels.category')}</label>
-              <select id="h-cat" name="categoryId" className="field-input" required defaultValue={current?.category.id}>
+            <Field id="h-name" label={t('admin.hotels.name')}>
+              <Input name="name" required maxLength={120} defaultValue={current?.name} />
+            </Field>
+            <Field id="h-cat" label={t('admin.hotels.category')}>
+              <Select name="categoryId" required defaultValue={current?.category.id}>
                 {categories.data?.map((c) => (
                   <option key={c.id} value={c.id}>{c.name} ({c.starRating}★)</option>
                 ))}
-              </select>
-            </div>
+              </Select>
+            </Field>
           </div>
-          <div>
-            <label className="field-label" htmlFor="h-addr">{t('admin.hotels.address')}</label>
-            <input id="h-addr" name="address" className="field-input" required maxLength={200} defaultValue={current?.address} />
+          <Field id="h-addr" label={t('admin.hotels.address')}>
+            <Input name="address" required maxLength={200} defaultValue={current?.address} />
+          </Field>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field id="h-city" label={t('admin.hotels.city')}>
+              <Input name="city" required maxLength={100} defaultValue={current?.city} />
+            </Field>
+            <Field id="h-country" label={t('admin.hotels.country')}>
+              <Input name="country" required maxLength={100} defaultValue={current?.country} />
+            </Field>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="field-label" htmlFor="h-city">{t('admin.hotels.city')}</label>
-              <input id="h-city" name="city" className="field-input" required maxLength={100} defaultValue={current?.city} />
-            </div>
-            <div>
-              <label className="field-label" htmlFor="h-country">{t('admin.hotels.country')}</label>
-              <input id="h-country" name="country" className="field-input" required maxLength={100} defaultValue={current?.country} />
-            </div>
+            <Field id="h-phone" label={t('auth.register.phone')}>
+              <Input name="phone" maxLength={40} defaultValue={current?.phone ?? ''} />
+            </Field>
+            <Field id="h-email" label={t('auth.login.email')}>
+              <Input name="email" type="email" maxLength={160} defaultValue={current?.email ?? ''} />
+            </Field>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="field-label" htmlFor="h-phone">{t('auth.register.phone')}</label>
-              <input id="h-phone" name="phone" className="field-input" maxLength={40} defaultValue={current?.phone ?? ''} />
-            </div>
-            <div>
-              <label className="field-label" htmlFor="h-email">{t('auth.login.email')}</label>
-              <input id="h-email" name="email" type="email" className="field-input" maxLength={160} defaultValue={current?.email ?? ''} />
-            </div>
-          </div>
-          <div>
-            <label className="field-label" htmlFor="h-img">{t('admin.hotels.imageUrl')}</label>
-            <input id="h-img" name="imageUrl" type="url" className="field-input" maxLength={500} defaultValue={current?.imageUrl ?? ''} />
-          </div>
-          <div>
-            <label className="field-label" htmlFor="h-desc">{t('admin.hotels.description')}</label>
-            <textarea id="h-desc" name="description" className="field-input" rows={2} maxLength={1000} defaultValue={current?.description ?? ''} />
-          </div>
+          <Field id="h-img" label={t('admin.hotels.imageUrl')}>
+            <Input name="imageUrl" type="url" maxLength={500} defaultValue={current?.imageUrl ?? ''} />
+          </Field>
+          <Field id="h-desc" label={t('admin.hotels.description')}>
+            <Textarea name="description" rows={2} maxLength={1000} defaultValue={current?.description ?? ''} />
+          </Field>
           <label className="flex items-center gap-2 text-sm text-tinta-900">
             <input type="checkbox" name="active" defaultChecked={current?.active ?? true} />
             {t('admin.hotels.activeLabel')}
           </label>
-          {save.error && <p role="alert" className="field-error">{problemMessage(save.error)}</p>}
-          <div className="flex justify-end gap-2">
-            <button type="button" className="btn-ghost" onClick={() => setEditing(null)}>{t('common.close')}</button>
-            <button type="submit" className="btn-primary" disabled={save.isPending}>
+          {save.error && <ErrorNote error={save.error} />}
+          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+            <Button variant="secondary" onClick={() => setEditing(null)}>{t('common.close')}</Button>
+            <Button type="submit" loading={save.isPending}>
               {save.isPending ? t('common.loading') : t('common.save')}
-            </button>
+            </Button>
           </div>
         </form>
       </Modal>
+      <ConfirmDialog
+        open={toDelete !== null}
+        title={toDelete?.title ?? ''}
+        confirmLabel={t('common.delete')}
+        loading={remove.isPending}
+        onCancel={() => setToDelete(null)}
+        onConfirm={() => toDelete && remove.mutate(toDelete.id, { onSettled: () => setToDelete(null) })}
+      />
     </>
   )
 }

@@ -3,9 +3,12 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { clientApi } from '../../api/endpoints'
 import type { ClientDto, ClientType } from '../../api/types'
-import { problemMessage } from '../../api/client'
+import { Button } from '../../components/ui/Button'
 import { DataTable, type Column } from '../../components/ui/DataTable'
+import { ConfirmDialog } from '../../components/ui/ConfirmDialog'
+import { Field, Input, Select } from '../../components/ui/Field'
 import { Modal } from '../../components/ui/Modal'
+import { Badge } from '../../components/ui/StatusBadge'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { ErrorNote } from '../../components/ui/Feedback'
 import { useAuth } from '../../auth/AuthContext'
@@ -25,6 +28,7 @@ export default function ClientsPage() {
     queryFn: () => clientApi.search({ page, search: search || undefined }),
   })
   const { save, remove } = useCrud('clients', clientApi, () => setEditing(null))
+  const [toDelete, setToDelete] = useState<{ id: number; title: string } | null>(null)
 
   const current = editing === 'new' ? null : editing
 
@@ -39,13 +43,13 @@ export default function ClientsPage() {
       ),
     },
     { header: t('auth.register.documentId'), cell: (c) => c.documentId },
-    { header: t('auth.register.phone'), cell: (c) => c.phone ?? '—' },
+    { header: t('auth.register.phone'), cell: (c) => c.phone ?? '-' },
     {
       header: t('admin.clients.type'),
       cell: (c) => (
-        <span className={`badge ${c.clientType === 'VIP' ? 'bg-aviso-50 text-aviso-ink' : 'bg-cal-100 text-tinta-600'}`}>
+        <Badge tone={c.clientType === 'VIP' ? 'bg-granate-50 text-granate-700' : 'bg-cal-100 text-tinta-600'}>
           {tLabel('clientType', c.clientType)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -53,16 +57,11 @@ export default function ClientsPage() {
       align: 'right',
       cell: (c) => (
         <div className="flex justify-end gap-1.5">
-          <button className="btn-ghost px-2.5 py-1 text-xs" onClick={() => setEditing(c)}>{t('common.edit')}</button>
+          <Button variant="secondary" size="sm" onClick={() => setEditing(c)}>{t('common.edit')}</Button>
           {hasRole('ADMIN', 'MANAGER') && (
-            <button
-              className="btn-danger px-2.5 py-1 text-xs"
-              onClick={() => {
-                if (window.confirm(t('admin.clients.deleteConfirm', { name: `${c.firstName} ${c.lastName}` }))) remove.mutate(c.id)
-              }}
-            >
+            <Button variant="secondary" size="sm" onClick={() => setToDelete({ id: c.id, title: t('admin.clients.deleteConfirm', { name: `${c.firstName} ${c.lastName}` }) })}>
               {t('common.delete')}
-            </button>
+            </Button>
           )}
         </div>
       ),
@@ -74,21 +73,25 @@ export default function ClientsPage() {
       <PageHeader
         title={t('admin.clients.title')}
         subtitle={t('admin.clients.subtitle')}
-        actions={<button className="btn-primary" onClick={() => setEditing('new')}>{t('admin.clients.new')}</button>}
+        actions={<Button onClick={() => setEditing('new')}>{t('admin.clients.new')}</Button>}
       />
 
-      <div className="mb-4">
-        <input
-          type="search" className="field-input max-w-sm" placeholder={t('admin.bookings.clientSearchPlaceholder')}
-          aria-label={t('admin.clients.searchAria')}
-          value={search} onChange={(e) => { setSearch(e.target.value); setPage(0) }}
-        />
+      <div role="search" className="mb-4 max-w-sm">
+        <Field id="clients-search" label={t('admin.clients.searchLabel')}>
+          <Input
+            type="search"
+            placeholder={t('admin.bookings.clientSearchPlaceholder')}
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value)
+              setPage(0)
+            }}
+          />
+        </Field>
       </div>
 
-      {remove.error && <div className="mb-4"><ErrorNote error={remove.error} /></div>}
-
       <DataTable
-        caption={t('admin.clients.title')}
+        caption={t('admin.clients.caption')}
         columns={columns} data={data} isPending={isPending} error={error}
         page={page} onPageChange={setPage}
         emptyTitle={t('admin.clients.emptyTitle')}
@@ -119,52 +122,53 @@ export default function ClientsPage() {
           }}
         >
           <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="field-label" htmlFor="cl-first">{t('auth.register.firstName')}</label>
-              <input id="cl-first" name="firstName" className="field-input" required maxLength={80} defaultValue={current?.firstName} />
-            </div>
-            <div>
-              <label className="field-label" htmlFor="cl-last">{t('auth.register.lastName')}</label>
-              <input id="cl-last" name="lastName" className="field-input" required maxLength={80} defaultValue={current?.lastName} />
-            </div>
+            <Field id="cl-first" label={t('auth.register.firstName')}>
+              <Input name="firstName" required maxLength={80} defaultValue={current?.firstName} />
+            </Field>
+            <Field id="cl-last" label={t('auth.register.lastName')}>
+              <Input name="lastName" required maxLength={80} defaultValue={current?.lastName} />
+            </Field>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="field-label" htmlFor="cl-doc">{t('auth.register.documentId')}</label>
-              <input id="cl-doc" name="documentId" className="field-input" required maxLength={40} defaultValue={current?.documentId} />
-            </div>
-            <div>
-              <label className="field-label" htmlFor="cl-birth">{t('account.profile.birthDate')}</label>
-              <input id="cl-birth" name="birthDate" type="date" className="field-input" defaultValue={current?.birthDate ?? ''} />
-            </div>
+            <Field id="cl-doc" label={t('auth.register.documentId')}>
+              <Input name="documentId" required maxLength={40} defaultValue={current?.documentId} />
+            </Field>
+            <Field id="cl-birth" label={t('account.profile.birthDate')}>
+              <Input name="birthDate" type="date" defaultValue={current?.birthDate ?? ''} />
+            </Field>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="field-label" htmlFor="cl-phone">{t('auth.register.phone')}</label>
-              <input id="cl-phone" name="phone" type="tel" className="field-input" maxLength={40} defaultValue={current?.phone ?? ''} />
-            </div>
-            <div>
-              <label className="field-label" htmlFor="cl-type">{t('admin.clients.type')}</label>
-              <select id="cl-type" name="clientType" className="field-input" defaultValue={current?.clientType ?? 'REGULAR'}>
+            <Field id="cl-phone" label={t('auth.register.phone')}>
+              <Input name="phone" type="tel" maxLength={40} defaultValue={current?.phone ?? ''} />
+            </Field>
+            <Field id="cl-type" label={t('admin.clients.type')}>
+              <Select name="clientType" defaultValue={current?.clientType ?? 'REGULAR'}>
                 {(['REGULAR','VIP'] as ClientType[]).map((v) => (
                   <option key={v} value={v}>{tLabel('clientType', v)}</option>
                 ))}
-              </select>
-            </div>
+              </Select>
+            </Field>
           </div>
-          <div>
-            <label className="field-label" htmlFor="cl-addr">{t('account.profile.address')}</label>
-            <input id="cl-addr" name="address" className="field-input" maxLength={200} defaultValue={current?.address ?? ''} />
-          </div>
-          {save.error && <p role="alert" className="field-error">{problemMessage(save.error)}</p>}
-          <div className="flex justify-end gap-2">
-            <button type="button" className="btn-ghost" onClick={() => setEditing(null)}>{t('common.close')}</button>
-            <button type="submit" className="btn-primary" disabled={save.isPending}>
+          <Field id="cl-addr" label={t('account.profile.address')}>
+            <Input name="address" maxLength={200} defaultValue={current?.address ?? ''} />
+          </Field>
+          {save.error && <ErrorNote error={save.error} />}
+          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+            <Button variant="secondary" onClick={() => setEditing(null)}>{t('common.close')}</Button>
+            <Button type="submit" loading={save.isPending}>
               {save.isPending ? t('common.loading') : t('common.save')}
-            </button>
+            </Button>
           </div>
         </form>
       </Modal>
+      <ConfirmDialog
+        open={toDelete !== null}
+        title={toDelete?.title ?? ''}
+        confirmLabel={t('common.delete')}
+        loading={remove.isPending}
+        onCancel={() => setToDelete(null)}
+        onConfirm={() => toDelete && remove.mutate(toDelete.id, { onSettled: () => setToDelete(null) })}
+      />
     </>
   )
 }

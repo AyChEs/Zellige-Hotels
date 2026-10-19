@@ -3,8 +3,10 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { hotelApi, roomApi } from '../../api/endpoints'
 import type { RoomDto, RoomStatus, RoomType } from '../../api/types'
-import { problemMessage } from '../../api/client'
+import { Button } from '../../components/ui/Button'
 import { DataTable, type Column } from '../../components/ui/DataTable'
+import { ConfirmDialog } from '../../components/ui/ConfirmDialog'
+import { Field, Input, Select, Textarea } from '../../components/ui/Field'
 import { Modal } from '../../components/ui/Modal'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { RoomBadge } from '../../components/ui/StatusBadge'
@@ -26,6 +28,7 @@ export default function RoomsAdminPage() {
     queryFn: () => roomApi.search({ page, hotelId: hotelFilter || undefined }),
   })
   const { save, remove } = useCrud('rooms', roomApi, () => setEditing(null))
+  const [toDelete, setToDelete] = useState<{ id: number; title: string } | null>(null)
 
   const current = editing === 'new' ? null : editing
 
@@ -48,15 +51,10 @@ export default function RoomsAdminPage() {
       align: 'right',
       cell: (r) => (
         <div className="flex justify-end gap-1.5">
-          <button className="btn-ghost px-2.5 py-1 text-xs" onClick={() => setEditing(r)}>{t('common.edit')}</button>
-          <button
-            className="btn-danger px-2.5 py-1 text-xs"
-            onClick={() => {
-              if (window.confirm(t('admin.rooms.deleteConfirm', { n: r.number }))) remove.mutate(r.id)
-            }}
-          >
-            {t('common.delete')}
-          </button>
+          <Button variant="secondary" size="sm" onClick={() => setEditing(r)}>{t('common.edit')}</Button>
+          <Button variant="secondary" size="sm" onClick={() => setToDelete({ id: r.id, title: t('admin.rooms.deleteConfirm', { n: r.number }) })}>
+              {t('common.delete')}
+            </Button>
         </div>
       ),
     },
@@ -67,25 +65,30 @@ export default function RoomsAdminPage() {
       <PageHeader
         title={t('admin.rooms.title')}
         subtitle={t('admin.rooms.subtitle')}
-        actions={<button className="btn-primary" onClick={() => setEditing('new')}>{t('admin.rooms.new')}</button>}
+        actions={<Button onClick={() => setEditing('new')}>{t('admin.rooms.new')}</Button>}
       />
 
-      <div className="mb-4">
-        <select
-          className="field-input w-auto"
-          value={hotelFilter}
-          aria-label={t('admin.rooms.filterByHotel')}
-          onChange={(e) => { setHotelFilter(e.target.value === '' ? '' : Number(e.target.value)); setPage(0) }}
-        >
-          <option value="">{t('admin.rooms.allHotels')}</option>
-          {hotels.data?.content.map((h) => <option key={h.id} value={h.id}>{h.name}</option>)}
-        </select>
+      <div className="mb-4 max-w-xs">
+        <Field id="rooms-filter" label={t('admin.rooms.filterByHotel')}>
+          <Select
+            value={hotelFilter}
+            onChange={(e) => {
+              setHotelFilter(e.target.value === '' ? '' : Number(e.target.value))
+              setPage(0)
+            }}
+          >
+            <option value="">{t('admin.rooms.allHotels')}</option>
+            {hotels.data?.content.map((h) => (
+              <option key={h.id} value={h.id}>
+                {h.name}
+              </option>
+            ))}
+          </Select>
+        </Field>
       </div>
 
-      {remove.error && <div className="mb-4"><ErrorNote error={remove.error} /></div>}
-
       <DataTable
-        caption={t('admin.rooms.title')}
+        caption={t('admin.rooms.caption')}
         columns={columns} data={data} isPending={isPending} error={error}
         page={page} onPageChange={setPage}
         emptyTitle={t('admin.rooms.emptyTitle')} rowKey={(r) => r.id}
@@ -121,74 +124,71 @@ export default function RoomsAdminPage() {
           }}
         >
           <div className="grid gap-4 sm:grid-cols-3">
-            <div>
-              <label className="field-label" htmlFor="r-hotel">Hotel</label>
-              <select id="r-hotel" name="hotelId" className="field-input" required defaultValue={current?.hotelId}>
+            <Field id="r-hotel" label={t('booking.hotel')}>
+              <Select name="hotelId" required defaultValue={current?.hotelId}>
                 {hotels.data?.content.map((h) => <option key={h.id} value={h.id}>{h.name}</option>)}
-              </select>
-            </div>
-            <div>
-              <label className="field-label" htmlFor="r-number">{t('admin.rooms.number')}</label>
-              <input id="r-number" name="number" className="field-input" required maxLength={20} defaultValue={current?.number} />
-            </div>
-            <div>
-              <label className="field-label" htmlFor="r-floor">{t('admin.rooms.floor')}</label>
-              <input id="r-floor" name="floor" type="number" className="field-input" defaultValue={current?.floor ?? ''} />
-            </div>
+              </Select>
+            </Field>
+            <Field id="r-number" label={t('admin.rooms.number')}>
+              <Input name="number" required maxLength={20} defaultValue={current?.number} />
+            </Field>
+            <Field id="r-floor" label={t('admin.rooms.floor')}>
+              <Input name="floor" type="number" defaultValue={current?.floor ?? ''} />
+            </Field>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
-            <div>
-              <label className="field-label" htmlFor="r-type">{t('admin.rooms.type')}</label>
-              <select id="r-type" name="type" className="field-input" defaultValue={current?.type ?? 'DOUBLE'}>
+            <Field id="r-type" label={t('admin.rooms.type')}>
+              <Select name="type" defaultValue={current?.type ?? 'DOUBLE'}>
                 {(['SINGLE','DOUBLE','TRIPLE','SUITE'] as RoomType[]).map((v) => (
                   <option key={v} value={v}>{tLabel('roomType', v)}</option>
                 ))}
-              </select>
-            </div>
-            <div>
-              <label className="field-label" htmlFor="r-status">{t('admin.rooms.status')}</label>
-              <select id="r-status" name="status" className="field-input" defaultValue={current?.status ?? 'AVAILABLE'}>
+              </Select>
+            </Field>
+            <Field id="r-status" label={t('admin.rooms.status')}>
+              <Select name="status" defaultValue={current?.status ?? 'AVAILABLE'}>
                 {(['AVAILABLE','OCCUPIED','CLEANING','MAINTENANCE','OUT_OF_SERVICE'] as RoomStatus[]).map((v) => (
                   <option key={v} value={v}>{tLabel('roomStatus', v)}</option>
                 ))}
-              </select>
-            </div>
-            <div>
-              <label className="field-label" htmlFor="r-cap">{t('admin.rooms.capacity')}</label>
-              <input id="r-cap" name="capacity" type="number" min={1} max={10} className="field-input" required defaultValue={current?.capacity ?? 2} />
-            </div>
+              </Select>
+            </Field>
+            <Field id="r-cap" label={t('admin.rooms.capacity')}>
+              <Input name="capacity" type="number" min={1} max={10} required defaultValue={current?.capacity ?? 2} />
+            </Field>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
-            <div>
-              <label className="field-label" htmlFor="r-price">{t('admin.rooms.pricePerNightField')}</label>
-              <input id="r-price" name="pricePerNight" type="number" step="0.01" min={0} className="field-input" required defaultValue={current?.pricePerNight} />
-            </div>
-            <div>
-              <label className="field-label" htmlFor="r-half">{t('admin.rooms.halfBoard')}</label>
-              <input id="r-half" name="halfBoardSupplement" type="number" step="0.01" min={0} className="field-input" required defaultValue={current?.halfBoardSupplement ?? 0} />
-            </div>
-            <div>
-              <label className="field-label" htmlFor="r-full">{t('admin.rooms.fullBoard')}</label>
-              <input id="r-full" name="fullBoardSupplement" type="number" step="0.01" min={0} className="field-input" required defaultValue={current?.fullBoardSupplement ?? 0} />
-            </div>
+            <Field id="r-price" label={t('admin.rooms.pricePerNightField')}>
+              <Input name="pricePerNight" type="number" step="0.01" min={0} required defaultValue={current?.pricePerNight} />
+            </Field>
+            <Field id="r-half" label={t('admin.rooms.halfBoard')}>
+              <Input name="halfBoardSupplement" type="number" step="0.01" min={0} required defaultValue={current?.halfBoardSupplement ?? 0} />
+            </Field>
+            <Field id="r-full" label={t('admin.rooms.fullBoard')}>
+              <Input name="fullBoardSupplement" type="number" step="0.01" min={0} required defaultValue={current?.fullBoardSupplement ?? 0} />
+            </Field>
           </div>
-          <div>
-            <label className="field-label" htmlFor="r-img">{t('admin.hotels.imageUrl')}</label>
-            <input id="r-img" name="imageUrl" type="url" className="field-input" maxLength={500} defaultValue={current?.imageUrl ?? ''} />
-          </div>
-          <div>
-            <label className="field-label" htmlFor="r-desc">{t('admin.rooms.description')}</label>
-            <textarea id="r-desc" name="description" className="field-input" rows={2} maxLength={500} defaultValue={current?.description ?? ''} />
-          </div>
-          {save.error && <p role="alert" className="field-error">{problemMessage(save.error)}</p>}
-          <div className="flex justify-end gap-2">
-            <button type="button" className="btn-ghost" onClick={() => setEditing(null)}>{t('common.close')}</button>
-            <button type="submit" className="btn-primary" disabled={save.isPending}>
+          <Field id="r-img" label={t('admin.hotels.imageUrl')}>
+            <Input name="imageUrl" type="url" maxLength={500} defaultValue={current?.imageUrl ?? ''} />
+          </Field>
+          <Field id="r-desc" label={t('admin.rooms.description')}>
+            <Textarea name="description" rows={2} maxLength={500} defaultValue={current?.description ?? ''} />
+          </Field>
+          {save.error && <ErrorNote error={save.error} />}
+          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+            <Button variant="secondary" onClick={() => setEditing(null)}>{t('common.close')}</Button>
+            <Button type="submit" loading={save.isPending}>
               {save.isPending ? t('common.loading') : t('common.save')}
-            </button>
+            </Button>
           </div>
         </form>
       </Modal>
+      <ConfirmDialog
+        open={toDelete !== null}
+        title={toDelete?.title ?? ''}
+        confirmLabel={t('common.delete')}
+        loading={remove.isPending}
+        onCancel={() => setToDelete(null)}
+        onConfirm={() => toDelete && remove.mutate(toDelete.id, { onSettled: () => setToDelete(null) })}
+      />
     </>
   )
 }
