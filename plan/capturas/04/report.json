@@ -1,0 +1,122 @@
+[
+ {
+  "id": "landing",
+  "url": "/",
+  "w": 390,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "hoteles",
+  "url": "/hotels",
+  "w": 390,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "hotel",
+  "url": "/hotels/1",
+  "w": 390,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "hotel-cliente",
+  "url": "/hotels/2?checkIn=2026-11-10&checkOut=2026-11-13&guests=2",
+  "w": 390,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "resumen-reserva",
+  "url": "/hotels/2?checkIn=2026-11-10&checkOut=2026-11-13&guests=2",
+  "w": 390,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "cuenta",
+  "url": "/account",
+  "w": 390,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "cuenta-facturas",
+  "url": "/account/invoices",
+  "w": 390,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "cuenta-perfil",
+  "url": "/account/profile",
+  "w": 390,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "w": 390,
+  "consoleErrors": []
+ },
+ {
+  "id": "landing",
+  "url": "/",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "hoteles",
+  "url": "/hotels",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "hotel",
+  "url": "/hotels/1",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "hotel-cliente",
+  "url": "/hotels/2?checkIn=2026-11-10&checkOut=2026-11-13&guests=2",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "resumen-reserva",
+  "url": "/hotels/2?checkIn=2026-11-10&checkOut=2026-11-13&guests=2",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "cuenta",
+  "url": "/account",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "cuenta-facturas",
+  "url": "/account/invoices",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "cuenta-perfil",
+  "url": "/account/profile",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "w": 1440,
+  "consoleErrors": []
+ }
+]

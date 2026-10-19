@@ -1,14 +1,15 @@
 import { useQuery } from '@tanstack/react-query'
 import { Link, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { useTranslation } from 'react-i18next'
 import { hotelApi } from '../../api/endpoints'
 import { plusDaysIso, todayIso } from '../../lib/format'
-import { ListSkeleton } from '../../components/ui/Feedback'
-
-const HERO_IMG =
-  'https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=1800&q=70'
+import { Button } from '../../components/ui/Button'
+import { Card } from '../../components/ui/Card'
+import { DateRangeField } from '../../components/ui/DateRangeField'
+import { Field, Input, Select } from '../../components/ui/Field'
+import { HotelCard, HotelCardSkeleton } from './HotelCard'
 
 export default function LandingPage() {
   const { t } = useTranslation()
@@ -17,169 +18,115 @@ export default function LandingPage() {
   const [checkIn, setCheckIn] = useState(plusDaysIso(7))
   const [checkOut, setCheckOut] = useState(plusDaysIso(10))
   const [guests, setGuests] = useState(2)
+  const [hotelId, setHotelId] = useState<number | null>(null)
 
   const { data: hotels, isPending } = useQuery({
     queryKey: ['hotels', 'landing'],
     queryFn: () => hotelApi.search({ active: true, size: 3 }),
   })
+  const first = hotels?.content[0]
+  const chosen = hotelId ?? first?.id
 
-  const searchFirstHotel = (e: React.FormEvent) => {
+  const search = (e: FormEvent) => {
     e.preventDefault()
-    const first = hotels?.content[0]
-    navigate(
-      first
-        ? `/hotels/${first.id}?checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`
-        : '/hotels',
-    )
+    if (!chosen || checkOut <= checkIn) return
+    navigate(`/hotels/${chosen}?checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`)
   }
 
-  const rise = (delay: number) =>
-    reduced
-      ? {}
-      : {
-          initial: { opacity: 0, y: 24 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] as const },
-        }
+  // At most one 300 ms fade of the text block, and none with reduced motion.
+  const fade = reduced ? {} : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.3 } }
 
   return (
     <>
-      {/* Hero: photographic, with a dark veil and the tile lattice on top */}
-      <section className="relative isolate overflow-hidden bg-noche-900">
-        <img
-          src={HERO_IMG}
-          alt=""
-          aria-hidden
-          className="absolute inset-0 h-full w-full object-cover opacity-45"
-          loading="eager"
-        />
-        <div className="reticula-noche sobre-noche absolute inset-0 opacity-55" aria-hidden />
-        <div className="relative mx-auto max-w-6xl px-4 py-16 sm:py-24 lg:py-32">
-          <motion.p {...rise(0)} className="mb-3 text-xs text-noche-ink sm:text-sm">
-            {t('public.landing.kicker')}
-          </motion.p>
-          <motion.h1
-            {...rise(0.08)}
-            className="font-display max-w-3xl text-3xl leading-tight text-white sm:text-4xl md:text-6xl"
-          >
-            {t('public.landing.title')}
-          </motion.h1>
-          <motion.p {...rise(0.16)} className="mt-5 max-w-xl text-base text-noche-muted sm:text-lg">
-            {t('public.landing.subtitle')}
-          </motion.p>
+      <section className="reticula border-b border-cal-200">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:py-16 lg:grid-cols-12 lg:items-center lg:gap-12 lg:py-20">
+          <div className="lg:col-span-7">
+            <motion.div {...fade}>
+              <p className="text-sm font-semibold text-granate-700">{t('public.landing.kicker')}</p>
+              <h1 className="font-display mt-3 text-[2.25rem] leading-[1.1] text-tinta-900 sm:text-6xl">
+                {t('public.landing.title')}
+              </h1>
+              <p className="mt-5 max-w-prose text-lg text-tinta-600">{t('public.landing.subtitle')}</p>
+            </motion.div>
 
-          <motion.form
-            {...rise(0.24)}
-            onSubmit={searchFirstHotel}
-            className="card-tile-accent mt-10 grid max-w-3xl gap-4 p-4 sm:p-5 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto_auto]"
-          >
-            <div>
-              <label htmlFor="checkIn" className="field-label">{t('public.landing.checkIn')}</label>
-              <input
-                id="checkIn" type="date" className="field-input" value={checkIn}
-                min={todayIso()} onChange={(e) => setCheckIn(e.target.value)}
+            <Card as="section" variant="brand" aria-label={t('public.landing.search')} className="mt-8 p-4 sm:p-5">
+              <form onSubmit={search} className="grid gap-4 sm:grid-cols-[1fr_7rem_auto] sm:items-end">
+                <DateRangeField
+                  className="sm:col-span-3"
+                  checkIn={checkIn}
+                  checkOut={checkOut}
+                  min={todayIso()}
+                  onChange={(a, b) => {
+                    setCheckIn(a)
+                    setCheckOut(b)
+                  }}
+                />
+                <Field id="landing-hotel" label={t('public.landing.hotel')}>
+                  <Select value={chosen ?? ''} onChange={(e) => setHotelId(Number(e.target.value))} disabled={!hotels}>
+                    {hotels?.content.map((h) => (
+                      <option key={h.id} value={h.id}>
+                        {h.name}
+                      </option>
+                    ))}
+                  </Select>
+                </Field>
+                <Field id="landing-guests" label={t('public.landing.guests')}>
+                  <Input type="number" min={1} max={10} value={guests} onChange={(e) => setGuests(Number(e.target.value))} />
+                </Field>
+                <Button type="submit" disabled={!chosen} className="w-full sm:w-auto">
+                  {t('public.landing.search')}
+                </Button>
+              </form>
+            </Card>
+          </div>
+
+          <div className="lg:col-span-5">
+            {first?.imageUrl ? (
+              <img
+                src={first.imageUrl}
+                alt={t('public.landing.heroAlt', { name: first.name, city: first.city })}
+                width={900}
+                height={1125}
+                fetchPriority="high"
+                className="aspect-[4/3] w-full rounded-[999px_999px_10px_10px] object-cover lg:aspect-[4/5]"
               />
-            </div>
-            <div>
-              <label htmlFor="checkOut" className="field-label">{t('public.landing.checkOut')}</label>
-              <input
-                id="checkOut" type="date" className="field-input" value={checkOut}
-                min={checkIn} onChange={(e) => setCheckOut(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="guests" className="field-label">{t('public.landing.guests')}</label>
-              <input
-                id="guests" type="number" min={1} max={10} className="field-input sm:w-24"
-                value={guests} onChange={(e) => setGuests(Number(e.target.value))}
-              />
-            </div>
-            <div className="flex items-end">
-              <button type="submit" className="btn-primary w-full">{t('public.landing.search')}</button>
-            </div>
-          </motion.form>
+            ) : (
+              <div aria-hidden className="aspect-[4/3] w-full rounded-[999px_999px_10px_10px] bg-cal-100 lg:aspect-[4/5]" />
+            )}
+          </div>
         </div>
       </section>
 
-      {/* Hotels */}
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <div className="mb-8 flex items-end justify-between">
-          <h2 className="font-display text-3xl text-tinta-900">{t('public.landing.hotelsTitle')}</h2>
-          <Link to="/hotels" className="text-sm font-medium text-fez-700 hover:text-fez-700">
-            {t('common.seeAll')}
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:py-24">
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <h2 className="font-display text-2xl text-tinta-900 sm:text-4xl">{t('public.landing.hotelsTitle')}</h2>
+          <Link to="/hotels" className="text-sm font-semibold text-fez-700 underline underline-offset-4 hover:text-fez-800">
+            {t('common.viewAll')}
           </Link>
         </div>
-
-        {isPending ? (
-          <ListSkeleton rows={3} />
-        ) : (
-          <div className="grid gap-6 md:grid-cols-3">
-            {hotels?.content.map((hotel, i) => (
-              <motion.div
-                key={hotel.id}
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.45, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <Link
-                  to={`/hotels/${hotel.id}`}
-                  className="card-tile group block overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md motion-reduce:hover:translate-y-0"
-                >
-                  <div className="relative h-48 overflow-hidden bg-noche-800">
-                    {hotel.imageUrl && (
-                      <img
-                        src={hotel.imageUrl}
-                        alt={hotel.name}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:group-hover:scale-100"
-                      />
-                    )}
-                    <span className="absolute bottom-0 left-0 bg-noche-900/85 px-3 py-1.5 font-display text-sm text-noche-ink">
-                      {hotel.category.starRating}★ · {hotel.city}
-                    </span>
-                  </div>
-                  <div className="p-5">
-                    <h3 className="font-display text-lg text-tinta-900 group-hover:text-fez-700">
-                      {hotel.name}
-                    </h3>
-                    <p className="mt-1 line-clamp-2 text-sm text-tinta-600">{hotel.description}</p>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        )}
+        <div className="grid gap-6 md:grid-cols-3">
+          {isPending
+            ? Array.from({ length: 3 }).map((_, i) => <HotelCardSkeleton key={i} />)
+            : hotels?.content.map((hotel) => <HotelCard key={hotel.id} hotel={hotel} />)}
+        </div>
       </section>
 
-      {/* Why direct */}
       <section className="border-t border-cal-200 bg-white">
-        <div className="mx-auto max-w-6xl px-4 py-14">
-          <div className="grid gap-10 md:grid-cols-[1.2fr_2fr]">
-            <h2 className="font-display text-2xl text-tinta-900">
-              {t('public.landing.whyTitle')}
-            </h2>
-            <dl className="grid gap-6 sm:grid-cols-3">
-              <div>
-                <dt className="font-medium text-tinta-900">{t('public.landing.why1Title')}</dt>
-                <dd className="mt-1 text-sm text-tinta-600">
-                  {t('public.landing.why1Body')}
-                </dd>
-              </div>
-              <div>
-                <dt className="font-medium text-tinta-900">{t('public.landing.why2Title')}</dt>
-                <dd className="mt-1 text-sm text-tinta-600">
-                  {t('public.landing.why2Body')}
-                </dd>
-              </div>
-              <div>
-                <dt className="font-medium text-tinta-900">{t('public.landing.why3Title')}</dt>
-                <dd className="mt-1 text-sm text-tinta-600">
-                  {t('public.landing.why3Body')}
-                </dd>
-              </div>
-            </dl>
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:py-24 md:grid-cols-[1fr_2fr]">
+          <div>
+            <h2 className="font-display text-2xl text-tinta-900">{t('public.landing.whyTitle')}</h2>
+            <div className="separador mt-4 max-w-40 text-xs">
+              <span aria-hidden>◆</span>
+            </div>
           </div>
+          <dl className="grid gap-8 sm:grid-cols-3">
+            {(['why1', 'why2', 'why3'] as const).map((k) => (
+              <div key={k}>
+                <dt className="font-semibold text-tinta-900">{t(`public.landing.${k}Title`)}</dt>
+                <dd className="mt-2 text-sm text-tinta-600">{t(`public.landing.${k}Body`)}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
     </>

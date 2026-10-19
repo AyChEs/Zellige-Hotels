@@ -165,21 +165,23 @@
       "tagline": "Hotel ERP de demostración"
     },
     "landing": {
-      "kicker": "Zellige Hotels · Granada · Marrakech · Barcelona",
+      "kicker": "Granada · Marrakech · Barcelona",
       "title": "La hospitalidad es un oficio. Nosotros lo ejercemos con precisión.",
-      "subtitle": "Tres hoteles con carácter. Reserva directa, confirmación al instante y factura sin sorpresas.",
+      "subtitle": "Tres hoteles con carácter. Reserva directa, precio cerrado por noche y factura sin sorpresas.",
       "checkIn": "Entrada",
       "checkOut": "Salida",
       "guests": "Huéspedes",
       "search": "Buscar",
       "hotelsTitle": "Nuestros hoteles",
       "whyTitle": "Reservar directo tiene ventajas",
-      "why1Title": "Confirmación inmediata",
-      "why1Body": "Tu reserva entra directamente en el sistema del hotel, con email al momento.",
+      "why1Title": "Tu reserva, al momento",
+      "why1Body": "Entra directamente en el sistema del hotel y la ves en tu cuenta en cuanto la haces.",
       "why2Title": "Cancelación flexible",
       "why2Body": "Cancela cualquier reserva pendiente o confirmada desde tu cuenta, sin llamadas.",
       "why3Title": "Factura sin sorpresas",
-      "why3Body": "Precio cerrado por noche y régimen, con IVA desglosado en tu factura."
+      "why3Body": "Precio cerrado por noche y régimen, con IVA desglosado en tu factura.",
+      "hotel": "Hotel",
+      "heroAlt": "{{name}}, en {{city}}"
     },
     "hotels": {
       "title": "Hoteles",
@@ -189,7 +191,12 @@
       "cityAria": "Filtrar por ciudad",
       "emptyTitle": "Sin resultados",
       "emptyHint": "Prueba con otro nombre u otra ciudad; el buscador no distingue mayúsculas.",
-      "viewRooms": "Ver habitaciones"
+      "viewRooms": "Ver habitaciones",
+      "count_one": "{{count}} hotel",
+      "count_other": "{{count}} hoteles",
+      "searchLabel": "Nombre",
+      "cityLabel": "Ciudad",
+      "viewAvailability": "Ver disponibilidad"
     },
     "hotelDetail": {
       "breadcrumb": "Hoteles",
@@ -215,7 +222,11 @@
       "myBookings": "Mis reservas",
       "noRoomsTitle": "No hay habitaciones libres para esas fechas",
       "noRoomsHint": "Cambia las fechas o reduce el número de huéspedes; el hotel podría tener disponibilidad cercana.",
-      "roomTakenHint": "Otra persona pudo haber reservado esa habitación hace un momento; la lista se actualiza automáticamente."
+      "roomTakenHint": "Otra persona pudo haber reservado esa habitación hace un momento; la lista se actualiza automáticamente.",
+      "stars_one": "{{count}} estrella",
+      "stars_other": "{{count}} estrellas",
+      "breadcrumbLabel": "Ruta de navegación",
+      "photoAlt": "{{name}}"
     }
   },
   "account": {
@@ -269,7 +280,11 @@
       "documentHint": "El documento de identidad solo puede modificarlo la recepción del hotel.",
       "saving": "Guardando…",
       "saved": "Perfil actualizado."
-    }
+    },
+    "cancelConfirm": "¿Cancelar la reserva {{code}}?",
+    "keep": "Mantener",
+    "cancelledToast": "Reserva {{code}} cancelada",
+    "profileSaved": "Perfil guardado"
   },
   "admin": {
     "nav": {
@@ -502,5 +517,27 @@
     "server": "El servidor ha fallado. Inténtalo en unos minutos.",
     "conflict": "Conflicto con el estado actual.",
     "loadingFailed": "No se han podido cargar los datos."
+  },
+  "booking": {
+    "summaryTitle": "Revisa tu reserva",
+    "confirm": "Confirmar reserva",
+    "back": "Volver",
+    "created": "Reserva {{code}} creada",
+    "choose": "Elegir",
+    "changeDates": "Cambiar fechas",
+    "loginToBook": "Inicia sesión para reservar",
+    "hotel": "Hotel",
+    "room": "Habitación",
+    "dates": "Fechas",
+    "nights": "Noches",
+    "guests": "Huéspedes",
+    "board": "Régimen",
+    "total": "Total, IVA incluido",
+    "pendingNote": "El hotel la confirmará y la verás en tu cuenta.",
+    "createdTitle": "Reserva creada",
+    "createdBody": "Está pendiente de confirmación por el hotel. Verás el cambio en tu cuenta.",
+    "code": "Código",
+    "seeMyBookings": "Ver mis reservas",
+    "roomLabel": "{{type}} {{number}}"
   }
 }

@@ -1,92 +1,110 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { meApi } from '../../api/endpoints'
-import { BookingBadge } from '../../components/ui/StatusBadge'
+import { problemMessage } from '../../api/client'
+import type { BookingDto } from '../../api/types'
+import { Button, ButtonLink } from '../../components/ui/Button'
+import { Card } from '../../components/ui/Card'
 import { EmptyState, ErrorNote, ListSkeleton } from '../../components/ui/Feedback'
+import { Modal } from '../../components/ui/Modal'
+import { BookingBadge } from '../../components/ui/StatusBadge'
+import { useToast } from '../../components/ui/toast-context'
 import { date, money } from '../../lib/format'
 import { useLabels } from '../../lib/labels'
 
 export default function MyBookingsPage() {
   const { t } = useTranslation()
   const { tLabel } = useLabels()
+  const toast = useToast()
   const queryClient = useQueryClient()
-  const { data, isPending, error } = useQuery({
+  const [toCancel, setToCancel] = useState<BookingDto | null>(null)
+  const { data, isPending, error, refetch } = useQuery({
     queryKey: ['me', 'bookings'],
     queryFn: () => meApi.bookings({ size: 20 }),
   })
 
   const cancel = useMutation({
-    mutationFn: (id: number) => meApi.cancelBooking(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['me', 'bookings'] }),
+    mutationFn: (booking: BookingDto) => meApi.cancelBooking(booking.id),
+    onSuccess: (_, booking) => {
+      setToCancel(null)
+      toast.success(t('account.cancelledToast', { code: booking.code }))
+      queryClient.invalidateQueries({ queryKey: ['me', 'bookings'] })
+    },
+    onError: (e) => toast.error(problemMessage(e)),
   })
 
   if (isPending) return <ListSkeleton />
-  if (error) return <ErrorNote error={error} />
-  if (!data || data.content.length === 0) {
+  if (error) return <ErrorNote error={error} onRetry={() => refetch()} />
+  if (data.content.length === 0) {
     return (
       <EmptyState
-        title={t('account.myBookings.empty')}
-        hint={`${t('account.myBookings.empty')} — ${t('account.myBookings.emptyLink')}`}
+        title={t('account.myBookings.title')}
+        hint={t('account.myBookings.emptyHint')}
+        action={<ButtonLink to="/hotels">{t('account.myBookings.emptyLink')}</ButtonLink>}
       />
     )
   }
 
   return (
     <div className="space-y-4">
-      {cancel.error && <ErrorNote error={cancel.error} />}
+      <h2 className="sr-only">{t('account.myBookings.title')}</h2>
       {data.content.map((booking) => {
         const cancellable = booking.status === 'PENDING' || booking.status === 'CONFIRMED'
         return (
-          <article
-            key={booking.id}
-            className="card-tile flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:p-5"
-          >
+          <Card as="article" key={booking.id} className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:p-5">
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-3">
-                <h2 className="font-medium text-tinta-900">{booking.hotelName}</h2>
+                <h3 className="font-display text-xl text-tinta-900">{booking.hotelName}</h3>
                 <BookingBadge status={booking.status} />
               </div>
-              <p className="mt-1 text-sm text-tinta-600">
-                {date(booking.checkInDate)} → {date(booking.checkOutDate)} ·{' '}
+              <p className="cifras mt-1 text-sm text-tinta-600">
+                {date(booking.checkInDate)} - {date(booking.checkOutDate)} ·{' '}
                 {t('account.myBookings.room', { n: booking.roomNumber })} ·{' '}
-                {t('public.hotelDetail.guests', { count: booking.guests })} ·{' '}
-                {tLabel('boardType', booking.boardType)}
+                {t('public.hotelDetail.guests', { count: booking.guests })} · {tLabel('boardType', booking.boardType)}
               </p>
-              <p className="mt-0.5 text-xs text-tinta-600">
+              <p className="cifras mt-1 text-sm text-tinta-600">
                 {booking.code}
                 {booking.invoiceId && (
                   <>
                     {' · '}
-                    <Link
-                      to="/account/invoices"
-                      className="text-fez-700 underline hover:text-fez-700"
-                    >
+                    <Link to="/account/invoices" className="font-semibold text-fez-700 underline underline-offset-2">
                       {t('account.myBookings.invoiceAvailable')}
                     </Link>
                   </>
                 )}
               </p>
             </div>
-            <div className="flex shrink-0 items-center justify-between gap-3 sm:justify-end sm:gap-4">
-              <p className="text-lg font-semibold text-tinta-900">{money(booking.totalPrice)}</p>
+            <div className="flex shrink-0 items-center justify-between gap-4 sm:justify-end">
+              <p className="cifras text-xl font-semibold text-tinta-900">{money(booking.totalPrice)}</p>
               {cancellable && (
-                <button
-                  className="btn-danger"
-                  disabled={cancel.isPending}
-                  onClick={() => {
-                    if (window.confirm(t('account.myBookings.cancelConfirmWithCode', { code: booking.code }))) {
-                      cancel.mutate(booking.id)
-                    }
-                  }}
-                >
-                  {cancel.isPending ? t('account.myBookings.cancelling') : t('account.myBookings.cancel')}
-                </button>
+                <Button variant="secondary" onClick={() => setToCancel(booking)}>
+                  {t('account.myBookings.cancel')}
+                </Button>
               )}
             </div>
-          </article>
+          </Card>
         )
       })}
+
+      <Modal
+        open={toCancel !== null}
+        title={t('account.cancelConfirm', { code: toCancel?.code ?? '' })}
+        onClose={() => setToCancel(null)}
+      >
+        <p className="text-sm text-tinta-600">
+          {toCancel && `${toCancel.hotelName} · ${date(toCancel.checkInDate)} - ${date(toCancel.checkOutDate)}`}
+        </p>
+        <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+          <Button variant="secondary" onClick={() => setToCancel(null)}>
+            {t('account.keep')}
+          </Button>
+          <Button variant="danger" loading={cancel.isPending} onClick={() => toCancel && cancel.mutate(toCancel)}>
+            {t('account.myBookings.cancel')}
+          </Button>
+        </div>
+      </Modal>
     </div>
   )
 }
