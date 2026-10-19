@@ -138,15 +138,9 @@ h3 {
     border-t-2 border-t-granate-700;
 }
 
-/* ---------- buttons (state-complete: hover/disabled; focus is global) ---------- */
+/* ---------- buttons and fields ---------- */
+/* deprecated: usar <Button>. Quedan solo para las páginas que aún no se han migrado. */
 .btn-primary {
-  @apply inline-flex items-center justify-center gap-2 rounded-(--radius-control)
-    bg-fez-700 px-4 py-2 text-sm font-semibold text-white
-    transition-colors duration-150 hover:bg-fez-800 active:translate-y-px
-    disabled:cursor-not-allowed disabled:opacity-50;
-}
-/* Alias kept so existing usages do not break; removed in session 03. */
-.btn-gold {
   @apply inline-flex items-center justify-center gap-2 rounded-(--radius-control)
     bg-fez-700 px-4 py-2 text-sm font-semibold text-white
     transition-colors duration-150 hover:bg-fez-800 active:translate-y-px
@@ -165,7 +159,7 @@ h3 {
     disabled:cursor-not-allowed disabled:opacity-50;
 }
 
-/* ---------- forms ---------- */
+/* deprecated: usar <Field> con <Input>, <Select> o <Textarea>. */
 .field-label {
   @apply mb-1 block text-sm font-semibold text-tinta-900;
 }

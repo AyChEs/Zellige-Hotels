@@ -6,14 +6,17 @@ import { z } from 'zod'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/AuthContext'
 import { homeFor } from '../auth/ProtectedRoute'
-import { problemMessage } from '../api/client'
+import { Button } from '../components/ui/Button'
+import { Card } from '../components/ui/Card'
+import { ErrorNote } from '../components/ui/Feedback'
+import { Field, Input } from '../components/ui/Field'
 
 export function LoginPage() {
   const { t } = useTranslation()
   const { login } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
-  const [serverError, setServerError] = useState<string | null>(null)
+  const [serverError, setServerError] = useState<unknown>(null)
 
   const schema = z.object({
     email: z.email(t('auth.validation.emailInvalid')),
@@ -34,55 +37,39 @@ export function LoginPage() {
       const from = (location.state as { from?: string } | null)?.from
       navigate(from ?? homeFor(user.role), { replace: true })
     } catch (error) {
-      setServerError(problemMessage(error))
+      setServerError(error)
     }
   }
 
+  const demo = [
+    ['admin@hotel-erp.dev', 'Admin123!'],
+    ['manager@hotel-erp.dev', 'Manager123!'],
+    ['reception@hotel-erp.dev', 'Reception123!'],
+    ['client@hotel-erp.dev', 'Client123!'],
+  ]
+
   return (
-    <div className="reticula flex min-h-[70vh] items-center justify-center px-4 py-12">
-      <div className="card-tile-accent w-full max-w-md p-8">
-        <h1 className="mb-1 text-center text-2xl text-tinta-900">{t('auth.login.title')}</h1>
-        <div className="separador mx-auto mb-6 max-w-45 text-sm">◆</div>
+    <div className="reticula flex min-h-[70vh] items-center justify-center px-4 py-12 sm:py-16">
+      <Card variant="brand" className="w-full max-w-md p-6 sm:p-8">
+        <h1 className="font-display text-center text-2xl text-tinta-900">{t('auth.login.title')}</h1>
+        <p className="mt-1 text-center text-sm text-tinta-600">{t('auth.login.subtitle')}</p>
+        <div className="separador mx-auto mt-4 mb-6 max-w-45 text-xs">
+          <span aria-hidden>◆</span>
+        </div>
 
         <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
-          <div>
-            <label htmlFor="email" className="field-label">
-              {t('auth.login.email')}
-            </label>
-            <input
-              id="email"
-              type="email"
-              autoComplete="email"
-              className="field-input"
-              placeholder="tu@email.com"
-              {...register('email')}
-            />
-            {errors.email && <p className="field-error">{errors.email.message}</p>}
-          </div>
+          <Field id="email" label={t('auth.login.email')} error={errors.email?.message}>
+            <Input type="email" autoComplete="email" placeholder="tu@email.com" {...register('email')} />
+          </Field>
+          <Field id="password" label={t('auth.login.password')} error={errors.password?.message}>
+            <Input type="password" autoComplete="current-password" {...register('password')} />
+          </Field>
 
-          <div>
-            <label htmlFor="password" className="field-label">
-              {t('auth.login.password')}
-            </label>
-            <input
-              id="password"
-              type="password"
-              autoComplete="current-password"
-              className="field-input"
-              {...register('password')}
-            />
-            {errors.password && <p className="field-error">{errors.password.message}</p>}
-          </div>
+          {serverError != null && <ErrorNote error={serverError} />}
 
-          {serverError && (
-            <p role="alert" className="rounded-(--radius-control) bg-error-50 px-3 py-2 text-sm text-error-ink">
-              {serverError}
-            </p>
-          )}
-
-          <button type="submit" disabled={isSubmitting} className="btn-primary w-full">
+          <Button type="submit" loading={isSubmitting} className="w-full">
             {isSubmitting ? t('auth.login.submitting') : t('auth.login.submit')}
-          </button>
+          </Button>
         </form>
 
         <p className="mt-6 text-center text-sm text-tinta-600">
@@ -92,14 +79,18 @@ export function LoginPage() {
           </Link>
         </p>
 
-        <div className="mt-6 rounded-(--radius-control) bg-fez-50 p-3 text-xs text-tinta-600">
-          <p className="mb-1 font-semibold">{t('auth.login.demoAccounts')}</p>
-          <p>admin@hotel-erp.dev · Admin123!</p>
-          <p>manager@hotel-erp.dev · Manager123!</p>
-          <p>reception@hotel-erp.dev · Reception123!</p>
-          <p>client@hotel-erp.dev · Client123!</p>
+        <div className="mt-6 rounded-(--radius-control) bg-cal-100 p-4 text-sm text-tinta-600">
+          <p className="mb-2 font-semibold text-tinta-900">{t('auth.login.demoAccounts')}</p>
+          <dl className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-1">
+            {demo.map(([email, password]) => (
+              <div key={email} className="contents">
+                <dt className="truncate">{email}</dt>
+                <dd className="cifras">{password}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
-      </div>
+      </Card>
     </div>
   )
 }

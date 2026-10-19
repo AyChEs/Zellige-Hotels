@@ -69,12 +69,13 @@ export default function HotelsAdminPage() {
       <PageHeader
         title={t('admin.hotels.title')}
         subtitle={t('admin.hotels.subtitle')}
-        actions={<button className="btn-gold" onClick={() => setEditing('new')}>{t('admin.hotels.new')}</button>}
+        actions={<button className="btn-primary" onClick={() => setEditing('new')}>{t('admin.hotels.new')}</button>}
       />
 
       {remove.error && <div className="mb-4"><ErrorNote error={remove.error} /></div>}
 
       <DataTable
+        caption={t('admin.hotels.title')}
         columns={columns} data={data} isPending={isPending} error={error}
         page={page} onPageChange={setPage}
         emptyTitle={t('admin.hotels.emptyTitle')} rowKey={(h) => h.id}

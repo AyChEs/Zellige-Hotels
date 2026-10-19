@@ -95,7 +95,7 @@ export default function LandingPage() {
               />
             </div>
             <div className="flex items-end">
-              <button type="submit" className="btn-gold w-full">{t('public.landing.search')}</button>
+              <button type="submit" className="btn-primary w-full">{t('public.landing.search')}</button>
             </div>
           </motion.form>
         </div>

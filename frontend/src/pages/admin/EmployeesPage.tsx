@@ -86,12 +86,13 @@ export default function EmployeesPage() {
       <PageHeader
         title={t('admin.employees.title')}
         subtitle={isAdmin ? t('admin.employees.subtitleAdmin') : t('admin.employees.subtitleReadonly')}
-        actions={isAdmin && <button className="btn-gold" onClick={() => setEditing('new')}>{t('admin.employees.new')}</button>}
+        actions={isAdmin && <button className="btn-primary" onClick={() => setEditing('new')}>{t('admin.employees.new')}</button>}
       />
 
       {remove.error && <div className="mb-4"><ErrorNote error={remove.error} /></div>}
 
       <DataTable
+        caption={t('admin.employees.title')}
         columns={columns} data={data} isPending={isPending} error={error}
         page={page} onPageChange={setPage}
         emptyTitle={t('admin.employees.emptyTitle')} rowKey={(e) => e.id}

@@ -252,7 +252,7 @@ export default function BookingsPage() {
         title={t('admin.bookings.title')}
         subtitle={t('admin.bookings.subtitle')}
         actions={
-          <button className="btn-gold" onClick={() => setCreating(true)}>
+          <button className="btn-primary" onClick={() => setCreating(true)}>
             {t('admin.bookings.new')}
           </button>
         }
@@ -279,6 +279,7 @@ export default function BookingsPage() {
       {act.error && <div className="mb-4"><ErrorNote error={act.error} /></div>}
 
       <DataTable
+        caption={t('admin.bookings.title')}
         columns={columns}
         data={data}
         isPending={isPending}
