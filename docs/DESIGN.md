@@ -58,15 +58,20 @@ same everywhere: 2px `fez-700` outline with 2px offset (`noche-ink` on the sideb
 
 ## Components
 
-The grammar — the same on every screen, the same states every time.
+The grammar, the same on every screen, with the same states every time. All of them live
+in `frontend/src/components/ui/`; no page styles a button or a field by hand.
 
-- `card-tile`: white surface, 1px `cal-200` border, 10px radius, `--shadow-card`.
-- `card-tile-accent`: adds a 2px garnet top keyline. Brand moments only.
-- `btn-primary` (fez), `btn-ghost`, `btn-danger`. All: global focus ring, disabled at
-  50%, no size jumps on hover. (`btn-gold` is a temporary alias of `btn-primary`.)
-- `field-label` / `field-input` / `field-error`: 14px labels, `cal-400` borders, red
-  errors.
-- `badge` + per-status colour maps (booking, invoice, room, task, priority).
+- `Button` / `ButtonLink`: primary (fez), secondary (cal-400 border), ghost, danger
+  (error-700); 36 px or 44 px high; `loading` shows a spinner, sets `aria-busy` and
+  blocks a second submit.
+- `Field` with `Input`, `Select`, `Textarea`: label above, hint and error below, wired
+  with `aria-invalid` and `aria-describedby`. Optional fields say so in the label.
+- `DateRangeField`: two native date inputs, check-out after check-in, nights announced.
+- `Card` (`plain` / `brand` with the garnet keyline), `Modal` (native `<dialog>`, focus
+  in and back), `ConfirmDialog` (replaces `window.confirm`), `Toast` (status / alert).
+- `DataTable`: hidden caption, tabular figures, 48 px rows, a discreet "Updating…" while
+  refetching, scroll hint only when it overflows.
+- `StatusBadge` / `Badge`, `FilterChips`, `EmptyState`, `ErrorNote` (with retry).
 - `.reticula`, `.reticula-noche`, `.separador`.
 
 ## Layout
