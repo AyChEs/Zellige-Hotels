@@ -1,0 +1,24 @@
+[
+ {
+  "id": "calendario",
+  "url": "/admin/calendar",
+  "w": 390,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "w": 390,
+  "consoleErrors": []
+ },
+ {
+  "id": "calendario",
+  "url": "/admin/calendar",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "w": 1440,
+  "consoleErrors": []
+ }
+]
