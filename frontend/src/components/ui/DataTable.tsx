@@ -16,6 +16,8 @@ interface Props<T> {
   columns: Column<T>[]
   data: PageResponse<T> | undefined
   isPending: boolean
+  /** A background refetch (page change, invalidation): shown discreetly, the rows stay. */
+  isFetching?: boolean
   error?: unknown
   onRetry?: () => void
   page: number
@@ -43,7 +45,7 @@ function useOverflows<E extends HTMLElement>() {
 
 /** Server-paginated table: the workhorse of every staff list screen. */
 export function DataTable<T>({
-  caption, columns, data, isPending, error, onRetry, page, onPageChange, emptyTitle, emptyHint, rowKey,
+  caption, columns, data, isPending, isFetching, error, onRetry, page, onPageChange, emptyTitle, emptyHint, rowKey,
 }: Props<T>) {
   const { t } = useTranslation()
   const [scrollRef, overflows] = useOverflows<HTMLDivElement>()
@@ -67,14 +69,20 @@ export function DataTable<T>({
 
   return (
     <div className="relative">
-      {overflows && (
-        <p className="mb-2 flex items-center justify-end gap-1 text-xs text-tinta-600">
-          <span aria-hidden>←</span>
-          <span>{t('dataTable.scroll')}</span>
-          <span aria-hidden>→</span>
-        </p>
-      )}
-      <div className="overflow-hidden rounded-(--radius-card) border border-cal-200 bg-white shadow-(--shadow-card)">
+      <div className="mb-2 flex min-h-5 items-center justify-between gap-4 text-xs text-tinta-600">
+        <p aria-live="polite">{isFetching ? t('dataTable.updating') : ''}</p>
+        {overflows && (
+          <p className="flex items-center gap-1">
+            <span aria-hidden>←</span>
+            <span>{t('dataTable.scroll')}</span>
+            <span aria-hidden>→</span>
+          </p>
+        )}
+      </div>
+      <div
+        aria-busy={isFetching || undefined}
+        className={`overflow-hidden rounded-(--radius-card) border border-cal-200 bg-white shadow-(--shadow-card) transition-opacity duration-150 ${isFetching ? 'opacity-70' : ''}`}
+      >
         <div
           ref={scrollRef}
           className="relative overflow-x-auto"

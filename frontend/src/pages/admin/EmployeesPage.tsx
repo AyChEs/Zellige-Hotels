@@ -1,7 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
+import { useHotelOptions } from '../../api/hooks/useHotels'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { employeeApi, hotelApi } from '../../api/endpoints'
 import type { EmployeeDto, EmployeePosition, EmployeeStatus } from '../../api/types'
 import { Button } from '../../components/ui/Button'
 import { DataTable, type Column } from '../../components/ui/DataTable'
@@ -12,7 +11,9 @@ import { Badge } from '../../components/ui/StatusBadge'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { ErrorNote } from '../../components/ui/Feedback'
 import { useAuth } from '../../auth/AuthContext'
-import { useCrud } from '../../hooks/useCrud'
+import { useRemoveEmployee, useSaveEmployee, useEmployeeList } from '../../api/hooks/useEmployees'
+import { problemMessage } from '../../api/client'
+import { useToast } from '../../components/ui/toast-context'
 import { money, todayIso } from '../../lib/format'
 import { useLabels } from '../../lib/labels'
 
@@ -30,12 +31,14 @@ export default function EmployeesPage() {
   const { hasRole } = useAuth()
   const isAdmin = hasRole('ADMIN')
 
-  const hotels = useQuery({ queryKey: ['hotels', 'all'], queryFn: () => hotelApi.search({ size: 50 }) })
-  const { data, isPending, error } = useQuery({
-    queryKey: ['employees', page],
-    queryFn: () => employeeApi.search({ page }),
+  const hotels = useHotelOptions()
+  const { data, isPending, isFetching, error, refetch } = useEmployeeList({ page })
+  const toast = useToast()
+  const save = useSaveEmployee(() => {
+    setEditing(null)
+    toast.success(t('common.savedToast'))
   })
-  const { save, remove } = useCrud('employees', employeeApi, () => setEditing(null))
+  const remove = useRemoveEmployee()
   const [toDelete, setToDelete] = useState<{ id: number; title: string } | null>(null)
 
   const current = editing === 'new' ? null : editing
@@ -90,7 +93,8 @@ export default function EmployeesPage() {
 
       <DataTable
         caption={t('admin.employees.caption')}
-        columns={columns} data={data} isPending={isPending} error={error}
+        columns={columns} data={data} isPending={isPending} isFetching={isFetching && !isPending} error={error}
+        onRetry={() => refetch()}
         page={page} onPageChange={setPage}
         emptyTitle={t('admin.employees.emptyTitle')} rowKey={(e) => e.id}
       />
@@ -186,7 +190,14 @@ export default function EmployeesPage() {
         confirmLabel={t('common.delete')}
         loading={remove.isPending}
         onCancel={() => setToDelete(null)}
-        onConfirm={() => toDelete && remove.mutate(toDelete.id, { onSettled: () => setToDelete(null) })}
+        onConfirm={() =>
+          toDelete &&
+          remove.mutate(toDelete.id, {
+            onSuccess: () => toast.success(t('common.deletedToast')),
+            onError: (e) => toast.error(problemMessage(e)),
+            onSettled: () => setToDelete(null),
+          })
+        }
       />
     </>
   )

@@ -1,4 +1,5 @@
-import { Link, NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
+import { ErrorBoundary } from '../ErrorBoundary'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../auth/AuthContext'
@@ -34,6 +35,7 @@ function Logo() {
 
 export function PublicShell() {
   const { t } = useTranslation()
+  const { pathname } = useLocation()
   const { user, logout } = useAuth()
   const [open, setOpen] = useState(false)
   const menuButton = useRef<HTMLButtonElement>(null)
@@ -186,7 +188,9 @@ export function PublicShell() {
       </aside>
 
       <main id="contenido" tabIndex={-1} className="flex-1 outline-none" inert={open}>
-        <Outlet />
+        <ErrorBoundary resetKey={pathname}>
+          <Outlet />
+        </ErrorBoundary>
       </main>
 
       <footer className="border-t border-cal-200 bg-cal-100 py-8 text-tinta-600 print:hidden" inert={open}>

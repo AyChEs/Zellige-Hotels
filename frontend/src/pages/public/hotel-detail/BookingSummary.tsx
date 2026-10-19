@@ -1,6 +1,5 @@
-import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { meApi } from '../../../api/endpoints'
+import { useBookRoom } from '../../../api/hooks/useMe'
 import { problemMessage } from '../../../api/client'
 import type { BookingDto, HotelDto, RoomDto } from '../../../api/types'
 import { date, money, nights } from '../../../lib/format'
@@ -25,15 +24,8 @@ interface Props {
 export function BookingSummary({ hotel, room, stay, onClose, onBooked, onTaken }: Props) {
   const { t } = useTranslation()
   const { tLabel } = useLabels()
-  const book = useMutation({
-    mutationFn: (roomId: number) =>
-      meApi.book({
-        roomId,
-        checkInDate: stay.checkIn,
-        checkOutDate: stay.checkOut,
-        guests: stay.guests,
-        boardType: stay.board,
-      }),
+  // The booking hook invalidates availability and «my bookings» itself.
+  const book = useBookRoom({
     onSuccess: onBooked,
     onError: (error) => {
       if (problemMessage(error).toLowerCase().includes('available')) onTaken()
@@ -85,7 +77,15 @@ export function BookingSummary({ hotel, room, stay, onClose, onBooked, onTaken }
             <Button variant="secondary" onClick={close}>
               {t('booking.back')}
             </Button>
-            <Button loading={book.isPending} onClick={() => book.mutate(room.id)}>
+            <Button loading={book.isPending} onClick={() =>
+                book.mutate({
+                  roomId: room.id,
+                  checkInDate: stay.checkIn,
+                  checkOutDate: stay.checkOut,
+                  guests: stay.guests,
+                  boardType: stay.board,
+                })
+              }>
               {t('booking.confirm')}
             </Button>
           </div>

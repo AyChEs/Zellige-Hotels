@@ -1,7 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { bookingApi, clientApi, hotelApi, roomApi } from '../../../api/endpoints'
+import { useCreateBooking } from '../../../api/hooks/useBookings'
+import { useClientList } from '../../../api/hooks/useClients'
+import { useHotelOptions } from '../../../api/hooks/useHotels'
+import { useAvailability } from '../../../api/hooks/useRooms'
 import type { BoardType } from '../../../api/types'
 import { Button } from '../../../components/ui/Button'
 import { DateRangeField } from '../../../components/ui/DateRangeField'
@@ -26,27 +28,14 @@ export function CreateBookingForm({ onDone }: { onDone: () => void }) {
   const [clientSearch, setClientSearch] = useState('')
   const [clientId, setClientId] = useState<number | ''>('')
   const [board, setBoard] = useState<BoardType>('BED_AND_BREAKFAST')
-  const queryClient = useQueryClient()
 
-  const hotels = useQuery({ queryKey: ['hotels', 'all'], queryFn: () => hotelApi.search({ size: 50 }) })
-  const rooms = useQuery({
-    queryKey: ['available', hotelId, checkIn, checkOut, guests],
-    queryFn: () => roomApi.available(Number(hotelId), checkIn, checkOut, guests),
-    enabled: hotelId !== '' && checkIn < checkOut,
-  })
-  const clients = useQuery({
-    queryKey: ['clients', 'picker', clientSearch],
-    queryFn: () => clientApi.search({ search: clientSearch || undefined, size: 8 }),
-  })
+  const hotels = useHotelOptions()
+  const rooms = useAvailability(Number(hotelId), checkIn, checkOut, guests, hotelId !== '' && checkIn < checkOut)
+  const clients = useClientList({ search: clientSearch || undefined, size: 8 })
 
-  const create = useMutation({
-    mutationFn: () =>
-      bookingApi.create({ roomId, clientId, checkInDate: checkIn, checkOutDate: checkOut, guests, boardType: board }),
-    onSuccess: (booking) => {
-      queryClient.invalidateQueries({ queryKey: ['bookings'] })
-      toast.success(t('booking.created', { code: booking.code }))
-      onDone()
-    },
+  const create = useCreateBooking((booking) => {
+    toast.success(t('booking.created', { code: booking.code }))
+    onDone()
   })
 
   return (
@@ -54,7 +43,8 @@ export function CreateBookingForm({ onDone }: { onDone: () => void }) {
       className="space-y-4"
       onSubmit={(e) => {
         e.preventDefault()
-        if (roomId && clientId) create.mutate()
+        if (roomId && clientId)
+          create.mutate({ roomId, clientId, checkInDate: checkIn, checkOutDate: checkOut, guests, boardType: board })
       }}
     >
       <div className="grid gap-4 sm:grid-cols-2">

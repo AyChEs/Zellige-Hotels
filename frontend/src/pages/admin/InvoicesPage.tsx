@@ -1,7 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { invoiceApi } from '../../api/endpoints'
+import { useInvoiceList, useMarkInvoicePaid } from '../../api/hooks/useInvoices'
 import type { InvoiceDto, InvoiceStatus } from '../../api/types'
 import { problemMessage } from '../../api/client'
 import { Button } from '../../components/ui/Button'
@@ -26,21 +25,11 @@ export default function InvoicesPage() {
   const [status, setStatus] = useState<InvoiceStatus | ''>('')
   const [generating, setGenerating] = useState(false)
   const [selected, setSelected] = useState<InvoiceDto | null>(null)
-  const queryClient = useQueryClient()
 
-  const { data, isPending, error, refetch } = useQuery({
-    queryKey: ['invoices', page, status],
-    queryFn: () => invoiceApi.search({ page, status: status || undefined }),
-  })
-
-  const pay = useMutation({
-    mutationFn: (invoice: InvoiceDto) => invoiceApi.markPaid(invoice.id),
-    onSuccess: (_, invoice) => {
-      toast.success(t('admin.invoices.paidToast', { number: invoice.invoiceNumber }))
-      queryClient.invalidateQueries({ queryKey: ['invoices'] })
-    },
-    onError: (e) => toast.error(problemMessage(e)),
-  })
+  const { data, isPending, isFetching, error, refetch } = useInvoiceList({ page, status: status || undefined })
+  const pay = useMarkInvoicePaid((invoice) =>
+    toast.success(t('admin.invoices.paidToast', { number: invoice.invoiceNumber })),
+  )
 
   const columns: Column<InvoiceDto>[] = [
     {
@@ -79,7 +68,7 @@ export default function InvoicesPage() {
             <Button
               size="sm"
               disabled={pay.isPending}
-              onClick={() => pay.mutate(i)}
+              onClick={() => pay.mutate(i, { onError: (e) => toast.error(problemMessage(e)) })}
               aria-label={`${t('admin.invoices.markPaid')} ${i.invoiceNumber}`}
             >
               {t('admin.invoices.markPaid')}
@@ -116,6 +105,7 @@ export default function InvoicesPage() {
         columns={columns}
         data={data}
         isPending={isPending}
+        isFetching={isFetching && !isPending}
         error={error}
         onRetry={() => refetch()}
         page={page}

@@ -7,13 +7,14 @@ import '@fontsource-variable/source-sans-3/wght.css'
 import './styles/theme.css'
 import { AuthProvider } from './auth/AuthContext'
 import App from './App'
+import { retry } from './api/retry'
 import { ToastProvider } from './components/ui/Toast'
 import './i18n'
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: 1,
+      retry,
       staleTime: 30_000,
       refetchOnWindowFocus: false,
     },

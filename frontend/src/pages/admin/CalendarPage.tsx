@@ -1,7 +1,8 @@
-import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { bookingApi, hotelApi, roomApi } from '../../api/endpoints'
+import { useCalendarBookings } from '../../api/hooks/useBookings'
+import { useHotelOptions } from '../../api/hooks/useHotels'
+import { useRoomList } from '../../api/hooks/useRooms'
 import type { BookingStatus } from '../../api/types'
 import { Card } from '../../components/ui/Card'
 import { Input, Select } from '../../components/ui/Field'
@@ -43,15 +44,9 @@ export default function CalendarPage() {
   )
   const end = plusDaysIso(daysToShow, new Date(start + 'T00:00:00'))
 
-  const hotels = useQuery({ queryKey: ['hotels', 'all'], queryFn: () => hotelApi.search({ size: 50 }) })
-  const rooms = useQuery({
-    queryKey: ['rooms', 'cal', hotelId],
-    queryFn: () => roomApi.search({ hotelId, size: 100 }),
-  })
-  const bookings = useQuery({
-    queryKey: ['bookings', 'cal', hotelId, start],
-    queryFn: () => bookingApi.search({ hotelId, from: start, to: end, size: 200 }),
-  })
+  const hotels = useHotelOptions()
+  const rooms = useRoomList({ hotelId, size: 100 })
+  const bookings = useCalendarBookings(hotelId, start, end, daysToShow)
 
   if (rooms.error || bookings.error)
     return (

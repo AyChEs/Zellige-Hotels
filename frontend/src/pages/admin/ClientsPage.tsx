@@ -1,7 +1,5 @@
-import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { clientApi } from '../../api/endpoints'
 import type { ClientDto, ClientType } from '../../api/types'
 import { Button } from '../../components/ui/Button'
 import { DataTable, type Column } from '../../components/ui/DataTable'
@@ -12,7 +10,9 @@ import { Badge } from '../../components/ui/StatusBadge'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { ErrorNote } from '../../components/ui/Feedback'
 import { useAuth } from '../../auth/AuthContext'
-import { useCrud } from '../../hooks/useCrud'
+import { useRemoveClient, useSaveClient, useClientList } from '../../api/hooks/useClients'
+import { problemMessage } from '../../api/client'
+import { useToast } from '../../components/ui/toast-context'
 import { useLabels } from '../../lib/labels'
 
 export default function ClientsPage() {
@@ -23,11 +23,13 @@ export default function ClientsPage() {
   const [editing, setEditing] = useState<ClientDto | null | 'new'>(null)
   const { hasRole } = useAuth()
 
-  const { data, isPending, error } = useQuery({
-    queryKey: ['clients', page, search],
-    queryFn: () => clientApi.search({ page, search: search || undefined }),
+  const { data, isPending, isFetching, error, refetch } = useClientList({ page, search: search || undefined })
+  const toast = useToast()
+  const save = useSaveClient(() => {
+    setEditing(null)
+    toast.success(t('common.savedToast'))
   })
-  const { save, remove } = useCrud('clients', clientApi, () => setEditing(null))
+  const remove = useRemoveClient()
   const [toDelete, setToDelete] = useState<{ id: number; title: string } | null>(null)
 
   const current = editing === 'new' ? null : editing
@@ -92,7 +94,8 @@ export default function ClientsPage() {
 
       <DataTable
         caption={t('admin.clients.caption')}
-        columns={columns} data={data} isPending={isPending} error={error}
+        columns={columns} data={data} isPending={isPending} isFetching={isFetching && !isPending} error={error}
+        onRetry={() => refetch()}
         page={page} onPageChange={setPage}
         emptyTitle={t('admin.clients.emptyTitle')}
         emptyHint={t('admin.clients.emptyHint')}
@@ -167,7 +170,14 @@ export default function ClientsPage() {
         confirmLabel={t('common.delete')}
         loading={remove.isPending}
         onCancel={() => setToDelete(null)}
-        onConfirm={() => toDelete && remove.mutate(toDelete.id, { onSettled: () => setToDelete(null) })}
+        onConfirm={() =>
+          toDelete &&
+          remove.mutate(toDelete.id, {
+            onSuccess: () => toast.success(t('common.deletedToast')),
+            onError: (e) => toast.error(problemMessage(e)),
+            onSettled: () => setToDelete(null),
+          })
+        }
       />
     </>
   )

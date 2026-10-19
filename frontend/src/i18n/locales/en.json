@@ -42,7 +42,8 @@
   "dataTable": {
     "page": "Page {{page}} of {{total}} · {{count}} records",
     "ariaLabel": "Pagination",
-    "scroll": "swipe to see more"
+    "scroll": "swipe to see more",
+    "updating": "Updating…"
   },
   "labels": {
     "boardType": {
@@ -547,7 +548,13 @@
     "validation": "Please review the highlighted fields.",
     "server": "The server failed. Try again in a few minutes.",
     "conflict": "Conflicts with the current state.",
-    "loadingFailed": "Couldn't load the data."
+    "loadingFailed": "Couldn't load the data.",
+    "pageTitle": "This screen failed",
+    "pageBody": "The rest of the app still works. Try again or use the menu.",
+    "tryAgain": "Try again",
+    "notFoundTitle": "We could not find this page",
+    "notFoundBody": "The address may be mistyped or the page may no longer exist.",
+    "backHome": "Back to the home page"
   },
   "booking": {
     "summaryTitle": "Review your booking",

@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import type { HotelDto } from '../../api/types'
 import { ButtonLink } from '../../components/ui/Button'
 import { Card } from '../../components/ui/Card'
+import { loadHotelDetail } from './loadHotelDetail'
 
 /** One hotel: photo 3:2, name, city and stars, and the way into its availability. */
 export function HotelCard({ hotel, headingLevel: H = 'h3' }: { hotel: HotelDto; headingLevel?: 'h2' | 'h3' }) {
@@ -29,6 +30,9 @@ export function HotelCard({ hotel, headingLevel: H = 'h3' }: { hotel: HotelDto; 
         <div className="mt-auto pt-5">
           <ButtonLink
             to={`/hotels/${hotel.id}`}
+            // Start loading the hotel page as soon as the guest shows intent.
+            onPointerEnter={loadHotelDetail}
+            onFocus={loadHotelDetail}
             variant="secondary"
             aria-label={`${t('public.hotels.viewAvailability')}: ${hotel.name}`}
           >

@@ -1,4 +1,5 @@
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { ErrorBoundary } from '../ErrorBoundary'
 import { useTranslation } from 'react-i18next'
 
 const tab = ({ isActive }: { isActive: boolean }) =>
@@ -11,6 +12,7 @@ const tab = ({ isActive }: { isActive: boolean }) =>
 /** Client area: rendered inside PublicShell; adds the heading and plain links as sub-navigation. */
 export function AccountShell() {
   const { t } = useTranslation()
+  const { pathname } = useLocation()
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
       <h1 className="font-display text-2xl text-tinta-900 sm:text-4xl print:hidden">{t('public.nav.myAccount')}</h1>
@@ -25,7 +27,9 @@ export function AccountShell() {
           {t('account.nav.profile')}
         </NavLink>
       </nav>
-      <Outlet />
+      <ErrorBoundary resetKey={pathname} nested>
+          <Outlet />
+        </ErrorBoundary>
     </div>
   )
 }

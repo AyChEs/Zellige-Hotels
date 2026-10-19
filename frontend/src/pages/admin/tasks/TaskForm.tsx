@@ -1,7 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { employeeApi, hotelApi, roomApi, taskApi } from '../../../api/endpoints'
+import { useEmployeeList } from '../../../api/hooks/useEmployees'
+import { useHotelOptions } from '../../../api/hooks/useHotels'
+import { useRoomList } from '../../../api/hooks/useRooms'
+import { useCreateTask } from '../../../api/hooks/useTasks'
 import { Button } from '../../../components/ui/Button'
 import { ErrorNote } from '../../../components/ui/Feedback'
 import { Field, Input, Select, Textarea } from '../../../components/ui/Field'
@@ -15,23 +17,17 @@ export function TaskForm({ onDone }: { onDone: () => void }) {
   const [hotelId, setHotelId] = useState<number | ''>('')
   const [roomId, setRoomId] = useState<number | ''>('')
   const [assignees, setAssignees] = useState<number[]>([])
-  const queryClient = useQueryClient()
 
-  const hotels = useQuery({ queryKey: ['hotels', 'all'], queryFn: () => hotelApi.search({ size: 50 }) })
-  const rooms = useQuery({
-    queryKey: ['rooms', 'byHotel', hotelId],
-    queryFn: () => roomApi.search({ hotelId: Number(hotelId), size: 60 }),
-    enabled: hotelId !== '',
-  })
-  const employees = useQuery({
-    queryKey: ['employees', 'byHotel', hotelId],
-    queryFn: () => employeeApi.search({ hotelId: Number(hotelId), status: 'ACTIVE', size: 50 }),
-    enabled: hotelId !== '',
-  })
+  const hotels = useHotelOptions()
+  const rooms = useRoomList({ hotelId: Number(hotelId), size: 60 }, hotelId !== '')
+  const employees = useEmployeeList({ hotelId: Number(hotelId), status: 'ACTIVE', size: 50 }, hotelId !== '')
 
-  const create = useMutation({
-    mutationFn: (form: FormData) =>
-      taskApi.create({
+  const create = useCreateTask(() => {
+    toast.success(t('admin.tasks.created'))
+    onDone()
+  })
+  const submit = (form: FormData) =>
+    create.mutate({
         title: form.get('title'),
         description: form.get('description') || null,
         type: form.get('type'),
@@ -39,21 +35,15 @@ export function TaskForm({ onDone }: { onDone: () => void }) {
         dueDate: form.get('dueDate') || null,
         hotelId,
         roomId: roomId === '' ? null : roomId,
-        assigneeIds: assignees,
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] })
-      toast.success(t('admin.tasks.created'))
-      onDone()
-    },
-  })
+      assigneeIds: assignees,
+    })
 
   return (
     <form
       className="space-y-4"
       onSubmit={(e) => {
         e.preventDefault()
-        create.mutate(new FormData(e.currentTarget))
+        submit(new FormData(e.currentTarget))
       }}
     >
       <Field id="t-title" label={t('admin.tasks.titleLabel')}>

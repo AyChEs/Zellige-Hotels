@@ -1,8 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { meApi } from '../../api/endpoints'
+import { useCancelMyBooking, useMyBookings } from '../../api/hooks/useMe'
 import { problemMessage } from '../../api/client'
 import type { BookingDto } from '../../api/types'
 import { Button, ButtonLink } from '../../components/ui/Button'
@@ -18,21 +17,11 @@ export default function MyBookingsPage() {
   const { t } = useTranslation()
   const { tLabel } = useLabels()
   const toast = useToast()
-  const queryClient = useQueryClient()
   const [toCancel, setToCancel] = useState<BookingDto | null>(null)
-  const { data, isPending, error, refetch } = useQuery({
-    queryKey: ['me', 'bookings'],
-    queryFn: () => meApi.bookings({ size: 20 }),
-  })
-
-  const cancel = useMutation({
-    mutationFn: (booking: BookingDto) => meApi.cancelBooking(booking.id),
-    onSuccess: (_, booking) => {
-      setToCancel(null)
-      toast.success(t('account.cancelledToast', { code: booking.code }))
-      queryClient.invalidateQueries({ queryKey: ['me', 'bookings'] })
-    },
-    onError: (e) => toast.error(problemMessage(e)),
+  const { data, isPending, error, refetch } = useMyBookings()
+  const cancel = useCancelMyBooking((booking) => {
+    setToCancel(null)
+    toast.success(t('account.cancelledToast', { code: booking.code }))
   })
 
   if (isPending) return <ListSkeleton />
@@ -100,7 +89,7 @@ export default function MyBookingsPage() {
           <Button variant="secondary" onClick={() => setToCancel(null)}>
             {t('account.keep')}
           </Button>
-          <Button variant="danger" loading={cancel.isPending} onClick={() => toCancel && cancel.mutate(toCancel)}>
+          <Button variant="danger" loading={cancel.isPending} onClick={() => toCancel && cancel.mutate(toCancel, { onError: (e) => toast.error(problemMessage(e)) })}>
             {t('account.myBookings.cancel')}
           </Button>
         </div>

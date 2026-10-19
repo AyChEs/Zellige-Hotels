@@ -1,7 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { taskApi } from '../../api/endpoints'
+import { useMoveTask, useTaskBoard } from '../../api/hooks/useTasks'
 import type { TaskDto, TaskStatus } from '../../api/types'
 import { problemMessage } from '../../api/client'
 import { Button } from '../../components/ui/Button'
@@ -73,21 +72,11 @@ export default function TasksPage() {
   const { tLabel } = useLabels()
   const toast = useToast()
   const [creating, setCreating] = useState(false)
-  const queryClient = useQueryClient()
 
-  const { data, isPending, error, refetch } = useQuery({
-    queryKey: ['tasks', 'board'],
-    queryFn: () => taskApi.search({ size: 100 }),
-  })
-
-  const move = useMutation({
-    mutationFn: ({ task, status }: { task: TaskDto; status: TaskStatus }) => taskApi.changeStatus(task.id, status),
-    onSuccess: (_, { task, status }) => {
-      toast.success(t('admin.tasks.moved', { title: task.title, status: tLabel('taskStatus', status) }))
-      queryClient.invalidateQueries({ queryKey: ['tasks'] })
-    },
-    onError: (e) => toast.error(problemMessage(e)),
-  })
+  const { data, isPending, error, refetch } = useTaskBoard()
+  const move = useMoveTask((task, status) =>
+    toast.success(t('admin.tasks.moved', { title: task.title, status: tLabel('taskStatus', status) })),
+  )
 
   if (isPending) return <ListSkeleton rows={4} />
   if (error) return <ErrorNote error={error} onRetry={() => refetch()} />
@@ -117,7 +106,7 @@ export default function TasksPage() {
                     key={task.id}
                     task={task}
                     busy={move.isPending}
-                    onMove={(next) => move.mutate({ task, status: next })}
+                    onMove={(next) => move.mutate({ task, status: next }, { onError: (e) => toast.error(problemMessage(e)) })}
                   />
                 ))}
                 {byStatus(status).length === 0 && (
