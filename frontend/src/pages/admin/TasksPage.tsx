@@ -209,7 +209,7 @@ export default function TasksPage() {
         title={t('admin.tasks.title')}
         subtitle={t('admin.tasks.subtitle')}
         actions={
-          <button className="btn-gold" onClick={() => setCreating(true)}>
+          <button className="btn-primary" onClick={() => setCreating(true)}>
             {t('admin.tasks.new')}
           </button>
         }

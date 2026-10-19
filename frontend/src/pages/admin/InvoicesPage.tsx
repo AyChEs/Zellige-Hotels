@@ -186,7 +186,7 @@ export default function InvoicesPage() {
         title={t('admin.invoices.title')}
         subtitle={t('admin.invoices.subtitle')}
         actions={
-          <button className="btn-gold" onClick={() => setGenerating(true)}>
+          <button className="btn-primary" onClick={() => setGenerating(true)}>
             {t('admin.invoices.new')}
           </button>
         }
@@ -213,6 +213,7 @@ export default function InvoicesPage() {
       {pay.error && <div className="mb-4"><ErrorNote error={pay.error} /></div>}
 
       <DataTable
+        caption={t('admin.invoices.title')}
         columns={columns}
         data={data}
         isPending={isPending}

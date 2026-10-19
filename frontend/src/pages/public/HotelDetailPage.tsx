@@ -251,7 +251,7 @@ export default function HotelDetailPage() {
                     </div>
                     {canBook ? (
                       <button
-                        className="btn-gold"
+                        className="btn-primary"
                         disabled={book.isPending}
                         onClick={() => book.mutate(room.id)}
                       >
@@ -263,7 +263,7 @@ export default function HotelDetailPage() {
                       </span>
                     ) : (
                       <button
-                        className="btn-gold"
+                        className="btn-primary"
                         onClick={() =>
                           navigate('/login', {
                             state: { from: `/hotels/${hotelId}?${params.toString()}` },

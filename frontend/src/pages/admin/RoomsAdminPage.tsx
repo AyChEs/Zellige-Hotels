@@ -67,7 +67,7 @@ export default function RoomsAdminPage() {
       <PageHeader
         title={t('admin.rooms.title')}
         subtitle={t('admin.rooms.subtitle')}
-        actions={<button className="btn-gold" onClick={() => setEditing('new')}>{t('admin.rooms.new')}</button>}
+        actions={<button className="btn-primary" onClick={() => setEditing('new')}>{t('admin.rooms.new')}</button>}
       />
 
       <div className="mb-4">
@@ -85,6 +85,7 @@ export default function RoomsAdminPage() {
       {remove.error && <div className="mb-4"><ErrorNote error={remove.error} /></div>}
 
       <DataTable
+        caption={t('admin.rooms.title')}
         columns={columns} data={data} isPending={isPending} error={error}
         page={page} onPageChange={setPage}
         emptyTitle={t('admin.rooms.emptyTitle')} rowKey={(r) => r.id}

@@ -39,27 +39,29 @@ const PRIORITY_TONE: Record<TaskPriority, string> = {
   URGENT: 'bg-error-50 text-error-ink',
 }
 
+const BADGE = 'inline-flex items-center gap-1 rounded-(--radius-pill) px-2.5 py-0.5 text-xs font-semibold whitespace-nowrap'
+
 export const BookingBadge = ({ status }: { status: BookingStatus }) => {
   const { tLabel } = useLabels()
-  return <span className={`badge ${BOOKING_TONE[status]}`}>{tLabel('bookingStatus', status)}</span>
+  return <span className={`${BADGE} ${BOOKING_TONE[status]}`}>{tLabel('bookingStatus', status)}</span>
 }
 
 export const InvoiceBadge = ({ status }: { status: InvoiceStatus }) => {
   const { tLabel } = useLabels()
-  return <span className={`badge ${INVOICE_TONE[status]}`}>{tLabel('invoiceStatus', status)}</span>
+  return <span className={`${BADGE} ${INVOICE_TONE[status]}`}>{tLabel('invoiceStatus', status)}</span>
 }
 
 export const RoomBadge = ({ status }: { status: RoomStatus }) => {
   const { tLabel } = useLabels()
-  return <span className={`badge ${ROOM_TONE[status]}`}>{tLabel('roomStatus', status)}</span>
+  return <span className={`${BADGE} ${ROOM_TONE[status]}`}>{tLabel('roomStatus', status)}</span>
 }
 
 export const TaskBadge = ({ status }: { status: TaskStatus }) => {
   const { tLabel } = useLabels()
-  return <span className={`badge ${TASK_TONE[status]}`}>{tLabel('taskStatus', status)}</span>
+  return <span className={`${BADGE} ${TASK_TONE[status]}`}>{tLabel('taskStatus', status)}</span>
 }
 
 export const PriorityBadge = ({ priority }: { priority: TaskPriority }) => {
   const { tLabel } = useLabels()
-  return <span className={`badge ${PRIORITY_TONE[priority]}`}>{tLabel('taskPriority', priority)}</span>
+  return <span className={`${BADGE} ${PRIORITY_TONE[priority]}`}>{tLabel('taskPriority', priority)}</span>
 }

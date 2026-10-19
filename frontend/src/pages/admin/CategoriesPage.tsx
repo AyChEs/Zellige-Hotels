@@ -28,7 +28,7 @@ export default function CategoriesPage() {
       <PageHeader
         title={t('admin.categories.title')}
         subtitle={t('admin.categories.subtitle')}
-        actions={<button className="btn-gold" onClick={() => setEditing('new')}>{t('admin.categories.new')}</button>}
+        actions={<button className="btn-primary" onClick={() => setEditing('new')}>{t('admin.categories.new')}</button>}
       />
 
       {remove.error && <div className="mb-4"><ErrorNote error={remove.error} /></div>}
