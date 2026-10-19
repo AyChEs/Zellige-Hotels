@@ -128,57 +128,6 @@ h3 {
   background: var(--color-cal-200);
 }
 
-/* ---------- surfaces ---------- */
-.card-tile {
-  @apply rounded-(--radius-card) border border-cal-200 bg-white shadow-(--shadow-card);
-}
-/* Garnet top keyline: brand moments (auth, search, booking confirmation), not data UI */
-.card-tile-accent {
-  @apply rounded-(--radius-card) border border-cal-200 bg-white shadow-(--shadow-card)
-    border-t-2 border-t-granate-700;
-}
-
-/* ---------- buttons and fields ---------- */
-/* deprecated: usar <Button>. Quedan solo para las páginas que aún no se han migrado. */
-.btn-primary {
-  @apply inline-flex items-center justify-center gap-2 rounded-(--radius-control)
-    bg-fez-700 px-4 py-2 text-sm font-semibold text-white
-    transition-colors duration-150 hover:bg-fez-800 active:translate-y-px
-    disabled:cursor-not-allowed disabled:opacity-50;
-}
-.btn-ghost {
-  @apply inline-flex items-center justify-center gap-2 rounded-(--radius-control)
-    border border-cal-400 bg-white px-4 py-2 text-sm font-semibold text-tinta-900
-    transition-colors duration-150 hover:bg-cal-100 active:translate-y-px
-    disabled:cursor-not-allowed disabled:opacity-50;
-}
-.btn-danger {
-  @apply inline-flex items-center justify-center gap-2 rounded-(--radius-control)
-    border border-error-700 bg-white px-4 py-2 text-sm font-semibold text-error-ink
-    transition-colors duration-150 hover:bg-error-50 active:translate-y-px
-    disabled:cursor-not-allowed disabled:opacity-50;
-}
-
-/* deprecated: usar <Field> con <Input>, <Select> o <Textarea>. */
-.field-label {
-  @apply mb-1 block text-sm font-semibold text-tinta-900;
-}
-.field-input {
-  @apply w-full rounded-(--radius-control) border border-cal-400 bg-white px-3 py-2
-    text-base text-tinta-900 placeholder:text-tinta-600
-    transition-colors duration-150
-    focus:border-fez-700
-    disabled:cursor-not-allowed disabled:bg-cal-100;
-}
-.field-error {
-  @apply mt-1 text-sm text-error-ink;
-}
-
-/* ---------- status ---------- */
-.badge {
-  @apply inline-flex items-center rounded-(--radius-pill) px-2.5 py-0.5 text-xs font-semibold;
-}
-
 /* ---------- loading ---------- */
 .skeleton {
   @apply animate-pulse rounded-(--radius-control) bg-cal-100;

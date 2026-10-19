@@ -65,3 +65,8 @@ export const PriorityBadge = ({ priority }: { priority: TaskPriority }) => {
   const { tLabel } = useLabels()
   return <span className={`${BADGE} ${PRIORITY_TONE[priority]}`}>{tLabel('taskPriority', priority)}</span>
 }
+
+/** Same pill for labels that are not a lifecycle status (client type, active hotel…). */
+export const Badge = ({ tone, children }: { tone: string; children: React.ReactNode }) => (
+  <span className={`${BADGE} ${tone}`}>{children}</span>
+)
