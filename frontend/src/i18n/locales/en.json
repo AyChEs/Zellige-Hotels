@@ -34,7 +34,9 @@
     "viewAll": "View all",
     "created": "Created",
     "updated": "Updated",
-    "dateOrder": "Check-out must be after check-in"
+    "dateOrder": "Check-out must be after check-in",
+    "savedToast": "Changes saved",
+    "deletedToast": "Deleted"
   },
   "dataTable": {
     "page": "Page {{page}} of {{total}} · {{count}} records",
@@ -312,13 +314,15 @@
       "monthBookingsContext": "created since the 1st",
       "pendingTasksContext": "housekeeping and maintenance",
       "revenueChart": "Invoiced revenue per month (last 12)",
-      "occupancyChart": "Daily occupancy — 2 weeks back, 2 weeks ahead",
+      "occupancyChart": "Daily occupancy, 2 weeks back to 2 weeks ahead",
       "bookingsByStatus": "Bookings by status (all-time)",
       "revenue": "Revenue",
       "occupancy": "Occupancy",
       "noBookings": "No bookings this month.",
       "revPAR": "RevPAR",
-      "adr": "ADR"
+      "adr": "ADR",
+      "month": "Month",
+      "day": "Day"
     },
     "bookings": {
       "title": "Bookings",
@@ -355,7 +359,15 @@
       "clientSearchPlaceholder": "Search by name or document…",
       "clientResults": "Client results",
       "emptyTitle": "No bookings match this filter",
-      "emptyHint": "Create a booking from the front desk with the “New booking” button."
+      "emptyHint": "Create a booking from the front desk with the “New booking” button.",
+      "caption": "Bookings across all hotels",
+      "done": {
+        "confirm": "Booking {{code}} confirmed",
+        "checkIn": "{{code}} checked in",
+        "checkOut": "{{code}} checked out",
+        "cancel": "Booking {{code}} cancelled"
+      },
+      "cancelConfirm": "Cancel booking {{code}}?"
     },
     "calendar": {
       "title": "Occupancy calendar",
@@ -368,7 +380,12 @@
         "available": "Available",
         "occupied": "Occupied",
         "past": "Past"
-      }
+      },
+      "room": "Room",
+      "range": "Days shown",
+      "days_one": "{{count}} day",
+      "days_other": "{{count}} days",
+      "caption": "Occupancy by room at {{hotel}}"
     },
     "hotels": {
       "title": "Hotels",
@@ -387,7 +404,8 @@
       "edit": "Edit “{{name}}”",
       "create": "New hotel",
       "deleteConfirm": "Delete “{{name}}”? Its rooms and bookings will be lost.",
-      "emptyTitle": "No hotels"
+      "emptyTitle": "No hotels",
+      "caption": "Hotels in the chain"
     },
     "rooms": {
       "title": "Rooms",
@@ -411,7 +429,8 @@
       "edit": "Edit room {{n}}",
       "create": "New room",
       "deleteConfirm": "Delete room {{n}}?",
-      "emptyTitle": "No rooms match this filter"
+      "emptyTitle": "No rooms match this filter",
+      "caption": "Rooms"
     },
     "categories": {
       "title": "Categories",
@@ -423,7 +442,8 @@
       "edit": "Edit “{{name}}”",
       "create": "New category",
       "deleteConfirm": "Delete category “{{name}}”?",
-      "emptyTitle": "No categories"
+      "emptyTitle": "No categories",
+      "caption": "Hotel categories"
     },
     "clients": {
       "title": "Clients",
@@ -437,7 +457,9 @@
       "create": "New client (front desk)",
       "deleteConfirm": "Delete {{name}}?",
       "emptyTitle": "No clients match this search",
-      "emptyHint": "Clients who sign up online appear here automatically."
+      "emptyHint": "Clients who sign up online appear here automatically.",
+      "caption": "Clients",
+      "searchLabel": "Search clients"
     },
     "employees": {
       "title": "Employees",
@@ -455,7 +477,8 @@
       "edit": "Edit {{name}}",
       "create": "New employee",
       "deleteConfirm": "Delete {{name}}?",
-      "emptyTitle": "No employees"
+      "emptyTitle": "No employees",
+      "caption": "Staff"
     },
     "invoices": {
       "title": "Invoices",
@@ -479,11 +502,14 @@
       "generating": "Generating…",
       "generate": "Generate invoice",
       "emptyTitle": "No invoices match this filter",
-      "emptyHint": "Generate the first one from a confirmed booking with “Generate invoice”."
+      "emptyHint": "Generate the first one from a confirmed booking with “Generate invoice”.",
+      "caption": "Issued invoices",
+      "issuedToast": "Invoice {{number}} issued",
+      "paidToast": "Invoice {{number}} paid"
     },
     "tasks": {
       "title": "Tasks",
-      "subtitle": "Housekeeping and maintenance — check-out creates the cleaning task automatically",
+      "subtitle": "Housekeeping and maintenance. Check-out creates the cleaning task automatically.",
       "new": "+ New task",
       "type": "Type",
       "titleLabel": "Title",
@@ -505,7 +531,10 @@
       "statusUpdated": "Status updated.",
       "emptyTitle": "No tasks",
       "emptyHint": "Create a task or check someone out: the room cleaning appears on its own.",
-      "emptyColumn": "Nothing here"
+      "emptyColumn": "Nothing here",
+      "created": "Task created",
+      "moved": "\"{{title}}\": {{status}}",
+      "moveTo": "Move to"
     }
   },
   "errors": {

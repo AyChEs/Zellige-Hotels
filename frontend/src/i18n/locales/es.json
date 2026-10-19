@@ -34,7 +34,9 @@
     "viewAll": "Ver todos",
     "created": "Creado",
     "updated": "Actualizado",
-    "dateOrder": "La salida debe ser posterior a la entrada"
+    "dateOrder": "La salida debe ser posterior a la entrada",
+    "savedToast": "Cambios guardados",
+    "deletedToast": "Eliminado"
   },
   "dataTable": {
     "page": "Página {{page}} de {{total}} · {{count}} registros",
@@ -312,13 +314,15 @@
       "monthBookingsContext": "creadas desde el día 1",
       "pendingTasksContext": "limpieza y mantenimiento",
       "revenueChart": "Ingresos facturados por mes (últimos 12)",
-      "occupancyChart": "Ocupación diaria — 2 semanas atrás y 2 adelante",
+      "occupancyChart": "Ocupación diaria, de 2 semanas atrás a 2 adelante",
       "bookingsByStatus": "Reservas por estado (histórico)",
       "revenue": "Ingresos",
       "occupancy": "Ocupación",
       "noBookings": "No hay reservas registradas este mes.",
       "revPAR": "RevPAR",
-      "adr": "ADR"
+      "adr": "ADR",
+      "month": "Mes",
+      "day": "Día"
     },
     "bookings": {
       "title": "Reservas",
@@ -355,7 +359,15 @@
       "clientSearchPlaceholder": "Buscar por nombre o documento…",
       "clientResults": "Resultados de clientes",
       "emptyTitle": "No hay reservas con este filtro",
-      "emptyHint": "Crea una reserva desde el mostrador con el botón «Nueva reserva»."
+      "emptyHint": "Crea una reserva desde el mostrador con el botón «Nueva reserva».",
+      "caption": "Reservas de todos los hoteles",
+      "done": {
+        "confirm": "Reserva {{code}} confirmada",
+        "checkIn": "Check-in de {{code}} hecho",
+        "checkOut": "Check-out de {{code}} hecho",
+        "cancel": "Reserva {{code}} cancelada"
+      },
+      "cancelConfirm": "¿Cancelar la reserva {{code}}?"
     },
     "calendar": {
       "title": "Calendario de ocupación",
@@ -368,7 +380,12 @@
         "available": "Disponible",
         "occupied": "Ocupada",
         "past": "Pasado"
-      }
+      },
+      "room": "Hab.",
+      "range": "Días visibles",
+      "days_one": "{{count}} día",
+      "days_other": "{{count}} días",
+      "caption": "Ocupación por habitación en {{hotel}}"
     },
     "hotels": {
       "title": "Hoteles",
@@ -387,7 +404,8 @@
       "edit": "Editar «{{name}}»",
       "create": "Nuevo hotel",
       "deleteConfirm": "¿Eliminar «{{name}}»? Sus habitaciones y reservas se perderán.",
-      "emptyTitle": "Sin hoteles"
+      "emptyTitle": "Sin hoteles",
+      "caption": "Hoteles de la cadena"
     },
     "rooms": {
       "title": "Habitaciones",
@@ -410,7 +428,9 @@
       "edit": "Editar habitación {{n}}",
       "create": "Nueva habitación",
       "deleteConfirm": "¿Eliminar la habitación {{n}}?",
-      "emptyTitle": "Sin habitaciones con este filtro"
+      "emptyTitle": "Sin habitaciones con este filtro",
+      "caption": "Habitaciones",
+      "floorValue": "planta {{n}}"
     },
     "categories": {
       "title": "Categorías",
@@ -422,7 +442,8 @@
       "edit": "Editar «{{name}}»",
       "create": "Nueva categoría",
       "deleteConfirm": "¿Eliminar la categoría «{{name}}»?",
-      "emptyTitle": "Sin categorías"
+      "emptyTitle": "Sin categorías",
+      "caption": "Categorías de hotel"
     },
     "clients": {
       "title": "Clientes",
@@ -436,7 +457,9 @@
       "create": "Nuevo cliente (mostrador)",
       "deleteConfirm": "¿Eliminar a {{name}}?",
       "emptyTitle": "Sin clientes con esta búsqueda",
-      "emptyHint": "Los clientes que se registran online aparecen aquí automáticamente."
+      "emptyHint": "Los clientes que se registran online aparecen aquí automáticamente.",
+      "caption": "Clientes",
+      "searchLabel": "Buscar cliente"
     },
     "employees": {
       "title": "Empleados",
@@ -454,7 +477,8 @@
       "edit": "Editar {{name}}",
       "create": "Nuevo empleado",
       "deleteConfirm": "¿Eliminar a {{name}}?",
-      "emptyTitle": "Sin empleados"
+      "emptyTitle": "Sin empleados",
+      "caption": "Personal"
     },
     "invoices": {
       "title": "Facturas",
@@ -478,11 +502,14 @@
       "generating": "Generando…",
       "generate": "Generar factura",
       "emptyTitle": "Sin facturas con este filtro",
-      "emptyHint": "Genera la primera desde una reserva confirmada con «Generar factura»."
+      "emptyHint": "Genera la primera desde una reserva confirmada con «Generar factura».",
+      "caption": "Facturas emitidas",
+      "issuedToast": "Factura {{number}} emitida",
+      "paidToast": "Factura {{number}} cobrada"
     },
     "tasks": {
       "title": "Tareas",
-      "subtitle": "Limpieza y mantenimiento — el check-out crea la limpieza automáticamente",
+      "subtitle": "Limpieza y mantenimiento. El check-out crea la limpieza automáticamente.",
       "new": "+ Nueva tarea",
       "type": "Tipo",
       "titleLabel": "Título",
@@ -504,7 +531,10 @@
       "statusUpdated": "Estado actualizado.",
       "emptyTitle": "Sin tareas",
       "emptyHint": "Crea una tarea o haz un check-out: la limpieza de la habitación aparecerá sola.",
-      "emptyColumn": "Nada aquí"
+      "emptyColumn": "Nada aquí",
+      "created": "Tarea creada",
+      "moved": "«{{title}}»: {{status}}",
+      "moveTo": "Mover a"
     }
   },
   "errors": {
