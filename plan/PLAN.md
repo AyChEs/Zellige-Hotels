@@ -29,7 +29,7 @@ Después de la revisión, Opus solo revisa el resultado final (no ejecuta).
 | 03 | Componentes base | GLM | 02 | hecha |
 | 04 | Flujo de reserva del cliente | GLM | 03 | hecha |
 | 05 | Panel de gestión por rol | Flash | 03 | hecha |
-| 06 | Accesibilidad | GLM | 04, 05 | pendiente |
+| 06 | Accesibilidad | GLM | 04, 05 | hecha |
 | 07 | Arquitectura del frontend | GLM | 06 | pendiente |
 | 08 | Datos de demo que no caducan (backend) | Pro | 00 | hecha |
 | 09 | Revisión final | Revisión | 07, 08 | pendiente |
