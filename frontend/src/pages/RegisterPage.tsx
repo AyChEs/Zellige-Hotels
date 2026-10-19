@@ -53,7 +53,7 @@ export function RegisterPage() {
     hint?: string,
   ) => (
     <Field id={id} label={label} hint={hint} error={errors[id]?.message}>
-      <Input type={type} autoComplete={autoComplete} {...register(id)} />
+      <Input type={type} required={id !== 'phone'} autoComplete={autoComplete} {...register(id)} />
     </Field>
   )
 

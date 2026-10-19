@@ -1,0 +1,47 @@
+[
+  {
+    "id": 2,
+    "number": "102",
+    "floor": 1,
+    "type": "DOUBLE",
+    "status": "OCCUPIED",
+    "capacity": 2,
+    "description": "Double room with Alhambra view",
+    "imageUrl": "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=900",
+    "pricePerNight": 140,
+    "halfBoardSupplement": 20,
+    "fullBoardSupplement": 36,
+    "hotelId": 1,
+    "hotelName": "Alhambra Palace"
+  },
+  {
+    "id": 3,
+    "number": "201",
+    "floor": 2,
+    "type": "DOUBLE",
+    "status": "AVAILABLE",
+    "capacity": 2,
+    "description": "Superior double with balcony",
+    "imageUrl": "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=900",
+    "pricePerNight": 165,
+    "halfBoardSupplement": 20,
+    "fullBoardSupplement": 36,
+    "hotelId": 1,
+    "hotelName": "Alhambra Palace"
+  },
+  {
+    "id": 4,
+    "number": "301",
+    "floor": 3,
+    "type": "SUITE",
+    "status": "CLEANING",
+    "capacity": 4,
+    "description": "Royal suite with private terrace",
+    "imageUrl": "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=900",
+    "pricePerNight": 420,
+    "halfBoardSupplement": 35,
+    "fullBoardSupplement": 60,
+    "hotelId": 1,
+    "hotelName": "Alhambra Palace"
+  }
+]

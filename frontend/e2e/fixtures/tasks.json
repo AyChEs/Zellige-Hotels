@@ -1,0 +1,143 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "title": "Limpieza tras salida",
+      "description": null,
+      "type": "CLEANING",
+      "status": "PENDING",
+      "priority": "HIGH",
+      "dueDate": "2026-10-19",
+      "completedAt": null,
+      "hotelId": 1,
+      "hotelName": "Alhambra Palace",
+      "roomId": 4,
+      "roomNumber": "301",
+      "assignees": [
+        {
+          "id": 3,
+          "fullName": "Yassine Berrada"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Revisar aire acondicionado",
+      "description": null,
+      "type": "MAINTENANCE",
+      "status": "IN_PROGRESS",
+      "priority": "URGENT",
+      "dueDate": "2026-10-19",
+      "completedAt": null,
+      "hotelId": 3,
+      "hotelName": "Barcelona Business Tower",
+      "roomId": 10,
+      "roomNumber": "1501",
+      "assignees": [
+        {
+          "id": 5,
+          "fullName": "Omar Tazi"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Cambiar ropa de cama",
+      "description": null,
+      "type": "CLEANING",
+      "status": "PENDING",
+      "priority": "MEDIUM",
+      "dueDate": "2026-10-20",
+      "completedAt": null,
+      "hotelId": 2,
+      "hotelName": "Marrakech Riad Andalus",
+      "roomId": 6,
+      "roomNumber": "R2",
+      "assignees": [
+        {
+          "id": 3,
+          "fullName": "Yassine Berrada"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Reponer minibar",
+      "description": null,
+      "type": "OTHER",
+      "status": "DONE",
+      "priority": "LOW",
+      "dueDate": "2026-10-18",
+      "completedAt": "2026-10-18T12:00:00.000Z",
+      "hotelId": 1,
+      "hotelName": "Alhambra Palace",
+      "roomId": 2,
+      "roomNumber": "102",
+      "assignees": [
+        {
+          "id": 2,
+          "fullName": "Luis Fernandez"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Pintar barandilla de la terraza",
+      "description": null,
+      "type": "MAINTENANCE",
+      "status": "PENDING",
+      "priority": "LOW",
+      "dueDate": "2026-10-25",
+      "completedAt": null,
+      "hotelId": 2,
+      "hotelName": "Marrakech Riad Andalus",
+      "roomId": 7,
+      "roomNumber": "R3",
+      "assignees": []
+    },
+    {
+      "id": 6,
+      "title": "Limpieza a fondo de la suite",
+      "description": null,
+      "type": "CLEANING",
+      "status": "IN_PROGRESS",
+      "priority": "MEDIUM",
+      "dueDate": "2026-10-19",
+      "completedAt": null,
+      "hotelId": 1,
+      "hotelName": "Alhambra Palace",
+      "roomId": 4,
+      "roomNumber": "301",
+      "assignees": [
+        {
+          "id": 3,
+          "fullName": "Yassine Berrada"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Revisar cerradura electrónica",
+      "description": null,
+      "type": "MAINTENANCE",
+      "status": "DONE",
+      "priority": "HIGH",
+      "dueDate": "2026-10-17",
+      "completedAt": "2026-10-18T12:00:00.000Z",
+      "hotelId": 3,
+      "hotelName": "Barcelona Business Tower",
+      "roomId": 9,
+      "roomNumber": "1202",
+      "assignees": [
+        {
+          "id": 4,
+          "fullName": "Carla Domènech"
+        }
+      ]
+    }
+  ],
+  "page": 0,
+  "size": 100,
+  "totalElements": 7,
+  "totalPages": 1
+}

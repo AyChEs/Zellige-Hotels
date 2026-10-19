@@ -19,6 +19,8 @@ import {
   IconPuerta,
   IconReserva,
 } from '../ui/icons'
+import { useRouteFocus } from '../../hooks/useRouteFocus'
+import { SkipLink } from './SkipLink'
 
 type NavItem = { to: string; label: string; Icon: ComponentType<{ size?: number }>; roles?: Role[] }
 
@@ -45,6 +47,7 @@ export function AdminShell() {
   ]
 
   const close = () => setOpen(false)
+  useRouteFocus()
 
   // Focus moves into the drawer on open; Esc closes it. Once it is closed (and the page is
   // no longer inert) focus goes back to the menu button.
@@ -123,6 +126,7 @@ export function AdminShell() {
 
   return (
     <div className="flex min-h-screen overflow-x-clip bg-cal-50">
+      <SkipLink />
       {open && <div aria-hidden className="fixed inset-0 z-40 bg-tinta-900/40 lg:hidden" onClick={close} />}
 
       <aside
@@ -161,7 +165,7 @@ export function AdminShell() {
           </Link>
         </div>
 
-        <main className="p-4 sm:p-6 lg:p-8">
+        <main id="contenido" tabIndex={-1} className="p-4 outline-none sm:p-6 lg:p-8">
           <Outlet />
         </main>
       </div>

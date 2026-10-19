@@ -1,0 +1,92 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "firstName": "Ayman",
+      "lastName": "Charoui",
+      "documentId": "CLI-0001",
+      "birthDate": "1980-01-10",
+      "phone": "+34 6100 200 400",
+      "address": "Barcelona",
+      "clientType": "VIP",
+      "registeredAt": "2025-12-23T12:00:00.000Z",
+      "email": "client@hotel-erp.dev"
+    },
+    {
+      "id": 2,
+      "firstName": "Lucía",
+      "lastName": "Ortega Ruiz",
+      "documentId": "CLI-0002",
+      "birthDate": "1983-02-11",
+      "phone": "+34 6110 237 411",
+      "address": "Sevilla",
+      "clientType": "REGULAR",
+      "registeredAt": "2026-01-22T12:00:00.000Z",
+      "email": "lucia.ortega@demo.zellige.test"
+    },
+    {
+      "id": 3,
+      "firstName": "Karim",
+      "lastName": "Bennani",
+      "documentId": "CLI-0003",
+      "birthDate": "1986-03-12",
+      "phone": "+34 6120 274 422",
+      "address": "Fez",
+      "clientType": "VIP",
+      "registeredAt": "2026-02-21T12:00:00.000Z",
+      "email": "karim.bennani@demo.zellige.test"
+    },
+    {
+      "id": 4,
+      "firstName": "Marta",
+      "lastName": "Puig Soler",
+      "documentId": "CLI-0004",
+      "birthDate": "1989-04-13",
+      "phone": "+34 6130 311 433",
+      "address": "Girona",
+      "clientType": "REGULAR",
+      "registeredAt": "2026-03-23T12:00:00.000Z",
+      "email": "marta.puig@demo.zellige.test"
+    },
+    {
+      "id": 5,
+      "firstName": "Hugo",
+      "lastName": "Navarro",
+      "documentId": "CLI-0005",
+      "birthDate": "1992-05-14",
+      "phone": "+34 6140 348 444",
+      "address": "Madrid",
+      "clientType": "REGULAR",
+      "registeredAt": "2026-04-22T12:00:00.000Z",
+      "email": "hugo.navarro@demo.zellige.test"
+    },
+    {
+      "id": 6,
+      "firstName": "Salma",
+      "lastName": "Idrissi",
+      "documentId": "CLI-0006",
+      "birthDate": "1995-06-15",
+      "phone": "+34 6150 385 455",
+      "address": "Rabat",
+      "clientType": "REGULAR",
+      "registeredAt": "2026-05-22T12:00:00.000Z",
+      "email": "salma.idrissi@demo.zellige.test"
+    },
+    {
+      "id": 7,
+      "firstName": "Jordi",
+      "lastName": "Vidal Mas",
+      "documentId": "CLI-0007",
+      "birthDate": "1998-07-16",
+      "phone": "+34 6160 422 466",
+      "address": "Tarragona",
+      "clientType": "VIP",
+      "registeredAt": "2026-06-21T12:00:00.000Z",
+      "email": "jordi.vidal@demo.zellige.test"
+    }
+  ],
+  "page": 0,
+  "size": 50,
+  "totalElements": 7,
+  "totalPages": 1
+}

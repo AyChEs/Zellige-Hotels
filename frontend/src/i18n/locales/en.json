@@ -36,7 +36,8 @@
     "updated": "Updated",
     "dateOrder": "Check-out must be after check-in",
     "savedToast": "Changes saved",
-    "deletedToast": "Deleted"
+    "deletedToast": "Deleted",
+    "skipToContent": "Skip to content"
   },
   "dataTable": {
     "page": "Page {{page}} of {{total}} · {{count}} records",

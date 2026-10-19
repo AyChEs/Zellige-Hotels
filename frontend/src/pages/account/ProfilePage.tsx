@@ -67,10 +67,10 @@ export default function ProfilePage() {
         <form onSubmit={handleSubmit((values) => save.mutate(values))} noValidate className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <Field id="firstName" label={t('auth.register.firstName')} error={errors.firstName?.message}>
-              <Input autoComplete="given-name" {...register('firstName')} />
+              <Input required autoComplete="given-name" {...register('firstName')} />
             </Field>
             <Field id="lastName" label={t('auth.register.lastName')} error={errors.lastName?.message}>
-              <Input autoComplete="family-name" {...register('lastName')} />
+              <Input required autoComplete="family-name" {...register('lastName')} />
             </Field>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">

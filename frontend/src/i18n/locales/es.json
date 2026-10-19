@@ -36,7 +36,8 @@
     "updated": "Actualizado",
     "dateOrder": "La salida debe ser posterior a la entrada",
     "savedToast": "Cambios guardados",
-    "deletedToast": "Eliminado"
+    "deletedToast": "Eliminado",
+    "skipToContent": "Saltar al contenido"
   },
   "dataTable": {
     "page": "Página {{page}} de {{total}} · {{count}} registros",
