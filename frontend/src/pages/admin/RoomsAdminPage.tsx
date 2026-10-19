@@ -34,8 +34,8 @@ export default function RoomsAdminPage() {
       header: t('admin.rooms.title'),
       cell: (r) => (
         <div>
-          <p className="font-medium text-teal-950">{r.number}</p>
-          <p className="text-xs text-teal-800">{r.hotelName}{r.floor != null && ` · ${t('admin.rooms.floorValue', { n: r.floor })}`}</p>
+          <p className="font-medium text-tinta-900">{r.number}</p>
+          <p className="text-xs text-tinta-600">{r.hotelName}{r.floor != null && ` · ${t('admin.rooms.floorValue', { n: r.floor })}`}</p>
         </div>
       ),
     },

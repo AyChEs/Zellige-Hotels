@@ -39,7 +39,7 @@ export default function CategoriesPage() {
         <div className="card-tile overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-glaze-200 text-left text-xs tracking-wide text-teal-800 uppercase">
+              <tr className="border-b border-cal-200 text-left text-xs tracking-wide text-tinta-600 uppercase">
                 <th className="px-4 py-3 font-semibold">{t('admin.categories.name')}</th>
                 <th className="px-4 py-3 font-semibold">{t('admin.categories.stars')}</th>
                 <th className="px-4 py-3 font-semibold">{t('admin.hotels.description')}</th>
@@ -48,10 +48,10 @@ export default function CategoriesPage() {
             </thead>
             <tbody>
               {data?.map((cat) => (
-                <tr key={cat.id} className="border-b border-glaze-100 last:border-0 hover:bg-glaze-100/60">
-                  <td className="px-4 py-3 font-medium text-teal-950">{cat.name}</td>
-                  <td className="px-4 py-3 text-gold-600">{'★'.repeat(cat.starRating)}</td>
-                  <td className="px-4 py-3 text-teal-800">{cat.description}</td>
+                <tr key={cat.id} className="border-b border-cal-200 last:border-0 hover:bg-cal-100/60">
+                  <td className="px-4 py-3 font-medium text-tinta-900">{cat.name}</td>
+                  <td className="px-4 py-3 text-granate-700">{'★'.repeat(cat.starRating)}</td>
+                  <td className="px-4 py-3 text-tinta-600">{cat.description}</td>
                   <td className="px-4 py-3 text-right">
                     <div className="flex justify-end gap-1.5">
                       <button className="btn-ghost px-2.5 py-1 text-xs" onClick={() => setEditing(cat)}>

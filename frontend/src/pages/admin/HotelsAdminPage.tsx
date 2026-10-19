@@ -29,17 +29,17 @@ export default function HotelsAdminPage() {
       header: t('admin.hotels.name'),
       cell: (h) => (
         <div>
-          <p className="font-medium text-teal-950">{h.name}</p>
-          <p className="text-xs text-teal-800">{h.address}</p>
+          <p className="font-medium text-tinta-900">{h.name}</p>
+          <p className="text-xs text-tinta-600">{h.address}</p>
         </div>
       ),
     },
     { header: t('admin.hotels.city'), cell: (h) => `${h.city}, ${h.country}` },
-    { header: t('admin.hotels.category'), cell: (h) => <span className="text-gold-600">{'★'.repeat(h.category.starRating)}</span> },
+    { header: t('admin.hotels.category'), cell: (h) => <span className="text-granate-700">{'★'.repeat(h.category.starRating)}</span> },
     {
       header: t('admin.hotels.active'),
       cell: (h) => (
-        <span className={`badge ${h.active ? 'bg-teal-100 text-teal-800' : 'bg-glaze-200 text-teal-900'}`}>
+        <span className={`badge ${h.active ? 'bg-fez-50 text-tinta-600' : 'bg-cal-200 text-tinta-900'}`}>
           {h.active ? t('common.active') : t('common.inactive')}
         </span>
       ),
@@ -150,7 +150,7 @@ export default function HotelsAdminPage() {
             <label className="field-label" htmlFor="h-desc">{t('admin.hotels.description')}</label>
             <textarea id="h-desc" name="description" className="field-input" rows={2} maxLength={1000} defaultValue={current?.description ?? ''} />
           </div>
-          <label className="flex items-center gap-2 text-sm text-teal-900">
+          <label className="flex items-center gap-2 text-sm text-tinta-900">
             <input type="checkbox" name="active" defaultChecked={current?.active ?? true} />
             {t('admin.hotels.activeLabel')}
           </label>

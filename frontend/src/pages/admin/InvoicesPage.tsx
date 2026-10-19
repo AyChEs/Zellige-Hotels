@@ -66,7 +66,7 @@ function GenerateInvoiceForm({ onDone }: { onDone: () => void }) {
             </option>
           ))}
         </select>
-        <p className="mt-1 text-xs text-teal-800">
+        <p className="mt-1 text-xs text-tinta-600">
           {t('admin.invoices.candidatesHint')}
         </p>
       </div>
@@ -101,24 +101,24 @@ function InvoiceDetailModal({ invoice, onClose }: { invoice: InvoiceDto; onClose
   return (
     <Modal open title={invoice.invoiceNumber} onClose={onClose}>
       <dl className="mb-4 grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
-        <div><dt className="text-teal-800">{t('account.myInvoices.client')}</dt><dd className="font-medium">{invoice.clientFullName}</dd></div>
-        <div><dt className="text-teal-800">{t('account.myInvoices.hotel')}</dt><dd className="font-medium">{invoice.hotelName}</dd></div>
-        <div><dt className="text-teal-800">{t('account.myInvoices.booking')}</dt><dd className="font-medium">{invoice.bookingCode}</dd></div>
-        <div><dt className="text-teal-800">{t('admin.invoices.issuedAt')}</dt><dd className="font-medium">{dateTime(invoice.issuedAt)}</dd></div>
-        <div><dt className="text-teal-800">{t('admin.invoices.method')}</dt><dd className="font-medium">{tLabel('paymentMethod', invoice.paymentMethod)}</dd></div>
-        <div><dt className="text-teal-800">{t('admin.invoices.status')}</dt><dd><InvoiceBadge status={invoice.status} /></dd></div>
+        <div><dt className="text-tinta-600">{t('account.myInvoices.client')}</dt><dd className="font-medium">{invoice.clientFullName}</dd></div>
+        <div><dt className="text-tinta-600">{t('account.myInvoices.hotel')}</dt><dd className="font-medium">{invoice.hotelName}</dd></div>
+        <div><dt className="text-tinta-600">{t('account.myInvoices.booking')}</dt><dd className="font-medium">{invoice.bookingCode}</dd></div>
+        <div><dt className="text-tinta-600">{t('admin.invoices.issuedAt')}</dt><dd className="font-medium">{dateTime(invoice.issuedAt)}</dd></div>
+        <div><dt className="text-tinta-600">{t('admin.invoices.method')}</dt><dd className="font-medium">{tLabel('paymentMethod', invoice.paymentMethod)}</dd></div>
+        <div><dt className="text-tinta-600">{t('admin.invoices.status')}</dt><dd><InvoiceBadge status={invoice.status} /></dd></div>
       </dl>
       <table className="w-full text-sm">
         <tbody>
-          <tr className="border-t border-glaze-200">
-            <td className="py-2 text-teal-800">{t('account.myInvoices.subtotal')}</td>
+          <tr className="border-t border-cal-200">
+            <td className="py-2 text-tinta-600">{t('account.myInvoices.subtotal')}</td>
             <td className="py-2 text-right font-medium">{money(invoice.subtotal)}</td>
           </tr>
-          <tr className="border-t border-glaze-200">
-            <td className="py-2 text-teal-800">{t('account.myInvoices.vat', { rate: Math.round(invoice.vatRate * 100) })}</td>
+          <tr className="border-t border-cal-200">
+            <td className="py-2 text-tinta-600">{t('account.myInvoices.vat', { rate: Math.round(invoice.vatRate * 100) })}</td>
             <td className="py-2 text-right font-medium">{money(invoice.vatAmount)}</td>
           </tr>
-          <tr className="border-t-2 border-teal-800">
+          <tr className="border-t-2 border-cal-400">
             <td className="py-2 font-semibold">{t('admin.invoices.total')}</td>
             <td className="py-2 text-right text-lg font-semibold">{money(invoice.total)}</td>
           </tr>
@@ -152,10 +152,10 @@ export default function InvoicesPage() {
   })
 
   const columns: Column<InvoiceDto>[] = [
-    { header: t('admin.invoices.number'), cell: (i) => <span className="font-medium text-teal-950">{i.invoiceNumber}</span> },
+    { header: t('admin.invoices.number'), cell: (i) => <span className="font-medium text-tinta-900">{i.invoiceNumber}</span> },
     { header: t('account.myInvoices.client'), cell: (i) => i.clientFullName },
-    { header: t('admin.bookings.title'), cell: (i) => <span className="text-teal-800">{i.bookingCode}</span> },
-    { header: t('admin.invoices.issuedAt'), cell: (i) => <span className="text-teal-800">{dateTime(i.issuedAt)}</span> },
+    { header: t('admin.bookings.title'), cell: (i) => <span className="text-tinta-600">{i.bookingCode}</span> },
+    { header: t('admin.invoices.issuedAt'), cell: (i) => <span className="text-tinta-600">{dateTime(i.issuedAt)}</span> },
     { header: t('admin.invoices.status'), cell: (i) => <InvoiceBadge status={i.status} /> },
     { header: t('admin.invoices.total'), align: 'right', cell: (i) => <span className="font-medium">{money(i.total)}</span> },
     {
@@ -194,7 +194,7 @@ export default function InvoicesPage() {
 
       <div className="mb-4 flex flex-wrap gap-2">
         <button
-          className={`badge cursor-pointer ${status === '' ? 'bg-teal-800 text-glaze-50' : 'bg-glaze-100 text-teal-800 hover:bg-glaze-200'}`}
+          className={`badge cursor-pointer ${status === '' ? 'bg-fez-700 text-white' : 'bg-cal-100 text-tinta-600 hover:bg-cal-200'}`}
           onClick={() => { setStatus(''); setPage(0) }}
         >
           {t('admin.bookings.allStatuses')}
@@ -202,7 +202,7 @@ export default function InvoicesPage() {
         {(['ISSUED','PAID','CANCELLED'] as InvoiceStatus[]).map((s) => (
           <button
             key={s}
-            className={`badge cursor-pointer ${status === s ? 'bg-teal-800 text-glaze-50' : 'bg-glaze-100 text-teal-800 hover:bg-glaze-200'}`}
+            className={`badge cursor-pointer ${status === s ? 'bg-fez-700 text-white' : 'bg-cal-100 text-tinta-600 hover:bg-cal-200'}`}
             onClick={() => { setStatus(s); setPage(0) }}
           >
             {tLabel('invoiceStatus', s)}

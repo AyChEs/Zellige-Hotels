@@ -47,7 +47,7 @@ export function DataTable<T>({
   return (
     <div className="relative">
       {/* Mobile scroll hint */}
-      <div className="mb-2 flex items-center justify-end gap-1 text-[10px] tracking-wide text-teal-800/70 uppercase sm:hidden">
+      <div className="mb-2 flex items-center justify-end gap-1 text-[10px] tracking-wide text-tinta-600 uppercase sm:hidden">
         <span aria-hidden>←</span>
         <span>{t('dataTable.scroll')}</span>
         <span aria-hidden>→</span>
@@ -55,7 +55,7 @@ export function DataTable<T>({
       <div className="card-tile overflow-x-auto">
         <table className="w-full min-w-[640px] text-sm">
           <thead>
-            <tr className="border-b border-glaze-200 text-left text-xs tracking-wide text-teal-800 uppercase">
+            <tr className="border-b border-cal-200 text-left text-xs tracking-wide text-tinta-600 uppercase">
               {columns.map((col) => (
                 <th
                   key={col.header}
@@ -70,7 +70,7 @@ export function DataTable<T>({
             {data.content.map((row) => (
               <tr
                 key={rowKey(row)}
-                className="border-b border-glaze-100 last:border-0 hover:bg-glaze-100/60"
+                className="border-b border-cal-200 last:border-0 hover:bg-cal-100/60"
               >
                 {columns.map((col) => (
                   <td
@@ -88,9 +88,9 @@ export function DataTable<T>({
         {data.totalPages > 1 && (
           <nav
             aria-label={t('dataTable.ariaLabel')}
-            className="flex flex-wrap items-center justify-between gap-2 border-t border-glaze-200 px-4 py-3 text-sm"
+            className="flex flex-wrap items-center justify-between gap-2 border-t border-cal-200 px-4 py-3 text-sm"
           >
-            <span className="text-teal-800">
+            <span className="text-tinta-600">
               {t('dataTable.page', { page: data.page + 1, total: data.totalPages, count: data.totalElements })}
             </span>
             <div className="flex gap-2">

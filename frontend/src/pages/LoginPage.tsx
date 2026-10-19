@@ -39,10 +39,10 @@ export function LoginPage() {
   }
 
   return (
-    <div className="bg-arabesque-light flex min-h-[70vh] items-center justify-center px-4 py-12">
+    <div className="reticula flex min-h-[70vh] items-center justify-center px-4 py-12">
       <div className="card-tile-accent w-full max-w-md p-8">
-        <h1 className="mb-1 text-center text-2xl text-teal-900">{t('auth.login.title')}</h1>
-        <div className="divider-arabesque mx-auto mb-6 max-w-45 text-sm">◆</div>
+        <h1 className="mb-1 text-center text-2xl text-tinta-900">{t('auth.login.title')}</h1>
+        <div className="separador mx-auto mb-6 max-w-45 text-sm">◆</div>
 
         <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
           <div>
@@ -75,7 +75,7 @@ export function LoginPage() {
           </div>
 
           {serverError && (
-            <p role="alert" className="rounded-(--radius-tile) bg-terra-100 px-3 py-2 text-sm text-terra-600">
+            <p role="alert" className="rounded-(--radius-control) bg-error-50 px-3 py-2 text-sm text-error-ink">
               {serverError}
             </p>
           )}
@@ -85,14 +85,14 @@ export function LoginPage() {
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-teal-800">
+        <p className="mt-6 text-center text-sm text-tinta-600">
           {t('auth.login.noAccount')}{' '}
-          <Link to="/register" className="font-medium text-gold-600 hover:text-gold-500">
+          <Link to="/register" className="font-semibold text-fez-700 underline underline-offset-2 hover:text-fez-800">
             {t('auth.login.register')}
           </Link>
         </p>
 
-        <div className="mt-6 rounded-(--radius-tile) bg-teal-50 p-3 text-xs text-teal-800">
+        <div className="mt-6 rounded-(--radius-control) bg-fez-50 p-3 text-xs text-tinta-600">
           <p className="mb-1 font-semibold">{t('auth.login.demoAccounts')}</p>
           <p>admin@hotel-erp.dev · Admin123!</p>
           <p>manager@hotel-erp.dev · Manager123!</p>

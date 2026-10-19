@@ -44,23 +44,23 @@ export default function MyBookingsPage() {
           >
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-3">
-                <h2 className="font-medium text-teal-900">{booking.hotelName}</h2>
+                <h2 className="font-medium text-tinta-900">{booking.hotelName}</h2>
                 <BookingBadge status={booking.status} />
               </div>
-              <p className="mt-1 text-sm text-teal-800">
+              <p className="mt-1 text-sm text-tinta-600">
                 {date(booking.checkInDate)} → {date(booking.checkOutDate)} ·{' '}
                 {t('account.myBookings.room', { n: booking.roomNumber })} ·{' '}
                 {t('public.hotelDetail.guests', { count: booking.guests })} ·{' '}
                 {tLabel('boardType', booking.boardType)}
               </p>
-              <p className="mt-0.5 text-xs text-teal-800/80">
+              <p className="mt-0.5 text-xs text-tinta-600">
                 {booking.code}
                 {booking.invoiceId && (
                   <>
                     {' · '}
                     <Link
                       to="/account/invoices"
-                      className="text-teal-600 underline hover:text-teal-500"
+                      className="text-fez-700 underline hover:text-fez-700"
                     >
                       {t('account.myBookings.invoiceAvailable')}
                     </Link>
@@ -69,7 +69,7 @@ export default function MyBookingsPage() {
               </p>
             </div>
             <div className="flex shrink-0 items-center justify-between gap-3 sm:justify-end sm:gap-4">
-              <p className="text-lg font-semibold text-teal-900">{money(booking.totalPrice)}</p>
+              <p className="text-lg font-semibold text-tinta-900">{money(booking.totalPrice)}</p>
               {cancellable && (
                 <button
                   className="btn-danger"

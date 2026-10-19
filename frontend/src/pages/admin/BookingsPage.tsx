@@ -202,8 +202,8 @@ export default function BookingsPage() {
       header: t('admin.bookings.bookingCol'),
       cell: (b) => (
         <div>
-          <p className="font-medium text-teal-950">{b.code}</p>
-          <p className="text-xs text-teal-800">{b.clientFullName}</p>
+          <p className="font-medium text-tinta-900">{b.code}</p>
+          <p className="text-xs text-tinta-600">{b.clientFullName}</p>
         </div>
       ),
     },
@@ -211,15 +211,15 @@ export default function BookingsPage() {
       header: t('admin.bookings.hotelRoomCol'),
       cell: (b) => (
         <div>
-          <p className="text-teal-950">{b.hotelName}</p>
-          <p className="text-xs text-teal-800">{t('admin.bookings.roomShort', { n: b.roomNumber })}</p>
+          <p className="text-tinta-900">{b.hotelName}</p>
+          <p className="text-xs text-tinta-600">{t('admin.bookings.roomShort', { n: b.roomNumber })}</p>
         </div>
       ),
     },
     {
       header: t('admin.bookings.dates'),
       cell: (b) => (
-        <span className="text-teal-800">
+        <span className="text-tinta-600">
           {date(b.checkInDate)} → {date(b.checkOutDate)}
         </span>
       ),
@@ -260,7 +260,7 @@ export default function BookingsPage() {
 
       <div className="mb-4 flex flex-wrap gap-2">
         <button
-          className={`badge cursor-pointer ${status === '' ? 'bg-teal-800 text-glaze-50' : 'bg-glaze-100 text-teal-800 hover:bg-glaze-200'}`}
+          className={`badge cursor-pointer ${status === '' ? 'bg-fez-700 text-white' : 'bg-cal-100 text-tinta-600 hover:bg-cal-200'}`}
           onClick={() => { setStatus(''); setPage(0) }}
         >
           {t('admin.bookings.allStatuses')}
@@ -268,7 +268,7 @@ export default function BookingsPage() {
         {(['PENDING','CONFIRMED','CHECKED_IN','CHECKED_OUT','CANCELLED'] as BookingStatus[]).map((s) => (
           <button
             key={s}
-            className={`badge cursor-pointer ${status === s ? 'bg-teal-800 text-glaze-50' : 'bg-glaze-100 text-teal-800 hover:bg-glaze-200'}`}
+            className={`badge cursor-pointer ${status === s ? 'bg-fez-700 text-white' : 'bg-cal-100 text-tinta-600 hover:bg-cal-200'}`}
             onClick={() => { setStatus(s); setPage(0) }}
           >
             {tLabel('bookingStatus', s)}

@@ -107,7 +107,7 @@ export default function ProfilePage() {
           <input id="address" className="field-input" {...register('address')} />
         </div>
 
-        <div className="rounded-(--radius-tile) bg-glaze-100 px-4 py-3 text-sm text-teal-800">
+        <div className="rounded-(--radius-control) bg-cal-100 px-4 py-3 text-sm text-tinta-600">
           <p>
             <span className="font-medium">{t('auth.register.documentId')}:</span> {profile?.documentId} ·{' '}
             <span className="font-medium">{t('account.profile.type')}:</span>{' '}
@@ -124,7 +124,7 @@ export default function ProfilePage() {
           </p>
         )}
         {saved && (
-          <p role="status" className="text-sm font-medium text-teal-600">
+          <p role="status" className="text-sm font-medium text-fez-700">
             {t('account.profile.saved')}
           </p>
         )}

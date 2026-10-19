@@ -1,40 +1,42 @@
 import type { BookingStatus, InvoiceStatus, RoomStatus, TaskPriority, TaskStatus } from '../../api/types'
 import { useLabels } from '../../lib/labels'
 
+// Colours from the state table in plan/DISENO.md: pending -> aviso, in progress or
+// confirmed -> info, done or free -> fez, void or out of service -> error or cal.
 const BOOKING_TONE: Record<BookingStatus, string> = {
-  PENDING: 'bg-gold-100 text-gold-600',
-  CONFIRMED: 'bg-teal-100 text-teal-800',
-  CHECKED_IN: 'bg-teal-800 text-glaze-50',
-  CHECKED_OUT: 'bg-glaze-200 text-teal-900',
-  CANCELLED: 'bg-terra-100 text-terra-600',
+  PENDING: 'bg-aviso-50 text-aviso-ink',
+  CONFIRMED: 'bg-info-50 text-info-ink',
+  CHECKED_IN: 'bg-fez-700 text-white',
+  CHECKED_OUT: 'bg-cal-100 text-tinta-600',
+  CANCELLED: 'bg-error-50 text-error-ink',
 }
 
 const INVOICE_TONE: Record<InvoiceStatus, string> = {
-  ISSUED: 'bg-gold-100 text-gold-600',
-  PAID: 'bg-teal-100 text-teal-800',
-  CANCELLED: 'bg-terra-100 text-terra-600',
+  ISSUED: 'bg-aviso-50 text-aviso-ink',
+  PAID: 'bg-fez-50 text-fez-700',
+  CANCELLED: 'bg-error-50 text-error-ink',
 }
 
 const ROOM_TONE: Record<RoomStatus, string> = {
-  AVAILABLE: 'bg-teal-100 text-teal-800',
-  OCCUPIED: 'bg-teal-800 text-glaze-50',
-  CLEANING: 'bg-gold-100 text-gold-600',
-  MAINTENANCE: 'bg-terra-100 text-terra-600',
-  OUT_OF_SERVICE: 'bg-glaze-200 text-teal-900',
+  AVAILABLE: 'bg-fez-50 text-fez-700',
+  OCCUPIED: 'bg-info-50 text-info-ink',
+  CLEANING: 'bg-aviso-50 text-aviso-ink',
+  MAINTENANCE: 'bg-error-50 text-error-ink',
+  OUT_OF_SERVICE: 'bg-cal-100 text-tinta-600',
 }
 
 const TASK_TONE: Record<TaskStatus, string> = {
-  PENDING: 'bg-gold-100 text-gold-600',
-  IN_PROGRESS: 'bg-teal-100 text-teal-800',
-  DONE: 'bg-glaze-200 text-teal-900',
-  CANCELLED: 'bg-terra-100 text-terra-600',
+  PENDING: 'bg-aviso-50 text-aviso-ink',
+  IN_PROGRESS: 'bg-info-50 text-info-ink',
+  DONE: 'bg-fez-50 text-fez-700',
+  CANCELLED: 'bg-cal-100 text-tinta-600',
 }
 
 const PRIORITY_TONE: Record<TaskPriority, string> = {
-  LOW: 'bg-glaze-200 text-teal-900',
-  MEDIUM: 'bg-teal-100 text-teal-800',
-  HIGH: 'bg-gold-100 text-gold-600',
-  URGENT: 'bg-terra-100 text-terra-600',
+  LOW: 'bg-cal-100 text-tinta-600',
+  MEDIUM: 'bg-info-50 text-info-ink',
+  HIGH: 'bg-aviso-50 text-aviso-ink',
+  URGENT: 'bg-error-50 text-error-ink',
 }
 
 export const BookingBadge = ({ status }: { status: BookingStatus }) => {

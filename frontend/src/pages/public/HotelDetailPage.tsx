@@ -74,7 +74,7 @@ export default function HotelDetailPage() {
   return (
     <div>
       {/* Hotel header — brand surface with the hotel's own photography */}
-      <section className="relative isolate overflow-hidden bg-teal-950">
+      <section className="relative isolate overflow-hidden bg-noche-900">
         {hotel?.imageUrl && (
           <img
             src={hotel.imageUrl}
@@ -83,19 +83,19 @@ export default function HotelDetailPage() {
             className="absolute inset-0 h-full w-full object-cover opacity-40"
           />
         )}
-        <div className="bg-arabesque absolute inset-0 opacity-60" aria-hidden />
+        <div className="reticula-noche sobre-noche absolute inset-0 opacity-60" aria-hidden />
         <div className="relative mx-auto max-w-6xl px-4 py-12">
-          <p className="text-sm text-gold-300">
-            <Link to="/hotels" className="hover:text-gold-200">
+          <p className="text-sm text-noche-ink">
+            <Link to="/hotels" className="underline underline-offset-2 hover:text-white">
               {t('public.hotelDetail.breadcrumb')}
             </Link>{' '}
             / {hotel?.city ?? '…'}
           </p>
-          <h1 className="font-display mt-1 text-3xl text-glaze-50 md:text-4xl">
+          <h1 className="font-display mt-1 text-3xl text-noche-ink md:text-4xl">
             {hotel?.name ?? t('public.hotelDetail.loading')}
           </h1>
           {hotel && (
-            <p className="mt-2 max-w-2xl text-sm text-glaze-100/85">
+            <p className="mt-2 max-w-2xl text-sm text-noche-muted">
               {hotel.category.starRating}★ {hotel.category.name} · {hotel.address} ·{' '}
               {hotel.city}, {hotel.country}
             </p>
@@ -105,7 +105,7 @@ export default function HotelDetailPage() {
 
       <div className="mx-auto max-w-6xl px-4 py-10">
         {hotel?.description && (
-          <p className="mb-8 max-w-3xl text-teal-800">{hotel.description}</p>
+          <p className="mb-8 max-w-3xl text-tinta-600">{hotel.description}</p>
         )}
 
         {/* Availability controls */}
@@ -180,10 +180,10 @@ export default function HotelDetailPage() {
         {bookedCode && (
           <div
             role="status"
-            className="mb-6 rounded-(--radius-tile) border border-teal-600/30 bg-teal-50 px-4 py-3 text-sm text-teal-800"
+            className="mb-6 rounded-(--radius-control) border border-fez-700/30 bg-fez-50 px-4 py-3 text-sm text-tinta-600"
           >
             {t('public.hotelDetail.bookedCreated', { code: bookedCode })}{' '}
-            <Link to="/account" className="font-medium text-teal-600 underline">
+            <Link to="/account" className="font-medium text-fez-700 underline">
               {t('public.hotelDetail.myBookings')}
             </Link>
             .
@@ -192,9 +192,9 @@ export default function HotelDetailPage() {
         {book.error && <div className="mb-6"><ErrorNote error={book.error} /></div>}
 
         {/* Rooms */}
-        <h2 className="font-display mb-4 text-2xl text-teal-900">
+        <h2 className="font-display mb-4 text-2xl text-tinta-900">
           {t('public.hotelDetail.roomsTitle')}
-          <span className="ml-3 align-middle text-sm font-sans text-teal-800">
+          <span className="ml-3 align-middle text-sm font-sans text-tinta-600">
             {checkIn} → {checkOut} ·{' '}
             {t('public.hotelDetail.nights', { count: nightCount })} ·{' '}
             {t('public.hotelDetail.guests', { count: guests })}
@@ -224,19 +224,19 @@ export default function HotelDetailPage() {
                       src={room.imageUrl}
                       alt={`${t('public.hotelDetail.roomsTitle')} ${room.number}`}
                       loading="lazy"
-                      className="h-40 w-full shrink-0 rounded-(--radius-tile) object-cover sm:h-24 sm:w-40"
+                      className="h-40 w-full shrink-0 rounded-(--radius-control) object-cover sm:h-24 sm:w-40"
                     />
                   )}
                   <div className="min-w-0 flex-1">
-                    <h3 className="font-medium text-teal-900">
+                    <h3 className="font-medium text-tinta-900">
                       {tLabel('roomType', room.type)} — {room.number}
                     </h3>
-                    <p className="mt-0.5 text-sm text-teal-800">
+                    <p className="mt-0.5 text-sm text-tinta-600">
                       {t('public.hotelDetail.capacity', { count: room.capacity })}
                       {room.floor != null && ` · ${t('public.hotelDetail.floor', { n: room.floor })}`}
                       {room.description && ` · ${room.description}`}
                     </p>
-                    <p className="mt-1 text-sm text-teal-800">
+                    <p className="mt-1 text-sm text-tinta-600">
                       {money(room.pricePerNight)}{t('public.hotelDetail.perNight')}
                       {board === 'HALF_BOARD' &&
                         ` · ${t('public.hotelDetail.halfBoardSupplement', { price: money(room.halfBoardSupplement) })}`}
@@ -246,8 +246,8 @@ export default function HotelDetailPage() {
                   </div>
                   <div className="flex shrink-0 items-center justify-between gap-3 sm:justify-end sm:gap-4">
                     <div className="text-right">
-                      <p className="text-lg font-semibold text-teal-900">{money(total)}</p>
-                      <p className="text-xs text-teal-800">{t('public.hotelDetail.total')}</p>
+                      <p className="text-lg font-semibold text-tinta-900">{money(total)}</p>
+                      <p className="text-xs text-tinta-600">{t('public.hotelDetail.total')}</p>
                     </div>
                     {canBook ? (
                       <button
@@ -258,7 +258,7 @@ export default function HotelDetailPage() {
                         {book.isPending ? t('public.hotelDetail.bookingPending') : t('public.hotelDetail.booking')}
                       </button>
                     ) : user ? (
-                      <span className="text-xs text-teal-800">
+                      <span className="text-xs text-tinta-600">
                         {t('public.hotelDetail.clientOnly')}
                       </span>
                     ) : (
@@ -281,7 +281,7 @@ export default function HotelDetailPage() {
         )}
 
         {book.error && problemMessage(book.error).includes('available') && (
-          <p className="mt-4 text-sm text-teal-800">
+          <p className="mt-4 text-sm text-tinta-600">
             {t('public.hotelDetail.roomTakenHint')}
           </p>
         )}
