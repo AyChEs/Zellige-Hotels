@@ -49,3 +49,6 @@ app:
   mail:
     from: ${APP_MAIL_FROM:no-reply@hotel-erp.local}
     enabled: ${APP_MAIL_ENABLED:false}
+  demo:
+    # Keeps the public demo's bookings around today (see DemoDataRefresher). Off by default.
+    refresh: ${APP_DEMO_REFRESH:false}
