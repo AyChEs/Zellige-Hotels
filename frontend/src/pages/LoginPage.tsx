@@ -59,10 +59,10 @@ export function LoginPage() {
 
         <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
           <Field id="email" label={t('auth.login.email')} error={errors.email?.message}>
-            <Input type="email" autoComplete="email" placeholder="tu@email.com" {...register('email')} />
+            <Input type="email" required autoComplete="email" placeholder="tu@email.com" {...register('email')} />
           </Field>
           <Field id="password" label={t('auth.login.password')} error={errors.password?.message}>
-            <Input type="password" autoComplete="current-password" {...register('password')} />
+            <Input type="password" required autoComplete="current-password" {...register('password')} />
           </Field>
 
           {serverError != null && <ErrorNote error={serverError} />}

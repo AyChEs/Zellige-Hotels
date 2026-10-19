@@ -1,0 +1,15 @@
+1 Tab en portada: A «Saltar al contenido»
+2 Tab: A «◆Zellige Hotels»
+3 Tab hasta la primera tarjeta: A «Ver disponibilidad: Alhambra Palace»
+4 Enter abre la ficha: H1 «Alhambra Palace»
+   título del documento: Alhambra Palace · Zellige Hotels
+5 Tab hasta el correo: INPUT «»
+6 Enter inicia sesión: H1 «Mi cuenta»
+   ruta: /account, título: Mi cuenta · Zellige Hotels
+7 Tab hasta «Elegir»: BUTTON «Elegir: Doble 102»
+8 Enter abre el resumen (sin confirmar): BUTTON «Volver»
+9 Tab dentro del resumen: BUTTON «Confirmar reserva»
+10 Esc cierra el resumen: BUTTON «Elegir: Doble 102»
+11 Panel: Tab hasta «Nueva reserva»: BUTTON «+ Nueva reserva»
+12 Enter abre el modal: SELECT «Elige hotel…Alhambra PalaceMarrakech Ria»
+13 Esc cierra el modal: BUTTON «+ Nueva reserva»

@@ -1,0 +1,178 @@
+{
+  "points": [
+    {
+      "date": "2026-10-05",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-10-06",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-10-07",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-10-08",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-10-09",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-10-10",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-10-11",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-10-12",
+      "occupiedRooms": 0,
+      "totalRooms": 10,
+      "rate": 0
+    },
+    {
+      "date": "2026-10-13",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-10-14",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-10-15",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-10-16",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-10-17",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-10-18",
+      "occupiedRooms": 2,
+      "totalRooms": 10,
+      "rate": 20
+    },
+    {
+      "date": "2026-10-19",
+      "occupiedRooms": 3,
+      "totalRooms": 10,
+      "rate": 30
+    },
+    {
+      "date": "2026-10-20",
+      "occupiedRooms": 3,
+      "totalRooms": 10,
+      "rate": 30
+    },
+    {
+      "date": "2026-10-21",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-10-22",
+      "occupiedRooms": 2,
+      "totalRooms": 10,
+      "rate": 20
+    },
+    {
+      "date": "2026-10-23",
+      "occupiedRooms": 2,
+      "totalRooms": 10,
+      "rate": 20
+    },
+    {
+      "date": "2026-10-24",
+      "occupiedRooms": 2,
+      "totalRooms": 10,
+      "rate": 20
+    },
+    {
+      "date": "2026-10-25",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-10-26",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-10-27",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-10-28",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-10-29",
+      "occupiedRooms": 0,
+      "totalRooms": 10,
+      "rate": 0
+    },
+    {
+      "date": "2026-10-30",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-10-31",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-11-01",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    },
+    {
+      "date": "2026-11-02",
+      "occupiedRooms": 1,
+      "totalRooms": 10,
+      "rate": 10
+    }
+  ]
+}

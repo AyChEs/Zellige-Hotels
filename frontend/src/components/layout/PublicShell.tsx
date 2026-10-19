@@ -6,6 +6,8 @@ import { homeFor } from '../../auth/ProtectedRoute'
 import { LanguageSwitcher } from '../../i18n/LanguageSwitcher'
 import { Button, ButtonLink } from '../ui/Button'
 import { IconCerrar, IconMenu } from '../ui/icons'
+import { useRouteFocus } from '../../hooks/useRouteFocus'
+import { SkipLink } from './SkipLink'
 
 const navLink = ({ isActive }: { isActive: boolean }) =>
   `inline-flex min-h-11 items-center px-3 text-sm font-semibold transition-colors duration-150 ${
@@ -38,6 +40,7 @@ export function PublicShell() {
   const drawer = useRef<HTMLElement>(null)
 
   const close = () => setOpen(false)
+  useRouteFocus()
 
   // Focus moves into the drawer on open; Esc closes it. Once it is closed (and the page is
   // no longer inert) focus goes back to the menu button.
@@ -61,6 +64,7 @@ export function PublicShell() {
 
   return (
     <div className="flex min-h-screen flex-col overflow-x-clip bg-cal-50">
+      <SkipLink />
       <header className="border-b border-cal-200 bg-cal-50 print:hidden" inert={open}>
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-4">
           <Link to="/" className="font-display text-xl text-tinta-900">
@@ -181,7 +185,7 @@ export function PublicShell() {
         </div>
       </aside>
 
-      <main className="flex-1" inert={open}>
+      <main id="contenido" tabIndex={-1} className="flex-1 outline-none" inert={open}>
         <Outlet />
       </main>
 

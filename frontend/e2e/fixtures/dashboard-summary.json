@@ -1,0 +1,16 @@
+{
+  "totalHotels": 3,
+  "totalRooms": 10,
+  "occupiedRoomsToday": 3,
+  "occupancyRateToday": 30,
+  "bookingsThisMonth": 14,
+  "revenueThisMonth": 6198.5,
+  "pendingTasks": 3,
+  "bookingsByStatus": {
+    "CHECKED_IN": 3,
+    "CHECKED_OUT": 7,
+    "CONFIRMED": 3,
+    "PENDING": 6,
+    "CANCELLED": 1
+  }
+}
