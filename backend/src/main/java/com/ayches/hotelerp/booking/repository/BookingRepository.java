@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Long>, JpaSpecificationExecutor<Booking> {
 
@@ -20,6 +21,11 @@ public interface BookingRepository extends JpaRepository<Booking, Long>, JpaSpec
     boolean existsByCode(String code);
 
     long countByStatus(BookingStatus status);
+
+    long countByCheckInDateBetweenAndStatusNot(LocalDate from, LocalDate to, BookingStatus status);
+
+    @Query("select b.id from Booking b where b.notes = :notes order by b.checkInDate, b.id")
+    List<Long> findIdsByNotesOrderByCheckIn(@Param("notes") String notes);
 
     /** Active bookings overlapping [checkIn, checkOut) for a room (half-open: same-day turnover ok). */
     @Query("""

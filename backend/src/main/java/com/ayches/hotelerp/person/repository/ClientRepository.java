@@ -10,4 +10,5 @@ public interface ClientRepository extends JpaRepository<Client, Long>, JpaSpecif
     Optional<Client> findByUserId(Long userId);
     Optional<Client> findByUserEmail(String email);
     boolean existsByDocumentId(String documentId);
+    Optional<Client> findByDocumentId(String documentId);
 }

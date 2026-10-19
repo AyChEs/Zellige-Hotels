@@ -1,6 +1,7 @@
 package com.ayches.hotelerp.notification;
 
 import com.ayches.hotelerp.booking.domain.Booking;
+import com.ayches.hotelerp.demo.DemoData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -70,6 +71,9 @@ public class SmtpEmailService implements EmailService {
                 ? booking.getClient().getUser().getEmail() : null;
         if (email == null) {
             return; // walk-in client without an account
+        }
+        if (DemoData.isDemo(booking)) {
+            return; // generated demo booking: nobody to notify
         }
         try {
             SimpleMailMessage message = new SimpleMailMessage();
