@@ -1,0 +1,666 @@
+[
+ {
+  "ruta": "/",
+  "w": 1440,
+  "alto": 7362,
+  "vh": 900,
+  "secciones": [
+   {
+    "tag": "div.pin-spacer",
+    "id": "",
+    "top": 65,
+    "h": 1366
+   },
+   {
+    "tag": "section.relative.isolate",
+    "id": "umbral",
+    "top": 65,
+    "h": 736
+   },
+   {
+    "tag": "section.relative.z-10",
+    "id": "buscar",
+    "top": 1431,
+    "h": 256
+   },
+   {
+    "tag": "section.mt-seccion.overflow-hidden",
+    "id": "cinta",
+    "top": 1758,
+    "h": 66
+   },
+   {
+    "tag": "div.pin-spacer",
+    "id": "",
+    "top": 1823,
+    "h": 1636
+   },
+   {
+    "tag": "section.carrusel.overflow-hidden",
+    "id": "carrusel",
+    "top": 1823,
+    "h": 900
+   },
+   {
+    "tag": "div.pin-spacer",
+    "id": "",
+    "top": 3499,
+    "h": 2385
+   },
+   {
+    "tag": "section.historia.arqueria",
+    "id": "historia",
+    "top": 3499,
+    "h": 900
+   },
+   {
+    "tag": "section.relative.isolate",
+    "id": "contorno",
+    "top": 5884,
+    "h": 980
+   },
+   {
+    "tag": "footer.arqueria.mt-bloque",
+    "id": "",
+    "top": 6905,
+    "h": 457
+   }
+  ],
+  "pins": [
+   {
+    "h": 1366,
+    "hijo": 736
+   },
+   {
+    "h": 1636,
+    "hijo": 900
+   },
+   {
+    "h": 2385,
+    "hijo": 900
+   }
+  ],
+  "hscroll": false
+ },
+ {
+  "ruta": "/hotels",
+  "w": 1440,
+  "alto": 1462,
+  "vh": 900,
+  "secciones": [
+   {
+    "tag": "footer.arqueria.mt-bloque",
+    "id": "",
+    "top": 1005,
+    "h": 457
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/hotels/1",
+  "w": 1440,
+  "alto": 2565,
+  "vh": 900,
+  "secciones": [
+   {
+    "tag": "section.rounded-(--radius-card).border",
+    "id": "",
+    "top": 1198,
+    "h": 139
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "top": 1368,
+    "h": 628
+   },
+   {
+    "tag": "footer.arqueria.mt-bloque",
+    "id": "",
+    "top": 2107,
+    "h": 457
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/marca",
+  "w": 1440,
+  "alto": 5229,
+  "vh": 900,
+  "secciones": [
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 568,
+    "h": 603
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 1171,
+    "h": 894
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 2065,
+    "h": 773
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 2838,
+    "h": 428
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 3266,
+    "h": 428
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 3694,
+    "h": 499
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 4193,
+    "h": 468
+   },
+   {
+    "tag": "footer.arqueria.mt-bloque",
+    "id": "",
+    "top": 4772,
+    "h": 457
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/login",
+  "w": 1440,
+  "alto": 1320,
+  "vh": 900,
+  "secciones": [
+   {
+    "tag": "footer.arqueria.mt-bloque",
+    "id": "",
+    "top": 862,
+    "h": 457
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/register",
+  "w": 1440,
+  "alto": 1377,
+  "vh": 900,
+  "secciones": [
+   {
+    "tag": "footer.arqueria.mt-bloque",
+    "id": "",
+    "top": 920,
+    "h": 457
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/aviso-legal",
+  "w": 1440,
+  "alto": 1526,
+  "vh": 900,
+  "secciones": [
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 285,
+    "h": 90
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 407,
+    "h": 122
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 560,
+    "h": 114
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 706,
+    "h": 122
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 860,
+    "h": 66
+   },
+   {
+    "tag": "footer.arqueria.mt-bloque",
+    "id": "",
+    "top": 1069,
+    "h": 457
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/privacidad",
+  "w": 1440,
+  "alto": 2221,
+  "vh": 900,
+  "secciones": [
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 285,
+    "h": 66
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 383,
+    "h": 90
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 504,
+    "h": 238
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 774,
+    "h": 90
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 896,
+    "h": 66
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 993,
+    "h": 90
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 1115,
+    "h": 238
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 1384,
+    "h": 114
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 1530,
+    "h": 90
+   },
+   {
+    "tag": "footer.arqueria.mt-bloque",
+    "id": "",
+    "top": 1764,
+    "h": 457
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "w": 1440,
+  "errores": []
+ },
+ {
+  "ruta": "/",
+  "w": 390,
+  "alto": 6163,
+  "vh": 844,
+  "secciones": [
+   {
+    "tag": "div.pin-spacer",
+    "id": "",
+    "top": 65,
+    "h": 1116
+   },
+   {
+    "tag": "section.relative.isolate",
+    "id": "umbral",
+    "top": 65,
+    "h": 736
+   },
+   {
+    "tag": "section.relative.z-10",
+    "id": "buscar",
+    "top": 1181,
+    "h": 446
+   },
+   {
+    "tag": "section.mt-seccion.overflow-hidden",
+    "id": "cinta",
+    "top": 1667,
+    "h": 62
+   },
+   {
+    "tag": "div.pin-spacer",
+    "id": "",
+    "top": 1729,
+    "h": 1418
+   },
+   {
+    "tag": "section.carrusel.overflow-hidden",
+    "id": "carrusel",
+    "top": 1729,
+    "h": 844
+   },
+   {
+    "tag": "section.historia.arqueria",
+    "id": "historia",
+    "top": 3171,
+    "h": 1991
+   },
+   {
+    "tag": "section.relative.isolate",
+    "id": "contorno",
+    "top": 5162,
+    "h": 553
+   },
+   {
+    "tag": "footer.arqueria.mt-bloque",
+    "id": "",
+    "top": 5739,
+    "h": 424
+   }
+  ],
+  "pins": [
+   {
+    "h": 1116,
+    "hijo": 736
+   },
+   {
+    "h": 1418,
+    "hijo": 844
+   }
+  ],
+  "hscroll": false
+ },
+ {
+  "ruta": "/hotels",
+  "w": 390,
+  "alto": 2217,
+  "vh": 844,
+  "secciones": [
+   {
+    "tag": "footer.arqueria.mt-bloque",
+    "id": "",
+    "top": 1793,
+    "h": 424
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/hotels/1",
+  "w": 390,
+  "alto": 3095,
+  "vh": 844,
+  "secciones": [
+   {
+    "tag": "section.rounded-(--radius-card).border",
+    "id": "",
+    "top": 773,
+    "h": 363
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "top": 1169,
+    "h": 1439
+   },
+   {
+    "tag": "footer.arqueria.mt-bloque",
+    "id": "",
+    "top": 2671,
+    "h": 424
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/marca",
+  "w": 390,
+  "alto": 7742,
+  "vh": 844,
+  "secciones": [
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 568,
+    "h": 821
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 1389,
+    "h": 1286
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 2675,
+    "h": 1624
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 4299,
+    "h": 587
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 4886,
+    "h": 819
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 5705,
+    "h": 657
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 6362,
+    "h": 891
+   },
+   {
+    "tag": "footer.arqueria.mt-bloque",
+    "id": "",
+    "top": 7317,
+    "h": 424
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/login",
+  "w": 390,
+  "alto": 1223,
+  "vh": 844,
+  "secciones": [
+   {
+    "tag": "footer.arqueria.mt-bloque",
+    "id": "",
+    "top": 798,
+    "h": 424
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/register",
+  "w": 390,
+  "alto": 1493,
+  "vh": 844,
+  "secciones": [
+   {
+    "tag": "footer.arqueria.mt-bloque",
+    "id": "",
+    "top": 1069,
+    "h": 424
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/aviso-legal",
+  "w": 390,
+  "alto": 1701,
+  "vh": 844,
+  "secciones": [
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 275,
+    "h": 114
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 420,
+    "h": 251
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 704,
+    "h": 162
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 897,
+    "h": 170
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 1099,
+    "h": 66
+   },
+   {
+    "tag": "footer.arqueria.mt-bloque",
+    "id": "",
+    "top": 1276,
+    "h": 424
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/privacidad",
+  "w": 390,
+  "alto": 2604,
+  "vh": 844,
+  "secciones": [
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 301,
+    "h": 90
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 423,
+    "h": 114
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 569,
+    "h": 334
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 934,
+    "h": 138
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 1104,
+    "h": 90
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 1225,
+    "h": 162
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 1419,
+    "h": 286
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 1737,
+    "h": 186
+   },
+   {
+    "tag": "section.mt-8",
+    "id": "",
+    "top": 1954,
+    "h": 114
+   },
+   {
+    "tag": "footer.arqueria.mt-bloque",
+    "id": "",
+    "top": 2180,
+    "h": 424
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "w": 390,
+  "errores": []
+ }
+]

@@ -109,7 +109,7 @@ export function MovimientoPortada({ raiz, listo }: Props) {
             scrollTrigger: {
               trigger: umbral,
               start: 'top top',
-              end: ancho ? '+=110%' : '+=70%',
+              end: ancho ? '+=70%' : '+=45%',
               pin: true,
               scrub: 0.8,
               invalidateOnRefresh: true,
@@ -148,7 +148,7 @@ export function MovimientoPortada({ raiz, listo }: Props) {
             scrollTrigger: {
               trigger: carrusel,
               start: 'top top',
-              end: () => `+=${recorrido() * (ancho ? 1.1 : 0.8)}`,
+              end: () => `+=${recorrido() * (ancho ? 0.85 : 0.6)}`,
               pin: true,
               scrub: 0.8,
               invalidateOnRefresh: true,
@@ -215,7 +215,7 @@ export function MovimientoPortada({ raiz, listo }: Props) {
               scrollTrigger: {
                 trigger: historia,
                 start: 'top top',
-                end: `+=${(pasos.length - 1) * 85}%`,
+                end: `+=${(pasos.length - 1) * 55}%`,
                 pin: true,
                 scrub: 0.8,
               },

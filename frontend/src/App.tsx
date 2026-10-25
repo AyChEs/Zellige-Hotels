@@ -13,6 +13,7 @@ const RegisterPage = lazy(() => import('./pages/RegisterPage').then((m) => ({ de
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 const HotelsPage = lazy(() => import('./pages/public/HotelsPage'))
 const HotelDetailPage = lazy(loadHotelDetail)
+const LegalPage = lazy(() => import('./pages/public/LegalPage'))
 const BrandPage = lazy(() => import('./pages/public/BrandPage'))
 
 const MyBookingsPage = lazy(() => import('./pages/account/MyBookingsPage'))
@@ -51,6 +52,8 @@ export default function App() {
           <Route path="hotels" element={<HotelsPage />} />
           <Route path="hotels/:id" element={<HotelDetailPage />} />
           <Route path="marca" element={<BrandPage />} />
+          <Route path="aviso-legal" element={<LegalPage tipo="aviso" />} />
+          <Route path="privacidad" element={<LegalPage tipo="privacidad" />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
         </Route>

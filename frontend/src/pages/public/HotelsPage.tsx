@@ -24,7 +24,7 @@ export default function HotelsPage() {
   })
 
   return (
-    <div ref={raiz} className="revelar mx-auto max-w-6xl px-4 py-10 sm:py-16">
+    <div ref={raiz} className="revelar mx-auto max-w-6xl px-4 py-bloque">
       <h1 className="font-display text-[clamp(2.25rem,6vw,5rem)] leading-[1.02] text-tinta-900">
         <Lineas lineas={[t('public.hotels.title')]} entrada />
       </h1>

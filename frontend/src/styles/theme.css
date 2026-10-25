@@ -55,6 +55,12 @@
   --text-6xl: 3.5rem;
   --text-6xl--line-height: 1.05;
 
+  /* Escala de espaciado vertical (docs/MARCA.md §14): fluida, sin saltos de punto de corte.
+     seccion: entre secciones grandes; bloque: dentro de una página o tras un encabezado; pie: aire del pie. */
+  --spacing-seccion: clamp(2.5rem, 1.75rem + 3vw, 4.5rem);
+  --spacing-bloque: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  --spacing-pie: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+
   --radius-control: 6px;
   --radius-card: 10px;
   --radius-pill: 999px;
@@ -279,13 +285,13 @@ html.lenis body {
   overflow: hidden;
   display: flex;
   align-items: center;
-  min-height: 23rem;
-  padding-block: 3rem;
+  min-height: 17rem;
+  padding-block: 2.25rem;
 }
 @media (min-width: 640px) {
   .contorno-zona {
-    min-height: 46cqw;
-    padding-block: 11cqw;
+    min-height: 36cqw;
+    padding-block: 6.5cqw;
   }
 }
 .contorno-texto {

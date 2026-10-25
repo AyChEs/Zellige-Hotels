@@ -16,7 +16,7 @@ const COLORES = [
 
 function Seccion({ id, title, children }: { id: string; title: string; children: ReactNode }) {
   return (
-    <section aria-labelledby={id} className="border-t border-cal-200 py-12 sm:py-16">
+    <section aria-labelledby={id} className="border-t border-cal-200 py-seccion">
       <h2 id={id} className="font-display text-2xl text-tinta-900 sm:text-4xl">
         {title}
       </h2>
@@ -90,11 +90,11 @@ export default function BrandPage() {
   ] as const
 
   return (
-    <div className="mx-auto max-w-6xl px-4 pb-16 sm:pb-24">
-      <header className="reticula -mx-4 px-4 py-12 sm:py-20">
+    <div className="mx-auto max-w-6xl px-4 pb-seccion">
+      <header className="reticula -mx-4 px-4 py-seccion">
         <h1 className="sr-only">{t('brand.title')}</h1>
         <Logotipo size="lg" />
-        <p className="font-display mt-10 max-w-3xl text-2xl text-tinta-900 sm:text-4xl">{t('brand.intro')}</p>
+        <p className="font-display mt-bloque max-w-3xl text-2xl text-tinta-900 sm:text-4xl">{t('brand.intro')}</p>
         <p className="mt-5 max-w-prose text-lg text-tinta-600">{t('brand.intro2')}</p>
       </header>
 
