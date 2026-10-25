@@ -66,7 +66,7 @@ export function PublicShell() {
       <header className="cabecera-publica relative z-40 border-b border-cal-200 bg-cal-50 print:hidden" inert={open}>
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-4">
           <Link to="/" className="-my-1 inline-flex min-h-11 items-center rounded-(--radius-control)">
-            <Logotipo />
+            <Logotipo animado={suave} />
           </Link>
 
           <nav aria-label={t('common.menu')} className="hidden items-center gap-1 md:flex">
@@ -192,7 +192,7 @@ export function PublicShell() {
           <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
             <div className="max-w-sm">
               <Link to="/" className="inline-flex min-h-11 items-center">
-                <Logotipo tono="claro" />
+                <Logotipo tono="claro" animado={suave} />
               </Link>
               <p className="mt-4 text-sm text-noche-muted">{t('public.footer.tagline')}</p>
             </div>

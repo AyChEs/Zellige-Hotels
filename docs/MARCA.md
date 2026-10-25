@@ -174,3 +174,26 @@ Todo el movimiento vive en `frontend/src/motion/` y solo se carga en la portada,
 | Lista y ficha | Tarjetas y habitaciones entran escalonadas; en la ficha, paralaje dentro de cada foto de la galería. |
 
 Con `prefers-reduced-motion` se ve el estado final, sin fijar secciones y sin Lenis. El teclado no cambia: si el foco entra en una sección fijada, el scroll lleva a ese elemento.
+
+## 13. Piezas de Rive (sesión 12)
+
+Cinco animaciones vectoriales hechas con la CLI de Rive (RML, **sin scripts**; no hace falta iniciar sesión ni `--publish`). Las fuentes están en `rive/<nombre>/escena.rml` y los `.riv` construidos en `frontend/public/rive/`. `rive/construir.sh` los reconstruye y los copia (necesita la CLI en `~/.rive/bin/rive`).
+
+| Archivo | Contenido | Peso |
+|---|---|---|
+| `logotipo.riv` | Logotipo animado: el arco se dibuja con un trazo (el borde, en granate) y después se enciende la clave. | 1,6 kB |
+| `reservar.riv` | Cuatro ilustraciones de 480 × 320 para «Reservar, paso a paso»: fechas (un calendario con entrada y salida), sin solapes (la segunda reserva choca, rebota y se recoloca: `EXCLUDE USING gist` contado en imágenes), confirmación (un sello) y factura (un recibo que se imprime con el total). | 14 kB |
+
+Estilo: solo cal, verde azulejo y el granate de la clave, líneas finas, sin texto dentro del lienzo, sin naranja, sin estrella de ocho puntas. El granate firma: el borde del arco, la clave, los cuatro rombos del sello y el aviso de «no cabe».
+
+### Cómo funcionan
+
+- Cada artboard visible (`Fechas`, `Solapes`, `Confirmacion`, `Factura`, `Logotipo`) anida un componente con la línea de tiempo, y una animación remapeada (`NestedRemapAnimation`) lee el número **`progreso`** (0 a 1) de su view model. Con una sola propiedad se mueve toda la pieza.
+- En la portada, el ScrollTrigger de la historia (sesión 11) escribe ese número: `motion/escenas.tsx` → `rive/piezas.ts` → `rive/PiezaRive.tsx`. En el logotipo lo mueve un tween de 1,8 s en `rive/useSimboloVivo.ts`. El logotipo también lleva dos colores en el view model (`tesela`, `luz`) para servir sobre `noche-900` en el pie.
+- Runtime: `@rive-app/canvas-lite` (MIT). Se carga con `import()` solo cuando la pieza está a menos de 700 px de la pantalla (el logotipo, cuando es visible), tras `load` y con el navegador libre, solo en portada, lista de hoteles y ficha. El `.wasm` sale de la propia web (`RuntimeLoader.setWasmUrl`), no de unpkg. Pesa 55 kB (JS) y 332 kB (wasm) comprimidos y no entra en el paquete inicial.
+
+### Accesibilidad y fallos
+
+- Los lienzos llevan `aria-hidden`; el título y el texto de cada paso siguen en HTML.
+- Debajo de cada lienzo hay siempre una imagen SVG con el estado final (`public/rive/*.svg`). Es lo único que ven quienes piden `prefers-reduced-motion` (no se descarga el runtime) y quienes no pueden cargarlo. El logotipo, en ese caso, es el símbolo SVG de siempre.
+- El logotipo nace idéntico al símbolo SVG: al estar listo se cambia uno por otro sin fundido y se anima una vez; vuelve a animarse al pasar el ratón (solo ratón).

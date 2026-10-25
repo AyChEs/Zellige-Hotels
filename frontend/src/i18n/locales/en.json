@@ -224,22 +224,6 @@
           "body": "Base, 10% VAT and total, each on its own line. It is in your account."
         }
       ],
-      "vNights": "3 nights",
-      "vRoom": "Room 201",
-      "vTaken": "Does not fit: already taken",
-      "vNightsLine": "3 nights × €140",
-      "vBase": "Base",
-      "vVat": "VAT 10%",
-      "vTotal": "Total",
-      "vDays": [
-        "M",
-        "T",
-        "W",
-        "T",
-        "F",
-        "S",
-        "S"
-      ],
       "closingLines": [
         "Pick your dates.",
         "The hotel takes care of the rest."

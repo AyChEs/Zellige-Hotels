@@ -14,6 +14,8 @@ import { MovimientoPortada } from '../../motion/perezoso'
 import { loadHotelDetail } from './loadHotelDetail'
 import { Foto, FotoHotel } from '../../components/ui/Foto'
 import { FOTO_PORTADA, FOTO_TEXTURA } from '../../lib/fotos'
+import { PiezaRive } from '../../rive/PiezaRive'
+import type { PiezaId } from '../../rive/piezas'
 
 /*
  * Portada como narración por scroll (sesión 11, docs/MARCA.md §9). El HTML es el estado
@@ -293,10 +295,12 @@ function TarjetaCasa({ hotel, indice }: { hotel: HotelDto; indice: number }) {
   )
 }
 
+/** Una ilustración de Rive por paso (rive/reservar). El texto de cada paso sigue siendo HTML. */
+const PIEZAS: PiezaId[] = ['fechas', 'solapes', 'confirmacion', 'factura']
+
 function Historia() {
   const { t } = useTranslation()
   const pasos = t('public.landing.steps', { returnObjects: true }) as { title: string; body: string }[]
-  const visuales = [<VisualFechas key="f" />, <VisualSolapes key="s" />, <VisualConfirmacion key="c" />, <VisualFactura key="v" />]
   return (
     <section aria-labelledby="historia-titulo" data-escena="historia" className="historia arqueria mt-10 bg-noche-900 text-noche-ink">
       <div className="historia-marco mx-auto max-w-6xl px-4 py-20 sm:py-24">
@@ -313,8 +317,8 @@ function Historia() {
                 <h3 className="font-display mt-3 text-3xl sm:text-4xl">{p.title}</h3>
                 <p className="mt-4 max-w-md text-lg text-noche-muted">{p.body}</p>
               </div>
-              <div aria-hidden className="paso-visual">
-                {visuales[i]}
+              <div aria-hidden className="paso-visual mx-auto w-full max-w-[30rem] md:max-w-none">
+                <PiezaRive pieza={PIEZAS[i]} />
               </div>
             </li>
           ))}
@@ -328,98 +332,5 @@ function Historia() {
         </div>
       </div>
     </section>
-  )
-}
-
-/* Visuales de cada paso: piezas reales de la interfaz en miniatura, decorativas. */
-const lamina = 'rounded-(--radius-card) bg-cal-50 p-5 text-tinta-900 shadow-[0_24px_60px_-30px_rgb(0_0_0/0.6)] sm:p-6'
-
-function VisualFechas() {
-  const { t } = useTranslation()
-  const dias = t('public.landing.vDays', { returnObjects: true }) as string[]
-  return (
-    <div className={lamina}>
-      <div className="grid grid-cols-7 gap-1.5 text-center text-xs text-tinta-600">
-        {dias.map((d, i) => (
-          <span key={i}>{d}</span>
-        ))}
-        {Array.from({ length: 14 }, (_, i) => (
-          <span
-            key={i}
-            className={`cifras visual-dia flex aspect-square items-center justify-center rounded-(--radius-control) text-sm ${
-              i >= 9 && i <= 11 ? 'bg-fez-700 font-semibold text-white' : i === 12 ? 'border border-fez-700 text-fez-700' : 'bg-white'
-            }`}
-          >
-            {i + 1}
-          </span>
-        ))}
-      </div>
-      <p className="mt-4 text-sm font-semibold text-fez-700">{t('public.landing.vNights')} · 420 €</p>
-    </div>
-  )
-}
-
-function VisualSolapes() {
-  const { t } = useTranslation()
-  return (
-    <div className={lamina}>
-      <p className="text-sm font-semibold">{t('public.landing.vRoom')}</p>
-      <div className="relative mt-4 h-24 rounded-(--radius-control) bg-white">
-        <div className="absolute inset-y-0 left-1/4 border-l border-dashed border-cal-200" />
-        <div className="absolute inset-y-0 left-1/2 border-l border-dashed border-cal-200" />
-        <div className="absolute inset-y-0 left-3/4 border-l border-dashed border-cal-200" />
-        <span className="absolute top-3 left-[4%] h-7 w-[44%] rounded-(--radius-control) bg-fez-700" />
-        <span className="absolute top-3 left-[50%] h-7 w-[38%] rounded-(--radius-control) bg-fez-200" />
-        <span className="visual-intento absolute bottom-3 left-[34%] h-7 w-[30%] rounded-(--radius-control) border-2 border-dashed border-error-700 bg-error-50" />
-      </div>
-      <p className="mt-4 flex items-center gap-2 text-sm font-semibold text-error-ink">
-        <span className="size-2 rotate-45 bg-error-700" />
-        {t('public.landing.vTaken')}
-      </p>
-    </div>
-  )
-}
-
-function VisualConfirmacion() {
-  const { t } = useTranslation()
-  return (
-    <div className={lamina}>
-      <p className="cifras text-2xl font-semibold tracking-wide sm:text-3xl">BK-2026-000142</p>
-      <p className="mt-2 text-sm text-tinta-600">Alhambra Palace · {t('public.landing.vNights')}</p>
-      <div className="mt-5 flex items-center gap-3">
-        <span className="rounded-(--radius-pill) bg-aviso-50 px-3 py-1 text-xs font-semibold text-aviso-ink line-through decoration-1">
-          {t('labels.bookingStatus.PENDING')}
-        </span>
-        <span className="text-tinta-600">→</span>
-        <span className="visual-confirmada rounded-(--radius-pill) bg-info-50 px-3 py-1 text-xs font-semibold text-info-ink">
-          {t('labels.bookingStatus.CONFIRMED')}
-        </span>
-      </div>
-    </div>
-  )
-}
-
-function VisualFactura() {
-  const { t } = useTranslation()
-  const filas: [string, string][] = [
-    [t('public.landing.vNightsLine'), '420,00 €'],
-    [t('public.landing.vBase'), '381,82 €'],
-    [t('public.landing.vVat'), '38,18 €'],
-  ]
-  return (
-    <div className={lamina}>
-      <dl className="cifras space-y-2 text-sm">
-        {filas.map(([k, v]) => (
-          <div key={k} className="visual-fila flex justify-between border-b border-cal-200 pb-2">
-            <dt className="text-tinta-600">{k}</dt>
-            <dd>{v}</dd>
-          </div>
-        ))}
-        <div className="visual-fila flex justify-between pt-1 text-base font-semibold">
-          <dt>{t('public.landing.vTotal')}</dt>
-          <dd className="text-fez-700">420,00 €</dd>
-        </div>
-      </dl>
-    </div>
   )
 }
