@@ -34,7 +34,7 @@ Después de la revisión, Opus solo revisa el resultado final (no ejecuta).
 | 08 | Datos de demo que no caducan (backend) | Pro | 00 | hecha |
 | 09 | Revisión final | Revisión | 07, 08 | hecha |
 | 10 | Marca: estudio, logotipo y página `/marca` (`docs/MARCA.md`) | Opus | 09 | hecha |
-| 11 | Movimiento ligado al scroll en la parte pública (GSAP, ScrollTrigger, Lenis) | Opus | 10 | pendiente |
+| 11 | Movimiento ligado al scroll en la parte pública (GSAP, ScrollTrigger, Lenis) | Opus | 10 | hecha |
 
 ## Orden y paralelo
 
