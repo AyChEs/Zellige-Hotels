@@ -67,7 +67,7 @@ export default function LandingPage() {
           fetchPriority="high"
           className="umbral-foto absolute inset-0 -z-10 h-full w-full object-cover"
         />
-        <div className="mx-auto grid min-h-[calc(100svh-4rem)] max-w-6xl grid-rows-[auto_1fr] items-center gap-8 px-4 pt-10 pb-12 lg:grid-cols-12 lg:grid-rows-1 lg:gap-12 lg:py-16">
+        <div className="mx-auto grid min-h-[min(calc(100svh-4rem),46rem)] max-w-6xl grid-rows-[auto_1fr] items-center gap-8 px-4 pt-8 pb-8 lg:grid-cols-12 lg:grid-rows-1 lg:gap-12 lg:py-10">
           <div className="umbral-texto relative z-20 lg:col-span-7">
             <h1 className="font-display text-[clamp(2.75rem,8vw,7rem)] leading-[0.98] tracking-[-0.01em] text-tinta-900">
               <Lineas lineas={t('public.landing.titleLines', { returnObjects: true }) as string[]} entrada />
@@ -116,7 +116,7 @@ export default function LandingPage() {
       </section>
 
       {/* 2 · Búsqueda: la función de la portada, nada más pasar el umbral. */}
-      <section id="buscar" aria-labelledby="buscar-titulo" className="relative z-10 scroll-mt-24 px-4 pt-12 sm:pt-16">
+      <section id="buscar" aria-labelledby="buscar-titulo" className="relative z-10 scroll-mt-24 px-4 pt-bloque">
         <div className="mx-auto max-w-6xl">
           <h2 id="buscar-titulo" className="font-display text-2xl text-tinta-900 sm:text-4xl">
             {t('public.landing.searchTitle')}
@@ -156,7 +156,7 @@ export default function LandingPage() {
       </section>
 
       {/* 3 · Cinta con datos del producto: se desplaza solo al hacer scroll. */}
-      <section aria-label={t('public.landing.factsLabel')} data-escena="cinta" className="mt-16 overflow-hidden bg-fez-700 py-4 text-white sm:mt-24">
+      <section aria-label={t('public.landing.factsLabel')} data-escena="cinta" className="mt-seccion overflow-hidden bg-fez-700 py-4 text-white">
         <ul className="sr-only">
           {facts.map((f) => (
             <li key={f}>{f}</li>
@@ -177,7 +177,7 @@ export default function LandingPage() {
       </section>
 
       {/* 4 · Los tres hoteles: carrusel horizontal fijado; sin movimiento, una rejilla. */}
-      <section aria-labelledby="casas-titulo" data-escena="carrusel" className="carrusel overflow-hidden py-16 sm:py-24">
+      <section aria-labelledby="casas-titulo" data-escena="carrusel" className="carrusel overflow-hidden py-seccion">
         <div className="carrusel-pista mx-auto flex max-w-6xl flex-col gap-6 px-4">
           <div className="carrusel-intro flex shrink-0 flex-col justify-end">
             <h2 id="casas-titulo" className="font-display text-[clamp(2.25rem,5vw,4.5rem)] leading-[1.02] text-tinta-900">
@@ -203,7 +203,7 @@ export default function LandingPage() {
       <Historia />
 
       {/* 6 · «Zellige» gigante en contorno con fotos que cruzan por delante. */}
-      <section aria-labelledby="cierre-titulo" data-escena="contorno" className="relative isolate overflow-hidden py-16 sm:py-24">
+      <section aria-labelledby="cierre-titulo" data-escena="contorno" className="relative isolate overflow-hidden py-seccion">
         <div className="contorno-zona">
           <p aria-hidden className="contorno-texto font-display text-center uppercase leading-none tracking-[0.06em]">
             Zellige
@@ -231,7 +231,7 @@ export default function LandingPage() {
           loading="lazy"
           className="contorno-textura pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover"
         />
-        <div className="relative z-10 mx-auto mt-16 max-w-6xl px-4 text-center sm:mt-24">
+        <div className="relative z-10 mx-auto mt-bloque max-w-6xl px-4 text-center">
           <h2 id="cierre-titulo" className="font-display mx-auto max-w-3xl text-[clamp(2rem,4.5vw,3.75rem)] leading-[1.05] text-tinta-900">
             <Lineas lineas={t('public.landing.closingLines', { returnObjects: true }) as string[]} />
           </h2>
@@ -302,12 +302,12 @@ function Historia() {
   const { t } = useTranslation()
   const pasos = t('public.landing.steps', { returnObjects: true }) as { title: string; body: string }[]
   return (
-    <section aria-labelledby="historia-titulo" data-escena="historia" className="historia arqueria mt-10 bg-noche-900 text-noche-ink">
-      <div className="historia-marco mx-auto max-w-6xl px-4 py-20 sm:py-24">
+    <section aria-labelledby="historia-titulo" data-escena="historia" className="historia arqueria mt-bloque bg-noche-900 text-noche-ink">
+      <div className="historia-marco mx-auto max-w-6xl px-4 py-seccion">
         <h2 id="historia-titulo" className="font-display text-[clamp(2.25rem,5vw,4.5rem)] leading-[1.02]">
           <Lineas lineas={t('public.landing.storyLines', { returnObjects: true }) as string[]} />
         </h2>
-        <ol className="historia-pasos mt-12 grid gap-14">
+        <ol className="historia-pasos mt-8 grid gap-10">
           {pasos.map((p, i) => (
             <li key={p.title} className="paso grid items-center gap-8 md:grid-cols-2 md:gap-16">
               <div className="paso-texto">

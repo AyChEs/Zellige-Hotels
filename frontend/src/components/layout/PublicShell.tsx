@@ -187,8 +187,8 @@ export function PublicShell() {
         </ErrorBoundary>
       </main>
 
-      <footer className="arqueria mt-10 bg-noche-900 text-noche-ink print:hidden" inert={open}>
-        <div className="sobre-noche mx-auto max-w-6xl px-4 pt-14 sm:pt-20">
+      <footer className="arqueria mt-bloque bg-noche-900 text-noche-ink print:hidden" inert={open}>
+        <div className="sobre-noche mx-auto max-w-6xl px-4 pt-pie">
           <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
             <div className="max-w-sm">
               <Link to="/" className="inline-flex min-h-11 items-center">
@@ -198,11 +198,13 @@ export function PublicShell() {
             </div>
             <nav aria-label={t('public.footer.explore')}>
               <h2 className="text-sm font-semibold text-fez-200">{t('public.footer.explore')}</h2>
-              <ul className="mt-3 grid grid-cols-2 gap-x-10 text-sm sm:grid-cols-1">
+              <ul className="mt-1 flex flex-wrap gap-x-6 text-sm">
                 {[
                   ['/', t('public.nav.home')],
                   ['/hotels', t('public.nav.hotels')],
                   ['/marca', t('brand.footerLink')],
+                  ['/aviso-legal', t('public.footer.legal')],
+                  ['/privacidad', t('public.footer.privacy')],
                 ].map(([to, label]) => (
                   <li key={to}>
                     <Link to={to} className="pie-enlace inline-flex min-h-11 items-center text-noche-ink hover:text-fez-200">
@@ -223,7 +225,7 @@ export function PublicShell() {
               </ul>
             </nav>
           </div>
-          <div aria-hidden className="pie-nombre font-display mt-12 select-none overflow-hidden text-noche-ink uppercase sm:mt-16">
+          <div aria-hidden className="pie-nombre font-display mt-6 select-none overflow-hidden text-noche-ink uppercase sm:mt-8">
             <span>Zellige</span>
           </div>
           <p className="border-t border-noche-800 py-5 text-xs text-noche-muted">{t('public.footer.made')}</p>

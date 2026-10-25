@@ -197,3 +197,41 @@ Estilo: solo cal, verde azulejo y el granate de la clave, líneas finas, sin tex
 - Los lienzos llevan `aria-hidden`; el título y el texto de cada paso siguen en HTML.
 - Debajo de cada lienzo hay siempre una imagen SVG con el estado final (`public/rive/*.svg`). Es lo único que ven quienes piden `prefers-reduced-motion` (no se descarga el runtime) y quienes no pueden cargarlo. El logotipo, en ese caso, es el símbolo SVG de siempre.
 - El logotipo nace idéntico al símbolo SVG: al estar listo se cambia uno por otro sin fundido y se anima una vez; vuelve a animarse al pasar el ratón (solo ratón).
+
+## 14. Escala de espaciado vertical (sesión 13)
+
+Tres tokens fluidos en `frontend/src/styles/theme.css` (`@theme`), sin saltos de punto de corte. Tailwind los expone como `py-seccion`, `mt-bloque`, `pt-pie`, etc. No se escriben paddings verticales sueltos (`py-16 sm:py-24`) en la parte pública: se usa uno de estos.
+
+| Token | Valor (390 a 1440 px) | Uso |
+|---|---|---|
+| `--spacing-seccion` | `clamp(2.5rem, 1.75rem + 3vw, 4.5rem)` → 44 a 72 px | Aire arriba y abajo de una sección grande (carrusel, historia, «Zellige» en contorno, láminas de `/marca`), y entre la cinta y lo anterior. |
+| `--spacing-bloque` | `clamp(1.5rem, 1rem + 2vw, 2.5rem)` → 24 a 40 px | Entre un encabezado y su contenido, arriba de las páginas (lista, ficha, textos legales, acceso) y antes del pie. |
+| `--spacing-pie` | `clamp(2rem, 1.5rem + 2.5vw, 3.5rem)` → 36 a 56 px | Aire superior del pie. |
+
+Antes cada sección tenía su propio valor (de 40 a 96 px arriba y abajo). Reglas:
+
+- Una sección no suma dos márgenes: el hueco entre dos secciones es uno solo (`py-seccion` en una de ellas o `mt-seccion` en la siguiente).
+- Alturas mínimas: la primera pantalla de la portada ocupa como mucho 46 rem (`min-h-[min(calc(100svh-4rem),46rem)]`); el acceso y el registro, 60 vh; «Zellige» en contorno, 36 % de su ancho.
+- Secciones fijadas (pins): recorrido de scroll corto. Arco 70 % de la pantalla en escritorio y 45 % en móvil; carrusel, 0,85 y 0,6 veces su recorrido horizontal; «Reservar, paso a paso», 55 % por paso. Nada de pantallas vacías antes ni después: lo que se fija ocupa la pantalla y se suelta en cuanto termina.
+- El pie lleva los enlaces en una fila, no en columna, y el nombre gigante queda a 24 o 32 px de ellos.
+
+Resultado en la portada con la API simulada: de 9315 a 7362 px a 1440 px de ancho (10,3 a 8,2 pantallas) y de 7072 a 6163 px a 390 px (8,4 a 7,3 pantallas). Capturas antes y después en `plan/capturas/13/`.
+
+## 15. Seguridad y textos legales (sesión 13)
+
+### Cabeceras del frontend (`frontend/vercel.json`)
+
+| Cabecera | Valor | Por qué |
+|---|---|---|
+| `Content-Security-Policy` | `default-src 'self'`; `script-src 'self' 'wasm-unsafe-eval'`; `style-src 'self'` y `style-src-attr 'unsafe-inline'`; `img-src 'self' data: blob: https://images.unsplash.com`; `font-src 'self'`; `connect-src 'self' https://zellige-hotels.onrender.com`; `worker-src 'self' blob:`; `object-src 'none'`; `frame-ancestors 'none'`; `base-uri 'self'`; `form-action 'self'` | Solo se ejecuta código propio. `wasm-unsafe-eval` es para el `.wasm` de Rive; `style-src-attr` para los `style=""` que ponen React y GSAP. Unsplash es el origen de las fotos de las habitaciones que sirve la API. |
+| `Strict-Transport-Security` | `max-age=63072000` | Dos años solo por HTTPS. Sin `preload` ni `includeSubDomains`: el dominio es de Vercel. |
+| `X-Content-Type-Options` | `nosniff` | El navegador no adivina tipos. |
+| `X-Frame-Options` | `DENY` | Mismo efecto que `frame-ancestors` en navegadores antiguos. |
+| `Referrer-Policy` | `strict-origin-when-cross-origin` | Fuera de la web solo se envía el origen. |
+| `Permissions-Policy` | `camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()` | La demo no usa ninguna de esas funciones. |
+
+Para que la CSP no necesite `unsafe-inline` en scripts, el preload de la foto de la portada pasó de un `<script>` en `index.html` a `public/precarga-portada.js`. Y zod se configura con `jitless` (`src/lib/zod.ts`): sin esa opción compila los validadores con `new Function`, que la CSP bloquea y el navegador anota como error. Si cambia el dominio de la API o se añade otro origen de imágenes, hay que actualizar `connect-src` o `img-src`.
+
+### Textos legales
+
+Dos páginas en español e inglés (el idioma sigue al del navegador): `/aviso-legal` y `/privacidad`, enlazadas en el pie y, la de privacidad, en el registro, donde hay una casilla obligatoria. El texto vive en `i18n/locales/*.json` (clave `legal`) y lo pinta `pages/public/LegalPage.tsx`. No incluyen DNI ni dirección postal: es una demo de una persona, sin actividad comercial. Si algún día hay actividad, el aviso legal necesita los datos que exige el artículo 10 de la LSSI-CE.

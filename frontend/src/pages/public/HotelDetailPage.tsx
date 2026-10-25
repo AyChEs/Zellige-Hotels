@@ -62,10 +62,10 @@ export default function HotelDetailPage() {
   }
 
   return (
-    <div ref={raiz} className="revelar pb-16 sm:pb-24">
+    <div ref={raiz} className="revelar pb-seccion">
       <HotelHeader hotel={hotel} fotosHabitaciones={fotosHabitaciones} />
 
-      <div className="mx-auto max-w-6xl space-y-8 px-4 pt-8 sm:pt-12">
+      <div className="mx-auto max-w-6xl space-y-8 px-4 pt-bloque">
         <StayForm key={params.toString()} stay={stay} onSubmit={updateStay} checkInRef={checkInRef} />
 
         {created && <BookingCreated booking={created} />}

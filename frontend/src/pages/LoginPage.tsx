@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
+import { z } from '../lib/zod'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/AuthContext'
 import { homeFor } from '../auth/ProtectedRoute'
@@ -50,7 +50,7 @@ export function LoginPage() {
   ]
 
   return (
-    <div className="reticula flex min-h-[70vh] items-center justify-center px-4 py-12 sm:py-16">
+    <div className="reticula flex min-h-[60vh] items-center justify-center px-4 py-bloque">
       <Card variant="brand" className="w-full max-w-md p-6 sm:p-8">
         <Simbolo size={40} className="mx-auto mb-4 block text-fez-700" />
         <h1 className="font-display text-center text-2xl text-tinta-900">{t('auth.login.title')}</h1>
