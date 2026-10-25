@@ -6,7 +6,7 @@ type Size = 'sm' | 'md'
 
 const BASE =
   'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-(--radius-control) text-sm font-semibold ' +
-  'transition-colors duration-150 ease-out active:translate-y-px ' +
+  'transition-[color,background-color,border-color,transform] duration-(--duracion-micro) ease-out active:translate-y-px ' +
   'disabled:cursor-not-allowed disabled:opacity-50 disabled:active:translate-y-0 ' +
   'aria-disabled:cursor-not-allowed aria-disabled:opacity-50'
 
@@ -23,7 +23,7 @@ const SIZE: Record<Size, string> = {
   md: 'min-h-11 px-4',
 }
 
-const classes = (variant: Variant, size: Size, className = '') =>
+export const buttonClasses = (variant: Variant = 'primary', size: Size = 'md', className = '') =>
   `${BASE} ${VARIANT[variant]} ${SIZE[size]} ${className}`.trim()
 
 function Spinner() {
@@ -63,7 +63,7 @@ export function Button({
       type={type}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
-      className={classes(variant, size, className)}
+      className={buttonClasses(variant, size, className)}
       {...props}
     >
       {loading && <Spinner />}
@@ -79,5 +79,5 @@ interface ButtonLinkProps extends ComponentProps<typeof Link> {
 
 /** A router link that looks like a button: for navigation, never for actions. */
 export function ButtonLink({ variant = 'primary', size = 'md', className, ...props }: ButtonLinkProps) {
-  return <Link className={classes(variant, size, className)} {...props} />
+  return <Link className={buttonClasses(variant, size, className)} {...props} />
 }

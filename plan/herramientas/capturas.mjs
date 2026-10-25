@@ -4,6 +4,7 @@
 //   CAPT_DIR   carpeta con node_modules de playwright y @axe-core/playwright (por defecto /tmp/capt);
 //              las capturas quedan en $CAPT_DIR/out/NN/.
 //   SIMULAR=1  usa la API simulada de api-simulada.mjs en vez de la real (sin red hacia Render).
+//   FOTOS_REALES=1  con SIMULAR, deja cargar las fotos reales de Unsplash.
 // Campos opcionales de cada página: "login": [correo, clave], "click": selector que se pulsa
 // antes de capturar, "full": true para capturar la página entera.
 import { createRequire } from 'module'

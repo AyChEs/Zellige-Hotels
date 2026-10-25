@@ -1,6 +1,6 @@
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { ErrorBoundary } from '../ErrorBoundary'
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../auth/AuthContext'
 import { homeFor } from '../../auth/ProtectedRoute'
@@ -10,6 +10,8 @@ import { IconCerrar, IconMenu } from '../ui/icons'
 import { useRouteFocus } from '../../hooks/useRouteFocus'
 import { SkipLink } from './SkipLink'
 import { Logotipo } from '../brand/Marca'
+import { esRutaConMovimiento, useMenosMovimiento, useNavegadorLibre } from '../../motion/preferencias'
+import { ScrollSuave } from '../../motion/perezoso'
 
 const navLink = ({ isActive }: { isActive: boolean }) =>
   `inline-flex min-h-11 items-center px-3 text-sm font-semibold transition-colors duration-150 ${
@@ -33,6 +35,9 @@ export function PublicShell() {
   const drawer = useRef<HTMLElement>(null)
 
   const close = () => setOpen(false)
+  const quieto = useMenosMovimiento()
+  const libre = useNavegadorLibre()
+  const suave = !quieto && esRutaConMovimiento(pathname)
   useRouteFocus()
 
   // Focus moves into the drawer on open; Esc closes it. Once it is closed (and the page is
@@ -58,7 +63,7 @@ export function PublicShell() {
   return (
     <div className="flex min-h-screen flex-col overflow-x-clip bg-cal-50">
       <SkipLink />
-      <header className="border-b border-cal-200 bg-cal-50 print:hidden" inert={open}>
+      <header className="cabecera-publica relative z-40 border-b border-cal-200 bg-cal-50 print:hidden" inert={open}>
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-4">
           <Link to="/" className="-my-1 inline-flex min-h-11 items-center rounded-(--radius-control)">
             <Logotipo />
@@ -176,34 +181,60 @@ export function PublicShell() {
         </div>
       </aside>
 
-      <main id="contenido" tabIndex={-1} className="flex-1 outline-none" inert={open}>
+      <main id="contenido" tabIndex={-1} className={`flex-1 outline-none ${esRutaConMovimiento(pathname) ? 'min-h-svh' : ''}`} inert={open}>
         <ErrorBoundary resetKey={pathname}>
           <Outlet />
         </ErrorBoundary>
       </main>
 
-      <footer className="border-t border-cal-200 bg-cal-100 py-8 text-tinta-600 print:hidden" inert={open}>
-        <div className="mx-auto max-w-6xl px-4 text-center text-sm">
-          <div className="separador mx-auto mb-4 max-w-xs text-xs">
-            <span aria-hidden>◆</span>
+      <footer className="arqueria mt-10 bg-noche-900 text-noche-ink print:hidden" inert={open}>
+        <div className="sobre-noche mx-auto max-w-6xl px-4 pt-14 sm:pt-20">
+          <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+            <div className="max-w-sm">
+              <Link to="/" className="inline-flex min-h-11 items-center">
+                <Logotipo tono="claro" />
+              </Link>
+              <p className="mt-4 text-sm text-noche-muted">{t('public.footer.tagline')}</p>
+            </div>
+            <nav aria-label={t('public.footer.explore')}>
+              <h2 className="text-sm font-semibold text-fez-200">{t('public.footer.explore')}</h2>
+              <ul className="mt-3 grid grid-cols-2 gap-x-10 text-sm sm:grid-cols-1">
+                {[
+                  ['/', t('public.nav.home')],
+                  ['/hotels', t('public.nav.hotels')],
+                  ['/marca', t('brand.footerLink')],
+                ].map(([to, label]) => (
+                  <li key={to}>
+                    <Link to={to} className="pie-enlace inline-flex min-h-11 items-center text-noche-ink hover:text-fez-200">
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+                <li>
+                  <a
+                    href="https://github.com/AyChEs"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="pie-enlace inline-flex min-h-11 items-center text-noche-ink hover:text-fez-200"
+                  >
+                    GitHub · AyChEs
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
-          <p>
-            Zellige Hotels · {t('public.footer.tagline')} ·{' '}
-            <a
-              href="https://github.com/AyChEs"
-              className="font-semibold text-fez-700 underline underline-offset-2 hover:text-fez-800"
-              target="_blank"
-              rel="noreferrer"
-            >
-              AyChEs
-            </a>{' '}
-            ·{' '}
-            <Link to="/marca" className="font-semibold text-fez-700 underline underline-offset-2 hover:text-fez-800">
-              {t('brand.footerLink')}
-            </Link>
-          </p>
+          <div aria-hidden className="pie-nombre font-display mt-12 select-none overflow-hidden text-noche-ink uppercase sm:mt-16">
+            <span>Zellige</span>
+          </div>
+          <p className="border-t border-noche-800 py-5 text-xs text-noche-muted">{t('public.footer.made')}</p>
         </div>
       </footer>
+
+      {suave && libre && (
+        <Suspense fallback={null}>
+          <ScrollSuave />
+        </Suspense>
+      )}
     </div>
   )
 }

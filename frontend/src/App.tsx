@@ -5,11 +5,12 @@ import { AdminShell } from './components/layout/AdminShell'
 import { AccountShell } from './components/layout/AccountShell'
 import { ProtectedRoute } from './auth/ProtectedRoute'
 import { loadHotelDetail } from './pages/public/loadHotelDetail'
+import { useTransicionesDePagina } from './motion/useTransicionesDePagina'
+import LandingPage from './pages/public/LandingPage' // en el paquete principal: es lo primero que se pinta
 
 const LoginPage = lazy(() => import('./pages/LoginPage').then((m) => ({ default: m.LoginPage })))
 const RegisterPage = lazy(() => import('./pages/RegisterPage').then((m) => ({ default: m.RegisterPage })))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
-const LandingPage = lazy(() => import('./pages/public/LandingPage'))
 const HotelsPage = lazy(() => import('./pages/public/HotelsPage'))
 const HotelDetailPage = lazy(loadHotelDetail)
 const BrandPage = lazy(() => import('./pages/public/BrandPage'))
@@ -40,6 +41,7 @@ function PageFallback() {
 }
 
 export default function App() {
+  useTransicionesDePagina()
   return (
     <Suspense fallback={<PageFallback />}>
       <Routes>

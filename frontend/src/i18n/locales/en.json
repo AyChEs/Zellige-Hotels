@@ -166,26 +166,85 @@
       "logout": "Log out"
     },
     "footer": {
-      "tagline": "Demo hotel ERP"
+      "tagline": "Demo hotel ERP",
+      "explore": "Explore",
+      "made": "Demo project by Ayman Charoui"
     },
     "landing": {
-      "kicker": "Granada · Marrakech · Barcelona",
-      "title": "Hospitality is a craft. We practise it with precision.",
-      "subtitle": "Three hotels with character. Direct booking, a fixed price per night and no-surprise invoices.",
+      "subtitle": "Three hotels with character in Granada, Marrakech and Barcelona. Direct booking, a fixed price per night and no-surprise invoices.",
       "checkIn": "Check-in",
       "checkOut": "Check-out",
       "guests": "Guests",
       "search": "Search",
       "hotelsTitle": "Our hotels",
-      "whyTitle": "Why book direct",
-      "why1Title": "Your booking, right away",
-      "why1Body": "It goes straight into the hotel's system and you see it in your account as soon as you make it.",
-      "why2Title": "Flexible cancellation",
-      "why2Body": "Cancel any pending or confirmed booking from your account, no phone calls.",
-      "why3Title": "No surprise invoices",
-      "why3Body": "Locked-in price per night and board, with VAT broken out on the invoice.",
       "hotel": "Hotel",
-      "heroAlt": "{{name}}, in {{city}}"
+      "heroAlt": "Courtyard with a long pool seen through a horseshoe arch, with a green tile dado",
+      "titleLines": [
+        "Hospitality",
+        "is a craft."
+      ],
+      "ctaSearch": "Check availability",
+      "searchTitle": "Choose your dates",
+      "factsLabel": "Zellige in figures",
+      "factHotels_one": "{{count}} hotel",
+      "factHotels_other": "{{count}} hotels",
+      "facts": [
+        "4 board options",
+        "Fixed price per night",
+        "VAT broken out on the invoice",
+        "Two bookings never overlap",
+        "Cancel from your account",
+        "Spanish and English"
+      ],
+      "hotelsLines": [
+        "Three houses,",
+        "one craft."
+      ],
+      "hotelsBody": "Each hotel is different. The way you book is not.",
+      "storyLines": [
+        "Booking,",
+        "step by step."
+      ],
+      "storyStep": "Step {{n}} of {{total}}",
+      "steps": [
+        {
+          "title": "You pick the dates",
+          "body": "Check-in, check-out and guests. You see the nights and the total price before going on."
+        },
+        {
+          "title": "Nothing overlaps",
+          "body": "Like the tiles of a zellige, two stays never share the same room. The database guarantees it, not a warning."
+        },
+        {
+          "title": "Confirmed by the hotel",
+          "body": "The booking enters the system with its code. When the hotel confirms it, you see it in your account."
+        },
+        {
+          "title": "A clear invoice",
+          "body": "Base, 10% VAT and total, each on its own line. It is in your account."
+        }
+      ],
+      "vNights": "3 nights",
+      "vRoom": "Room 201",
+      "vTaken": "Does not fit: already taken",
+      "vNightsLine": "3 nights × €140",
+      "vBase": "Base",
+      "vVat": "VAT 10%",
+      "vTotal": "Total",
+      "vDays": [
+        "M",
+        "T",
+        "W",
+        "T",
+        "F",
+        "S",
+        "S"
+      ],
+      "closingLines": [
+        "Pick your dates.",
+        "The hotel takes care of the rest."
+      ],
+      "closingCta": "See the hotels"
     },
     "hotels": {
       "title": "Hotels",
