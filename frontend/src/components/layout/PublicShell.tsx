@@ -9,6 +9,7 @@ import { Button, ButtonLink } from '../ui/Button'
 import { IconCerrar, IconMenu } from '../ui/icons'
 import { useRouteFocus } from '../../hooks/useRouteFocus'
 import { SkipLink } from './SkipLink'
+import { Logotipo } from '../brand/Marca'
 
 const navLink = ({ isActive }: { isActive: boolean }) =>
   `inline-flex min-h-11 items-center px-3 text-sm font-semibold transition-colors duration-150 ${
@@ -22,16 +23,6 @@ const drawerLink = ({ isActive }: { isActive: boolean }) =>
     isActive ? 'bg-fez-50 text-fez-700' : 'text-tinta-900 hover:bg-cal-100'
   }`
 
-function Logo() {
-  return (
-    <>
-      <span aria-hidden className="mr-1.5 text-base text-granate-700">
-        ◆
-      </span>
-      Zellige Hotels
-    </>
-  )
-}
 
 export function PublicShell() {
   const { t } = useTranslation()
@@ -69,8 +60,8 @@ export function PublicShell() {
       <SkipLink />
       <header className="border-b border-cal-200 bg-cal-50 print:hidden" inert={open}>
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-4">
-          <Link to="/" className="font-display text-xl text-tinta-900">
-            <Logo />
+          <Link to="/" className="-my-1 inline-flex min-h-11 items-center rounded-(--radius-control)">
+            <Logotipo />
           </Link>
 
           <nav aria-label={t('common.menu')} className="hidden items-center gap-1 md:flex">
@@ -128,9 +119,7 @@ export function PublicShell() {
         }`}
       >
         <div className="flex h-16 items-center justify-between border-b border-cal-200 px-4">
-          <span className="font-display text-xl text-tinta-900">
-            <Logo />
-          </span>
+          <Logotipo size="sm" />
           <button
             type="button"
             onClick={close}
@@ -207,7 +196,11 @@ export function PublicShell() {
               rel="noreferrer"
             >
               AyChEs
-            </a>
+            </a>{' '}
+            ·{' '}
+            <Link to="/marca" className="font-semibold text-fez-700 underline underline-offset-2 hover:text-fez-800">
+              {t('brand.footerLink')}
+            </Link>
           </p>
         </div>
       </footer>

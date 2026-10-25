@@ -9,6 +9,7 @@ import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { ErrorNote } from '../components/ui/Feedback'
 import { Field, Input } from '../components/ui/Field'
+import { Simbolo } from '../components/brand/Marca'
 
 export function RegisterPage() {
   const { t } = useTranslation()
@@ -60,6 +61,7 @@ export function RegisterPage() {
   return (
     <div className="reticula flex min-h-[70vh] items-center justify-center px-4 py-12 sm:py-16">
       <Card variant="brand" className="w-full max-w-lg p-6 sm:p-8">
+        <Simbolo size={40} className="mx-auto mb-4 block text-fez-700" />
         <h1 className="font-display text-center text-2xl text-tinta-900">{t('auth.register.title')}</h1>
         <p className="mt-1 text-center text-sm text-tinta-600">{t('auth.register.subtitle')}</p>
         <div className="separador mx-auto mt-4 mb-6 max-w-45 text-xs">

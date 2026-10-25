@@ -33,14 +33,18 @@ Después de la revisión, Opus solo revisa el resultado final (no ejecuta).
 | 07 | Arquitectura del frontend | GLM | 06 | hecha |
 | 08 | Datos de demo que no caducan (backend) | Pro | 00 | hecha |
 | 09 | Revisión final | Revisión | 07, 08 | hecha |
+| 10 | Marca: estudio, logotipo y página `/marca` (`docs/MARCA.md`) | Opus | 09 | en curso |
+| 11 | Movimiento ligado al scroll en la parte pública (GSAP, ScrollTrigger, Lenis) | Opus | 10 | pendiente |
 
 ## Orden y paralelo
 
 ```
 00 ─► 01 ─► 02 ─► 03 ─┬─► 04 ─┐
  │                    └─► 05 ─┴─► 06 ─► 07 ─┐
- └─► 08 ─────────────────────────────────────┴─► 09
+ └─► 08 ─────────────────────────────────────┴─► 09 ─► 10 ─► 11
 ```
+
+- 10 y 11 son una fase añadida el 2026-10-24 a petición de Ayman: marca propia y animaciones ligadas al scroll, con la web de Tacho como referencia de oficio (no de estética).
 
 - 04 y 05 pueden ir a la vez: tocan páginas distintas (`pages/public` y `pages/admin`). Si las dos tocan `i18n/locales/*.json`, la segunda en fusionar resuelve el conflicto conservando ambas claves.
 - 08 solo toca el backend y puede ir en paralelo con 01 a 07.

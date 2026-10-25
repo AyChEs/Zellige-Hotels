@@ -12,6 +12,7 @@ const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 const LandingPage = lazy(() => import('./pages/public/LandingPage'))
 const HotelsPage = lazy(() => import('./pages/public/HotelsPage'))
 const HotelDetailPage = lazy(loadHotelDetail)
+const BrandPage = lazy(() => import('./pages/public/BrandPage'))
 
 const MyBookingsPage = lazy(() => import('./pages/account/MyBookingsPage'))
 const MyInvoicesPage = lazy(() => import('./pages/account/MyInvoicesPage'))
@@ -47,6 +48,7 @@ export default function App() {
           <Route index element={<LandingPage />} />
           <Route path="hotels" element={<HotelsPage />} />
           <Route path="hotels/:id" element={<HotelDetailPage />} />
+          <Route path="marca" element={<BrandPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
         </Route>

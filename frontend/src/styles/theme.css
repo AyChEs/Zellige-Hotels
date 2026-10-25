@@ -14,10 +14,14 @@
   --color-tinta-900: #1c211f;
   --color-tinta-600: #555c58;
   --color-fez-50: #e4f0ea;
+  /* Acento sobre superficies oscuras (noche-900 9,3:1). Marca, docs/MARCA.md */
+  --color-fez-200: #9fcfb7;
   --color-fez-700: #1e5b46;
   --color-fez-800: #17483a;
   --color-granate-50: #f6e7e9;
   --color-granate-700: #8b2e3c;
+  /* Apellido del logotipo sobre noche-900 (9,2:1) */
+  --color-granate-200: #e2b9bf;
   --color-noche-900: #18231f;
   --color-noche-800: #2a3b34;
   --color-noche-ink: #edeae3;
@@ -55,6 +59,12 @@
   --radius-card: 10px;
   --radius-pill: 999px;
   --shadow-card: 0 1px 2px rgb(28 33 31 / 0.06), 0 4px 12px rgb(28 33 31 / 0.05);
+
+  /* Movimiento (docs/MARCA.md): lento, sin rebote, distancias cortas. */
+  --ease-sereno: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-umbral: cubic-bezier(0.65, 0, 0.35, 1);
+  --duracion-micro: 180ms;
+  --duracion-entrada: 900ms;
 }
 
 /* ---------- base ---------- */
@@ -130,6 +140,23 @@ main[tabindex='-1']:focus {
   background-size: 48px 48px;
 }
 
+/* Arquería: el borde superior de las superficies oscuras es una fila de arcos (docs/MARCA.md). */
+.arqueria {
+  position: relative;
+}
+.arqueria::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: calc(100% - 1px);
+  height: 24px;
+  background-color: inherit;
+  --arcos: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='24' viewBox='0 0 40 24'%3E%3Cpath d='M0 18h40v6H0zM6 18v-4a14 14 0 0 1 28 0v4z'/%3E%3C/svg%3E");
+  -webkit-mask: var(--arcos) repeat-x left bottom / 40px 24px;
+  mask: var(--arcos) repeat-x left bottom / 40px 24px;
+  pointer-events: none;
+}
+
 /* Brand separator: line, garnet lozenge, line (landing, auth and footer only) */
 .separador {
   display: flex;
@@ -143,6 +170,18 @@ main[tabindex='-1']:focus {
   height: 1px;
   flex: 1;
   background: var(--color-cal-200);
+}
+
+/* Ejemplo de uso incorrecto en /marca: una diagonal roja cruza la lámina. */
+.no-uso {
+  position: relative;
+}
+.no-uso::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top right, transparent calc(50% - 1px), var(--color-error-700) 50%, transparent calc(50% + 1px));
+  pointer-events: none;
 }
 
 /* ---------- loading ---------- */

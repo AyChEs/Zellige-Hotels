@@ -6,6 +6,7 @@ import { useAuth } from '../../auth/AuthContext'
 import { LanguageSwitcher } from '../../i18n/LanguageSwitcher'
 import type { Role } from '../../api/types'
 import { useLabels } from '../../lib/labels'
+import { Logotipo } from '../brand/Marca'
 import {
   IconCalendario,
   IconCerrar,
@@ -72,11 +73,8 @@ export function AdminShell() {
   const sidebarInner = (closeButton?: boolean) => (
     <>
       <div className="flex h-16 items-center justify-between px-5">
-        <Link to="/" className="font-display text-xl text-noche-ink" onClick={close}>
-          <span aria-hidden className="mr-1.5 text-base text-noche-muted">
-            ◆
-          </span>
-          Zellige ERP
+        <Link to="/" className="inline-flex min-h-11 items-center" onClick={close}>
+          <Logotipo tono="claro" size="sm" sub="ERP" />
         </Link>
         {closeButton && (
           <button
@@ -159,11 +157,8 @@ export function AdminShell() {
           >
             <IconMenu size={20} />
           </button>
-          <Link to="/" className="font-display text-lg text-tinta-900">
-            <span aria-hidden className="mr-1.5 text-sm text-granate-700">
-              ◆
-            </span>
-            Zellige ERP
+          <Link to="/" className="inline-flex min-h-11 items-center">
+            <Logotipo size="sm" sub="ERP" />
           </Link>
         </div>
 

@@ -2,11 +2,12 @@ import { expect, test } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import { mockApi, type Role } from './mock-api'
 
-// The 18 screens of plan/AUDITORIA.md. Each one is checked at 390 and 1440 px (projects).
+// The 18 screens of plan/AUDITORIA.md plus the brand page (session 10). Each one is checked at 390 and 1440 px (projects).
 const ROUTES: { path: string; role?: Role }[] = [
   { path: '/' },
   { path: '/hotels' },
   { path: '/hotels/1' },
+  { path: '/marca' },
   { path: '/login' },
   { path: '/register' },
   { path: '/account', role: 'CLIENT' },
