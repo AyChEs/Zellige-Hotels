@@ -209,6 +209,25 @@ html.lenis body {
   }
 }
 
+/* Piezas de Rive (docs/MARCA.md §13): debajo siempre está la imagen SVG con el estado final. */
+.rive-lienzo {
+  opacity: 0;
+  transition: opacity 420ms var(--ease-sereno);
+}
+[data-rive='lista'] > .rive-lienzo {
+  opacity: 1;
+}
+/* El logotipo animado nace idéntico al símbolo SVG: al estar listo se cambia uno por otro sin fundido. */
+.simbolo-vivo > canvas {
+  opacity: 0;
+}
+.simbolo-vivo[data-rive='lista'] > canvas {
+  opacity: 1;
+}
+.simbolo-vivo[data-rive='lista'] > svg {
+  visibility: hidden;
+}
+
 /* Portada con movimiento activo (data-movimiento lo pone MovimientoPortada). */
 .portada[data-movimiento] .carrusel {
   padding-block: 0;

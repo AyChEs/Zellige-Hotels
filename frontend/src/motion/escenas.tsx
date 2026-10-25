@@ -1,4 +1,5 @@
 import type { RefObject } from 'react'
+import { moverPieza, soltarPiezas, type PiezaId } from '../rive/piezas'
 import { DURACION_ENTRADA, ESCALONADO, SERENO, ScrollTrigger, gsap, useGSAP } from './gsap'
 
 /*
@@ -191,9 +192,21 @@ export function MovimientoPortada({ raiz, listo }: Props) {
         }
 
         // 5 · Historia por pasos: fijada en pantallas anchas; en móvil cada paso entra al llegar.
+        // Las ilustraciones de Rive de cada paso (rive/reservar) avanzan con este mismo scroll:
+        // el ScrollTrigger escribe su «progreso» (0 a 1) y la pieza lo copia al view model.
         const historia = q('[data-escena="historia"]')[0] as HTMLElement
         const pasos = gsap.utils.toArray<HTMLElement>(q('.paso'))
+        const piezaDe = (paso: HTMLElement) => paso.querySelector<HTMLElement>('[data-pieza]')?.dataset.pieza as PiezaId | undefined
         if (historia && pasos.length) {
+          const medidores = pasos.map(() => ({ p: 0 }))
+          pasos.forEach((paso) => {
+            const id = piezaDe(paso)
+            if (id) moverPieza(id, 0) // desde aquí manda el scroll: las piezas parten del principio
+          })
+          const mueve = (i: number) => () => {
+            const id = piezaDe(pasos[i])
+            if (id) moverPieza(id, medidores[i].p)
+          }
           if (ancho) {
             const barras = q('.historia-barra')
             gsap.set(pasos.slice(1), { opacity: 0 })
@@ -207,6 +220,18 @@ export function MovimientoPortada({ raiz, listo }: Props) {
                 scrub: 0.8,
               },
             })
+            // El primer paso ya se ve al llegar: su ilustración empieza antes de fijarse la sección.
+            const PREVIO = 0.45
+            if (pasos[0] && piezaDe(pasos[0])) {
+              const id = piezaDe(pasos[0]) as PiezaId
+              ScrollTrigger.create({
+                trigger: historia,
+                start: 'top 85%',
+                end: 'top top',
+                onUpdate: (self) => moverPieza(id, PREVIO * self.progress),
+              })
+              tl.fromTo(medidores[0], { p: PREVIO }, { p: 1, duration: 0.7, ease: 'none', immediateRender: false, onUpdate: mueve(0) }, 0)
+            }
             pasos.forEach((p, i) => {
               if (i === 0) return
               const prev = pasos[i - 1]
@@ -221,11 +246,12 @@ export function MovimientoPortada({ raiz, listo }: Props) {
                   { y: 0, rotate: 0, opacity: 1, duration: 0.6, ease: SERENO },
                   i + 0.35,
                 )
+                .fromTo(medidores[i], { p: 0 }, { p: 1, duration: 0.65, ease: 'none', onUpdate: mueve(i) }, i + 0.35)
                 .to(barras[i], { scaleX: 1, duration: 0.6, ease: 'none' }, i)
             })
             tl.to({}, { duration: 0.4 })
           } else {
-            pasos.forEach((p) =>
+            pasos.forEach((p, i) => {
               gsap.from(p.children, {
                 y: 40,
                 opacity: 0,
@@ -233,25 +259,15 @@ export function MovimientoPortada({ raiz, listo }: Props) {
                 ease: SERENO,
                 stagger: ESCALONADO * 2,
                 scrollTrigger: { trigger: p, start: 'top 85%', once: true },
-              }),
-            )
+              })
+              gsap.to(medidores[i], {
+                p: 1,
+                ease: 'none',
+                onUpdate: mueve(i),
+                scrollTrigger: { trigger: p, start: 'top 80%', end: 'bottom 45%', scrub: 0.6 },
+              })
+            })
           }
-          // Detalles de cada lámina: el intento que no cabe y la confirmación.
-          gsap.from(q('.visual-intento'), {
-            x: 60,
-            opacity: 0,
-            duration: 1.2,
-            ease: SERENO,
-            scrollTrigger: { trigger: q('.visual-intento')[0], start: 'top 80%', toggleActions: 'play none none reverse' },
-          })
-          gsap.from(q('.visual-fila'), {
-            opacity: 0,
-            x: -16,
-            stagger: ESCALONADO,
-            duration: DURACION_ENTRADA,
-            ease: SERENO,
-            scrollTrigger: { trigger: q('.visual-fila')[0], start: 'top 85%', toggleActions: 'play none none reverse' },
-          })
         }
 
         // 6 · Contorno: el nombre gigante deriva despacio y las fotos lo cruzan a distinta velocidad.
@@ -286,6 +302,7 @@ export function MovimientoPortada({ raiz, listo }: Props) {
       return () => {
         limpiar.forEach((f) => f())
         mm.revert()
+        soltarPiezas()
         delete root.dataset.movimiento
       }
     },

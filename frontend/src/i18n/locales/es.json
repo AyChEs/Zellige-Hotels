@@ -224,22 +224,6 @@
           "body": "Base, IVA del 10 % y total, cada cosa en su línea. La tienes en tu cuenta."
         }
       ],
-      "vNights": "3 noches",
-      "vRoom": "Habitación 201",
-      "vTaken": "No cabe: ya está ocupada",
-      "vNightsLine": "3 noches × 140 €",
-      "vBase": "Base",
-      "vVat": "IVA 10 %",
-      "vTotal": "Total",
-      "vDays": [
-        "L",
-        "M",
-        "X",
-        "J",
-        "V",
-        "S",
-        "D"
-      ],
       "closingLines": [
         "Elige fechas.",
         "Del resto se encarga el hotel."
