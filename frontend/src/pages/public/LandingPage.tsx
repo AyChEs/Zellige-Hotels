@@ -1,187 +1,336 @@
-import { useQuery } from '@tanstack/react-query'
 import { Link, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
-import { motion, useReducedMotion } from 'motion/react'
+import { Suspense, useRef, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { hotelApi } from '../../api/endpoints'
+import type { HotelDto } from '../../api/types'
+import { useHotelList } from '../../api/hooks/useHotels'
 import { plusDaysIso, todayIso } from '../../lib/format'
-import { ListSkeleton } from '../../components/ui/Feedback'
+import { Button, ButtonLink, buttonClasses } from '../../components/ui/Button'
+import { Card } from '../../components/ui/Card'
+import { DateRangeField } from '../../components/ui/DateRangeField'
+import { Field, Input, Select } from '../../components/ui/Field'
+import { Lineas } from '../../components/brand/Lineas'
+import { useMenosMovimiento, useNavegadorLibre } from '../../motion/preferencias'
+import { MovimientoPortada } from '../../motion/perezoso'
+import { loadHotelDetail } from './loadHotelDetail'
+import { Foto, FotoHotel } from '../../components/ui/Foto'
+import { FOTO_PORTADA, FOTO_TEXTURA } from '../../lib/fotos'
+import { PiezaRive } from '../../rive/PiezaRive'
+import type { PiezaId } from '../../rive/piezas'
 
-const HERO_IMG =
-  'https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=1800&q=70'
+/*
+ * Portada como narración por scroll (sesión 11, docs/MARCA.md §9). El HTML es el estado
+ * final y se lee entero sin JavaScript ni movimiento; MovimientoPortada (carga perezosa,
+ * solo sin prefers-reduced-motion) añade el arco que se abre, los titulares por líneas,
+ * la cinta, el carrusel fijado, la historia por pasos y el paralaje.
+ */
+
+/** Arco de herradura en una caja de 100 × 125, abierto como ventana; el exterior lo tapa la cal. */
+const HUECO = 'M0 125V81.2A56 56 0 1 1 100 81.2V125Z'
+const EXTERIOR = 'M-1500-1500H1600V1600H-1500Z'
 
 export default function LandingPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const reduced = useReducedMotion()
+  const raiz = useRef<HTMLDivElement>(null)
+  const quieto = useMenosMovimiento()
+  const libre = useNavegadorLibre()
   const [checkIn, setCheckIn] = useState(plusDaysIso(7))
   const [checkOut, setCheckOut] = useState(plusDaysIso(10))
   const [guests, setGuests] = useState(2)
+  const [hotelId, setHotelId] = useState<number | null>(null)
 
-  const { data: hotels, isPending } = useQuery({
-    queryKey: ['hotels', 'landing'],
-    queryFn: () => hotelApi.search({ active: true, size: 3 }),
-  })
+  const { data: hotels, isPending } = useHotelList({ active: true, size: 3 })
+  const lista = hotels?.content ?? []
+  const first = lista[0]
+  const chosen = hotelId ?? first?.id
 
-  const searchFirstHotel = (e: React.FormEvent) => {
+  const search = (e: FormEvent) => {
     e.preventDefault()
-    const first = hotels?.content[0]
-    navigate(
-      first
-        ? `/hotels/${first.id}?checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`
-        : '/hotels',
-    )
+    if (!chosen || checkOut <= checkIn) return
+    navigate(`/hotels/${chosen}?checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`)
   }
 
-  const rise = (delay: number) =>
-    reduced
-      ? {}
-      : {
-          initial: { opacity: 0, y: 24 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] as const },
-        }
+  const facts = [
+    t('public.landing.factHotels', { count: hotels?.totalElements ?? 3 }),
+    ...(lista.length ? lista.map((h) => h.city) : ['Granada', 'Marrakech', 'Barcelona']),
+    ...(t('public.landing.facts', { returnObjects: true }) as string[]),
+  ]
 
   return (
-    <>
-      {/* Hero — photographic, with teal veil + arabesque pattern on top */}
-      <section className="relative isolate overflow-hidden bg-teal-950">
-        <img
-          src={HERO_IMG}
-          alt=""
-          aria-hidden
-          className="absolute inset-0 h-full w-full object-cover opacity-45"
-          loading="eager"
+    <div ref={raiz} className="portada">
+      {/* 1 · El umbral: foto a sangre tapada por la cal, con un arco de herradura como ventana. */}
+      <section data-escena="umbral" className="relative isolate overflow-hidden bg-cal-100">
+        <Foto
+          foto={FOTO_PORTADA}
+          sizes="100vw"
+          alt={t('public.landing.heroAlt')}
+          fetchPriority="high"
+          className="umbral-foto absolute inset-0 -z-10 h-full w-full object-cover"
         />
-        <div className="bg-arabesque absolute inset-0 opacity-55" aria-hidden />
-        <div className="relative mx-auto max-w-6xl px-4 py-16 sm:py-24 lg:py-32">
-          <motion.p {...rise(0)} className="mb-3 text-xs text-gold-300 sm:text-sm">
-            {t('public.landing.kicker')}
-          </motion.p>
-          <motion.h1
-            {...rise(0.08)}
-            className="font-display max-w-3xl text-3xl leading-tight text-white sm:text-4xl md:text-6xl"
-          >
-            {t('public.landing.title')}
-          </motion.h1>
-          <motion.p {...rise(0.16)} className="mt-5 max-w-xl text-base text-glaze-100/90 sm:text-lg">
-            {t('public.landing.subtitle')}
-          </motion.p>
+        <div className="mx-auto grid min-h-[calc(100svh-4rem)] max-w-6xl grid-rows-[auto_1fr] items-center gap-8 px-4 pt-10 pb-12 lg:grid-cols-12 lg:grid-rows-1 lg:gap-12 lg:py-16">
+          <div className="umbral-texto relative z-20 lg:col-span-7">
+            <h1 className="font-display text-[clamp(2.75rem,8vw,7rem)] leading-[0.98] tracking-[-0.01em] text-tinta-900">
+              <Lineas lineas={t('public.landing.titleLines', { returnObjects: true }) as string[]} entrada />
+            </h1>
+            <p className="aparecer-tarde mt-6 max-w-[34rem] text-lg text-tinta-600">{t('public.landing.subtitle')}</p>
+            <div className="aparecer-tarde mt-8 flex flex-wrap gap-3">
+              <span data-magnetico className="inline-flex">
+                <a href="#buscar" className={buttonClasses('primary', 'md', 'px-6')}>
+                  {t('public.landing.ctaSearch')}
+                </a>
+              </span>
+              <ButtonLink to="/hotels" variant="secondary" className="px-6">
+                {t('public.landing.closingCta')}
+              </ButtonLink>
+            </div>
+          </div>
 
-          <motion.form
-            {...rise(0.24)}
-            onSubmit={searchFirstHotel}
-            className="card-tile-accent mt-10 grid max-w-3xl gap-4 p-4 sm:p-5 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto_auto]"
-          >
-            <div>
-              <label htmlFor="checkIn" className="field-label">{t('public.landing.checkIn')}</label>
-              <input
-                id="checkIn" type="date" className="field-input" value={checkIn}
-                min={todayIso()} onChange={(e) => setCheckIn(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="checkOut" className="field-label">{t('public.landing.checkOut')}</label>
-              <input
-                id="checkOut" type="date" className="field-input" value={checkOut}
-                min={checkIn} onChange={(e) => setCheckOut(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="guests" className="field-label">{t('public.landing.guests')}</label>
-              <input
-                id="guests" type="number" min={1} max={10} className="field-input sm:w-24"
-                value={guests} onChange={(e) => setGuests(Number(e.target.value))}
-              />
-            </div>
-            <div className="flex items-end">
-              <button type="submit" className="btn-gold w-full">{t('public.landing.search')}</button>
-            </div>
-          </motion.form>
-        </div>
-      </section>
-
-      {/* Hotels */}
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <div className="mb-8 flex items-end justify-between">
-          <h2 className="font-display text-3xl text-teal-900">{t('public.landing.hotelsTitle')}</h2>
-          <Link to="/hotels" className="text-sm font-medium text-teal-600 hover:text-teal-500">
-            {t('common.seeAll')}
-          </Link>
-        </div>
-
-        {isPending ? (
-          <ListSkeleton rows={3} />
-        ) : (
-          <div className="grid gap-6 md:grid-cols-3">
-            {hotels?.content.map((hotel, i) => (
-              <motion.div
-                key={hotel.id}
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.45, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+          <div className="relative z-10 mx-auto w-[62%] max-w-[17rem] self-center sm:max-w-xs lg:col-span-5 lg:w-full lg:max-w-md">
+            <div className="relative aspect-[4/5]">
+              <svg
+                viewBox="0 0 100 125"
+                className="umbral-marco absolute inset-0 h-full w-full overflow-visible"
+                aria-hidden
+                focusable="false"
               >
-                <Link
-                  to={`/hotels/${hotel.id}`}
-                  className="card-tile group block overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md motion-reduce:hover:translate-y-0"
-                >
-                  <div className="relative h-48 overflow-hidden bg-teal-900">
-                    {hotel.imageUrl && (
-                      <img
-                        src={hotel.imageUrl}
-                        alt={hotel.name}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:group-hover:scale-100"
-                      />
-                    )}
-                    <span className="absolute bottom-0 left-0 bg-teal-950/85 px-3 py-1.5 font-display text-sm text-gold-300">
-                      {hotel.category.starRating}★ · {hotel.city}
-                    </span>
-                  </div>
-                  <div className="p-5">
-                    <h3 className="font-display text-lg text-teal-900 group-hover:text-teal-700">
-                      {hotel.name}
-                    </h3>
-                    <p className="mt-1 line-clamp-2 text-sm text-teal-800">{hotel.description}</p>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
+                <defs>
+                  <pattern id="umbral-reticula" width="9.6" height="9.6" patternUnits="userSpaceOnUse">
+                    <path d="M4.8 0 9.6 4.8 4.8 9.6 0 4.8Z" fill="none" stroke="#1E5B46" strokeOpacity=".07" strokeWidth=".2" />
+                  </pattern>
+                </defs>
+                <path d={`${EXTERIOR}${HUECO}`} fill="#FAF8F4" fillOpacity=".9" fillRule="evenodd" />
+                <path d={`${EXTERIOR}${HUECO}`} fill="url(#umbral-reticula)" fillRule="evenodd" />
+                <path d={HUECO} fill="none" stroke="#8B2E3C" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+              </svg>
+            </div>
           </div>
-        )}
+        </div>
+        <p aria-hidden className="umbral-pie pointer-events-none absolute bottom-8 left-4 z-20 opacity-0 sm:left-8">
+          <span className="block rounded-(--radius-card) bg-noche-900/90 px-5 py-4 text-noche-ink">
+            <span className="font-display block text-2xl sm:text-4xl">Zellige Hotels</span>
+            <span className="mt-1 block text-sm text-fez-200">
+              {(lista.length ? lista.map((h) => h.city) : ['Granada', 'Marrakech', 'Barcelona']).join(' · ')}
+            </span>
+          </span>
+        </p>
       </section>
 
-      {/* Why direct */}
-      <section className="border-t border-glaze-200 bg-white">
-        <div className="mx-auto max-w-6xl px-4 py-14">
-          <div className="grid gap-10 md:grid-cols-[1.2fr_2fr]">
-            <h2 className="font-display text-2xl text-teal-900">
-              {t('public.landing.whyTitle')}
+      {/* 2 · Búsqueda: la función de la portada, nada más pasar el umbral. */}
+      <section id="buscar" aria-labelledby="buscar-titulo" className="relative z-10 scroll-mt-24 px-4 pt-12 sm:pt-16">
+        <div className="mx-auto max-w-6xl">
+          <h2 id="buscar-titulo" className="font-display text-2xl text-tinta-900 sm:text-4xl">
+            {t('public.landing.searchTitle')}
+          </h2>
+          <Card as="div" variant="brand" className="mt-6 p-4 sm:p-6">
+            <form onSubmit={search} className="grid gap-4 md:grid-cols-[2fr_1fr_7rem_auto] md:items-end">
+              <DateRangeField
+                className="md:col-span-1"
+                checkIn={checkIn}
+                checkOut={checkOut}
+                min={todayIso()}
+                onChange={(a, b) => {
+                  setCheckIn(a)
+                  setCheckOut(b)
+                }}
+              />
+              <Field id="landing-hotel" label={t('public.landing.hotel')}>
+                <Select value={chosen ?? ''} onChange={(e) => setHotelId(Number(e.target.value))} disabled={!hotels}>
+                  {lista.map((h) => (
+                    <option key={h.id} value={h.id}>
+                      {h.name}
+                    </option>
+                  ))}
+                </Select>
+              </Field>
+              <Field id="landing-guests" label={t('public.landing.guests')}>
+                <Input type="number" min={1} max={10} value={guests} onChange={(e) => setGuests(Number(e.target.value))} />
+              </Field>
+              <span data-magnetico className="flex md:inline-flex">
+                <Button type="submit" disabled={!chosen} className="w-full px-6 md:w-auto">
+                  {t('public.landing.search')}
+                </Button>
+              </span>
+            </form>
+          </Card>
+        </div>
+      </section>
+
+      {/* 3 · Cinta con datos del producto: se desplaza solo al hacer scroll. */}
+      <section aria-label={t('public.landing.factsLabel')} data-escena="cinta" className="mt-16 overflow-hidden bg-fez-700 py-4 text-white sm:mt-24">
+        <ul className="sr-only">
+          {facts.map((f) => (
+            <li key={f}>{f}</li>
+          ))}
+        </ul>
+        <div aria-hidden className="cinta-pista flex w-max gap-10 whitespace-nowrap">
+          {[0, 1, 2].map((copia) => (
+            <span key={copia} className="flex gap-10">
+              {facts.map((f) => (
+                <span key={f} className="font-display flex items-center gap-10 text-xl uppercase tracking-[0.12em] sm:text-2xl">
+                  {f}
+                  <span className="size-2 rotate-45 bg-fez-200" />
+                </span>
+              ))}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      {/* 4 · Los tres hoteles: carrusel horizontal fijado; sin movimiento, una rejilla. */}
+      <section aria-labelledby="casas-titulo" data-escena="carrusel" className="carrusel overflow-hidden py-16 sm:py-24">
+        <div className="carrusel-pista mx-auto flex max-w-6xl flex-col gap-6 px-4">
+          <div className="carrusel-intro flex shrink-0 flex-col justify-end">
+            <h2 id="casas-titulo" className="font-display text-[clamp(2.25rem,5vw,4.5rem)] leading-[1.02] text-tinta-900">
+              <Lineas lineas={t('public.landing.hotelsLines', { returnObjects: true }) as string[]} />
             </h2>
-            <dl className="grid gap-6 sm:grid-cols-3">
-              <div>
-                <dt className="font-medium text-teal-900">{t('public.landing.why1Title')}</dt>
-                <dd className="mt-1 text-sm text-teal-800">
-                  {t('public.landing.why1Body')}
-                </dd>
-              </div>
-              <div>
-                <dt className="font-medium text-teal-900">{t('public.landing.why2Title')}</dt>
-                <dd className="mt-1 text-sm text-teal-800">
-                  {t('public.landing.why2Body')}
-                </dd>
-              </div>
-              <div>
-                <dt className="font-medium text-teal-900">{t('public.landing.why3Title')}</dt>
-                <dd className="mt-1 text-sm text-teal-800">
-                  {t('public.landing.why3Body')}
-                </dd>
-              </div>
-            </dl>
+            <p className="mt-4 max-w-sm text-lg text-tinta-600">{t('public.landing.hotelsBody')}</p>
+            <Link
+              to="/hotels"
+              className="mt-6 inline-flex min-h-11 items-center self-start text-sm font-semibold text-fez-700 underline underline-offset-4 hover:text-fez-800"
+            >
+              {t('common.viewAll')}
+            </Link>
+          </div>
+          <div className="carrusel-tarjetas grid gap-6 md:grid-cols-3">
+            {isPending
+              ? Array.from({ length: 3 }).map((_, i) => <div key={i} aria-hidden className="skeleton aspect-[4/5]" />)
+              : lista.map((hotel, i) => <TarjetaCasa key={hotel.id} hotel={hotel} indice={i} />)}
           </div>
         </div>
       </section>
-    </>
+
+      {/* 5 · Historia fijada: cómo funciona reservar, en cuatro pasos. */}
+      <Historia />
+
+      {/* 6 · «Zellige» gigante en contorno con fotos que cruzan por delante. */}
+      <section aria-labelledby="cierre-titulo" data-escena="contorno" className="relative isolate overflow-hidden py-16 sm:py-24">
+        <div className="contorno-zona">
+          <p aria-hidden className="contorno-texto font-display text-center uppercase leading-none tracking-[0.06em]">
+            Zellige
+          </p>
+          {lista.map((h, i) => (
+            <div
+              key={h.id}
+              data-velocidad={[-18, 26, -10][i]}
+              className={`contorno-foto contorno-foto-${i} absolute aspect-[4/5] overflow-hidden shadow-(--shadow-card)`}
+            >
+              <FotoHotel
+                hotel={h}
+                alt=""
+                sizes="(min-width: 1024px) 19vw, 24vw"
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
+            </div>
+          ))}
+        </div>
+        <Foto
+          foto={FOTO_TEXTURA}
+          alt=""
+          sizes="100vw"
+          loading="lazy"
+          className="contorno-textura pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover"
+        />
+        <div className="relative z-10 mx-auto mt-16 max-w-6xl px-4 text-center sm:mt-24">
+          <h2 id="cierre-titulo" className="font-display mx-auto max-w-3xl text-[clamp(2rem,4.5vw,3.75rem)] leading-[1.05] text-tinta-900">
+            <Lineas lineas={t('public.landing.closingLines', { returnObjects: true }) as string[]} />
+          </h2>
+          <span data-magnetico className="mt-8 inline-flex">
+            <ButtonLink to="/hotels" className="px-8">
+              {t('public.landing.closingCta')}
+            </ButtonLink>
+          </span>
+        </div>
+      </section>
+
+      {!quieto && libre && (
+        <Suspense fallback={null}>
+          <MovimientoPortada raiz={raiz} listo={!isPending} />
+        </Suspense>
+      )}
+    </div>
+  )
+}
+
+const INCLINACION = [-3, 2.5, -2]
+
+function TarjetaCasa({ hotel, indice }: { hotel: HotelDto; indice: number }) {
+  const { t } = useTranslation()
+  return (
+    <article
+      className="carrusel-tarjeta tarjeta-viva group flex flex-col overflow-hidden rounded-(--radius-card) border border-cal-200 bg-white shadow-(--shadow-card)"
+      data-inclinacion={INCLINACION[indice % 3]}
+    >
+      <div className="relative aspect-[4/3] overflow-hidden bg-cal-100">
+        <FotoHotel
+          hotel={hotel}
+          alt=""
+          sizes="(min-width: 768px) 30rem, 80vw"
+          loading="lazy"
+          className="h-full w-full object-cover transition-transform duration-[900ms] ease-(--ease-sereno) group-hover:scale-[1.04]"
+        />
+        <span className="cifras absolute top-4 left-4 rounded-(--radius-pill) bg-white/90 px-3 py-1 text-xs font-semibold text-tinta-900">
+          0{indice + 1}
+        </span>
+      </div>
+      <div className="flex flex-1 flex-col p-5 sm:p-6">
+        <h3 className="font-display text-2xl text-tinta-900 sm:text-[2rem] sm:leading-tight">{hotel.name}</h3>
+        <p className="mt-1 text-sm text-tinta-600">
+          {hotel.city}, {hotel.country} · {t('public.hotelDetail.stars', { count: hotel.category.starRating })}
+        </p>
+        {hotel.description && <p className="mt-3 line-clamp-2 text-tinta-600">{hotel.description}</p>}
+        <div className="mt-auto pt-6">
+          <ButtonLink
+            to={`/hotels/${hotel.id}`}
+            onPointerEnter={loadHotelDetail}
+            onFocus={loadHotelDetail}
+            variant="secondary"
+            aria-label={`${t('public.hotels.viewAvailability')}: ${hotel.name}`}
+          >
+            {t('public.hotels.viewAvailability')}
+          </ButtonLink>
+        </div>
+      </div>
+    </article>
+  )
+}
+
+/** Una ilustración de Rive por paso (rive/reservar). El texto de cada paso sigue siendo HTML. */
+const PIEZAS: PiezaId[] = ['fechas', 'solapes', 'confirmacion', 'factura']
+
+function Historia() {
+  const { t } = useTranslation()
+  const pasos = t('public.landing.steps', { returnObjects: true }) as { title: string; body: string }[]
+  return (
+    <section aria-labelledby="historia-titulo" data-escena="historia" className="historia arqueria mt-10 bg-noche-900 text-noche-ink">
+      <div className="historia-marco mx-auto max-w-6xl px-4 py-20 sm:py-24">
+        <h2 id="historia-titulo" className="font-display text-[clamp(2.25rem,5vw,4.5rem)] leading-[1.02]">
+          <Lineas lineas={t('public.landing.storyLines', { returnObjects: true }) as string[]} />
+        </h2>
+        <ol className="historia-pasos mt-12 grid gap-14">
+          {pasos.map((p, i) => (
+            <li key={p.title} className="paso grid items-center gap-8 md:grid-cols-2 md:gap-16">
+              <div className="paso-texto">
+                <p className="cifras text-sm font-semibold text-fez-200">
+                  {t('public.landing.storyStep', { n: i + 1, total: pasos.length })}
+                </p>
+                <h3 className="font-display mt-3 text-3xl sm:text-4xl">{p.title}</h3>
+                <p className="mt-4 max-w-md text-lg text-noche-muted">{p.body}</p>
+              </div>
+              <div aria-hidden className="paso-visual mx-auto w-full max-w-[30rem] md:max-w-none">
+                <PiezaRive pieza={PIEZAS[i]} />
+              </div>
+            </li>
+          ))}
+        </ol>
+        <div aria-hidden className="historia-progreso mt-10 hidden gap-2">
+          {pasos.map((p) => (
+            <span key={p.title} className="h-1 flex-1 overflow-hidden rounded-(--radius-pill) bg-noche-800">
+              <span className="historia-barra block h-full origin-left scale-x-0 bg-fez-200" />
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
   )
 }

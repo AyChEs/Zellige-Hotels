@@ -1,96 +1,79 @@
-import { useQuery } from '@tanstack/react-query'
-import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { Suspense, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { hotelApi } from '../../api/endpoints'
-import { EmptyState, ErrorNote, ListSkeleton } from '../../components/ui/Feedback'
+import { useHotelList } from '../../api/hooks/useHotels'
+import { EmptyState, ErrorNote } from '../../components/ui/Feedback'
+import { Field, Input } from '../../components/ui/Field'
+import { HotelCard, HotelCardSkeleton } from './HotelCard'
+import { Lineas } from '../../components/brand/Lineas'
+import { useMenosMovimiento, useNavegadorLibre } from '../../motion/preferencias'
+import { MovimientoLista } from '../../motion/perezoso'
 
 export default function HotelsPage() {
   const { t } = useTranslation()
   const [search, setSearch] = useState('')
   const [city, setCity] = useState('')
+  const raiz = useRef<HTMLDivElement>(null)
+  const quieto = useMenosMovimiento()
+  const libre = useNavegadorLibre()
 
-  const { data, isPending, error } = useQuery({
-    queryKey: ['hotels', 'list', search, city],
-    queryFn: () =>
-      hotelApi.search({
-        active: true,
-        search: search || undefined,
-        city: city || undefined,
-        size: 24,
-      }),
+  const { data, isPending, error, refetch } = useHotelList({
+    active: true,
+    search: search || undefined,
+    city: city || undefined,
+    size: 24,
   })
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="font-display mb-1 text-3xl text-teal-900">{t('public.hotels.title')}</h1>
-      <div className="divider-arabesque mb-8 max-w-55 text-sm">◆</div>
+    <div ref={raiz} className="revelar mx-auto max-w-6xl px-4 py-10 sm:py-16">
+      <h1 className="font-display text-[clamp(2.25rem,6vw,5rem)] leading-[1.02] text-tinta-900">
+        <Lineas lineas={[t('public.hotels.title')]} entrada />
+      </h1>
 
-      <div className="mb-6 flex flex-wrap gap-3">
-        <input
-          type="search"
-          className="field-input max-w-xs"
-          placeholder={t('public.hotels.searchPlaceholder')}
-          aria-label={t('public.hotels.searchAria')}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <input
-          type="search"
-          className="field-input max-w-xs"
-          placeholder={t('public.hotels.cityPlaceholder')}
-          aria-label={t('public.hotels.cityAria')}
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-        />
-      </div>
+      <form role="search" onSubmit={(e) => e.preventDefault()} className="mt-6 grid gap-4 sm:max-w-2xl sm:grid-cols-2">
+        <Field id="hotels-search" label={t('public.hotels.searchLabel')}>
+          <Input
+            type="search"
+            placeholder={t('public.hotels.searchPlaceholder')}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </Field>
+        <Field id="hotels-city" label={t('public.hotels.cityLabel')}>
+          <Input
+            type="search"
+            placeholder={t('public.hotels.cityPlaceholder')}
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+          />
+        </Field>
+      </form>
 
-      {error && <ErrorNote error={error} />}
-      {isPending ? (
-        <ListSkeleton rows={3} />
-      ) : data && data.content.length === 0 ? (
-        <EmptyState
-          title={t('public.hotels.emptyTitle')}
-          hint={t('public.hotels.emptyHint')}
-        />
-      ) : (
-        <div className="space-y-4">
-          {data?.content.map((hotel) => (
-            <Link
-              key={hotel.id}
-              to={`/hotels/${hotel.id}`}
-              className="card-tile group flex flex-col gap-4 p-4 transition-shadow duration-200 hover:shadow-md sm:flex-row sm:items-center sm:p-5"
-            >
-              <div className="relative h-40 w-full shrink-0 overflow-hidden rounded-(--radius-tile) bg-teal-900 sm:h-24 sm:w-44">
-                {hotel.imageUrl && (
-                  <img
-                    src={hotel.imageUrl}
-                    alt={hotel.name}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:group-hover:scale-100"
-                  />
-                )}
-                <span className="absolute bottom-0 left-0 bg-teal-950/85 px-2 py-0.5 font-display text-sm text-gold-300">
-                  {hotel.category.starRating}★
-                </span>
-              </div>
-              <div className="min-w-0 flex-1">
-                <h2 className="font-display text-lg text-teal-900 group-hover:text-teal-700 sm:text-xl">
-                  {hotel.name}
-                </h2>
-                <p className="text-sm text-teal-800">
-                  {hotel.address} · {hotel.city}, {hotel.country}
-                </p>
-                <p className="mt-2 line-clamp-2 text-sm text-teal-800/90">
-                  {hotel.description}
-                </p>
-              </div>
-              <span className="btn-ghost shrink-0 self-start sm:self-center">
-                {t('public.hotels.viewRooms')}
-              </span>
-            </Link>
+      <p aria-live="polite" className="mt-6 mb-4 text-sm text-tinta-600">
+        {data ? t('public.hotels.count', { count: data.totalElements }) : ''}
+      </p>
+
+      {error ? (
+        <ErrorNote error={error} onRetry={() => refetch()} />
+      ) : isPending ? (
+        <div className="grid gap-6 md:grid-cols-3">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <HotelCardSkeleton key={i} />
           ))}
         </div>
+      ) : data.content.length === 0 ? (
+        <EmptyState title={t('public.hotels.emptyTitle')} hint={t('public.hotels.emptyHint')} />
+      ) : (
+        <div className="grid gap-6 md:grid-cols-3">
+          {data.content.map((hotel) => (
+            <HotelCard key={hotel.id} hotel={hotel} headingLevel="h2" />
+          ))}
+        </div>
+      )}
+
+      {!quieto && libre && (
+        <Suspense fallback={null}>
+          <MovimientoLista raiz={raiz} listo={!!data} />
+        </Suspense>
       )}
     </div>
   )

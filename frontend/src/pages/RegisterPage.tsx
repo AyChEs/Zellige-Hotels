@@ -5,13 +5,17 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/AuthContext'
-import { problemMessage } from '../api/client'
+import { Button } from '../components/ui/Button'
+import { Card } from '../components/ui/Card'
+import { ErrorNote } from '../components/ui/Feedback'
+import { Field, Input } from '../components/ui/Field'
+import { Simbolo } from '../components/brand/Marca'
 
 export function RegisterPage() {
   const { t } = useTranslation()
   const { register: registerUser } = useAuth()
   const navigate = useNavigate()
-  const [serverError, setServerError] = useState<string | null>(null)
+  const [serverError, setServerError] = useState<unknown>(null)
 
   const schema = z.object({
     firstName: z.string().min(1, t('auth.validation.firstNameMin')).max(80),
@@ -38,7 +42,7 @@ export function RegisterPage() {
       await registerUser(values)
       navigate('/account', { replace: true })
     } catch (error) {
-      setServerError(problemMessage(error))
+      setServerError(error)
     }
   }
 
@@ -47,29 +51,22 @@ export function RegisterPage() {
     label: string,
     type = 'text',
     autoComplete?: string,
-    placeholder?: string,
+    hint?: string,
   ) => (
-    <div>
-      <label htmlFor={id} className="field-label">
-        {label}
-      </label>
-      <input
-        id={id}
-        type={type}
-        autoComplete={autoComplete}
-        className="field-input"
-        placeholder={placeholder}
-        {...register(id)}
-      />
-      {errors[id] && <p className="field-error">{errors[id]?.message}</p>}
-    </div>
+    <Field id={id} label={label} hint={hint} error={errors[id]?.message}>
+      <Input type={type} required={id !== 'phone'} autoComplete={autoComplete} {...register(id)} />
+    </Field>
   )
 
   return (
-    <div className="bg-arabesque-light flex min-h-[70vh] items-center justify-center px-4 py-12">
-      <div className="card-tile-accent w-full max-w-lg p-8">
-        <h1 className="mb-1 text-center text-2xl text-teal-900">{t('auth.register.title')}</h1>
-        <div className="divider-arabesque mx-auto mb-6 max-w-45 text-sm">◆</div>
+    <div className="reticula flex min-h-[70vh] items-center justify-center px-4 py-12 sm:py-16">
+      <Card variant="brand" className="w-full max-w-lg p-6 sm:p-8">
+        <Simbolo size={40} className="mx-auto mb-4 block text-fez-700" />
+        <h1 className="font-display text-center text-2xl text-tinta-900">{t('auth.register.title')}</h1>
+        <p className="mt-1 text-center text-sm text-tinta-600">{t('auth.register.subtitle')}</p>
+        <div className="separador mx-auto mt-4 mb-6 max-w-45 text-xs">
+          <span aria-hidden>◆</span>
+        </div>
 
         <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
@@ -78,29 +75,25 @@ export function RegisterPage() {
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {field('documentId', t('auth.register.documentId'), 'text', 'off')}
-            {field('phone', t('auth.register.phone'), 'tel', 'tel')}
+            {field('phone', `${t('auth.register.phone')} (${t('common.optional')})`, 'tel', 'tel')}
           </div>
           {field('email', t('auth.register.email'), 'email', 'email')}
-          {field('password', t('auth.register.password'), 'password', 'new-password')}
+          {field('password', t('auth.register.password'), 'password', 'new-password', t('auth.register.passwordHint'))}
 
-          {serverError && (
-            <p role="alert" className="rounded-(--radius-tile) bg-terra-100 px-3 py-2 text-sm text-terra-600">
-              {serverError}
-            </p>
-          )}
+          {serverError != null && <ErrorNote error={serverError} />}
 
-          <button type="submit" disabled={isSubmitting} className="btn-gold w-full">
+          <Button type="submit" loading={isSubmitting} className="w-full">
             {isSubmitting ? t('auth.register.submitting') : t('auth.register.submit')}
-          </button>
+          </Button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-teal-800">
+        <p className="mt-6 text-center text-sm text-tinta-600">
           {t('auth.register.hasAccount')}{' '}
-          <Link to="/login" className="font-medium text-gold-600 hover:text-gold-500">
+          <Link to="/login" className="font-semibold text-fez-700 underline underline-offset-2 hover:text-fez-800">
             {t('auth.register.login')}
           </Link>
         </p>
-      </div>
+      </Card>
     </div>
   )
 }

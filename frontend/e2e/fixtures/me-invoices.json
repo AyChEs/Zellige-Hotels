@@ -1,0 +1,24 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "invoiceNumber": "F-2026-00311",
+      "issuedAt": "2026-10-21T00:00:00.000Z",
+      "subtotal": 420,
+      "vatRate": 10,
+      "vatAmount": 42,
+      "total": 462,
+      "paymentMethod": "CARD",
+      "status": "ISSUED",
+      "bookingId": 1,
+      "bookingCode": "ZH-117D",
+      "clientId": 1,
+      "clientFullName": "Ayman Charoui",
+      "hotelName": "Alhambra Palace"
+    }
+  ],
+  "page": 0,
+  "size": 20,
+  "totalElements": 1,
+  "totalPages": 1
+}

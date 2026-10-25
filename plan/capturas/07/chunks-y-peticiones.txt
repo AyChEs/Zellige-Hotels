@@ -1,0 +1,18 @@
+Chunks antes (sesión 06):
+dist/assets/index-Do-czFKf.css                                      34.86 kB │ gzip:   7.66 kB
+dist/assets/HotelDetailPage-DD56sNcX.js                              9.98 kB │ gzip:   3.38 kB
+dist/assets/LandingPage-C2zbiCf3.js                                125.10 kB │ gzip:  40.74 kB
+dist/assets/DashboardPage-Dh3ErNRt.js                              374.12 kB │ gzip: 107.23 kB
+dist/assets/index-CcOjtQad.js                                      512.53 kB │ gzip: 161.70 kB
+
+Chunks después:
+dist/assets/index-ASHWr4Bd.css                                      35.13 kB │ gzip:   7.69 kB
+dist/assets/RegisterPage-ChE3J0H1.js                                 2.74 kB │ gzip:   1.18 kB
+dist/assets/LoginPage-DtirdZo9.js                                    2.77 kB │ gzip:   1.21 kB
+dist/assets/HotelDetailPage-CT_2-vAy.js                              9.86 kB │ gzip:   3.34 kB
+dist/assets/LandingPage-DNtPcJmi.js                                125.08 kB │ gzip:  40.71 kB
+dist/assets/index-CNqD0XJk.js                                      309.91 kB │ gzip:  96.14 kB
+dist/assets/DashboardPage-D4b2i2Zl.js                              374.26 kB │ gzip: 107.32 kB
+
+/admin/bookings + modal -> 1 petición(es) de hoteles
+tras Calendario, Habitaciones, Empleados y Tareas -> 1 petición(es) en total: ?size=50

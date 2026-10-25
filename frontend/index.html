@@ -3,21 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#FAF8F4" />
     <meta
       name="description"
-      content="Zellige Hotels — ERP hotelero de demostración: reservas, facturación, housekeeping y dashboards."
+      content="Zellige Hotels: ERP hotelero de demostración. Reservas sin solapes, facturación, limpieza y panel por rol."
     />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Zellige Hotels" />
+    <meta property="og:title" content="Zellige Hotels" />
+    <meta property="og:description" content="Tres hoteles con carácter. Reserva directa, sin solapes y con factura clara." />
+    <meta property="og:image" content="https://zellige-hotels.vercel.app/identidad/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Logotipo de Zellige Hotels sobre fondo verde noche" />
+    <meta name="twitter:card" content="summary_large_image" />
     <title>Zellige Hotels · ERP</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap"
-      rel="stylesheet"
-    />
+    <script>
+      // La foto de la portada es lo más grande de la primera pantalla: se pide ya, sin esperar al JavaScript.
+      if (location.pathname === '/') {
+        var l = document.createElement('link')
+        l.rel = 'preload'
+        l.as = 'image'
+        l.type = 'image/avif'
+        l.setAttribute('imagesrcset', '/img/hero-640.avif 640w, /img/hero-1024.avif 1024w, /img/hero-1672.avif 1672w')
+        l.setAttribute('imagesizes', '100vw')
+        l.setAttribute('fetchpriority', 'high')
+        document.head.appendChild(l)
+      }
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Cabecera provisional: pinta algo en cuanto llega el HTML. React la sustituye en el mismo sitio y con la misma altura. -->
+      <div style="min-height: 100svh; background: #faf8f4">
+        <div style="height: 65px; border-bottom: 1px solid #e3ddd3; box-sizing: border-box">
+          <div
+            style="max-width: 72rem; height: 64px; margin: 0 auto; padding: 0 1rem; display: flex; align-items: center; font: 16px Georgia, serif; letter-spacing: 0.14em; text-transform: uppercase; color: #1c211f"
+          >
+            Zellige Hotels
+          </div>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

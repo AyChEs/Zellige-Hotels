@@ -1,0 +1,12 @@
+{
+  "id": 1,
+  "firstName": "Ayman",
+  "lastName": "Charoui",
+  "documentId": "CLI-0001",
+  "birthDate": "1980-01-10",
+  "phone": "+34 6100 200 400",
+  "address": "Barcelona",
+  "clientType": "VIP",
+  "registeredAt": "2025-12-23T12:00:00.000Z",
+  "email": "client@hotel-erp.dev"
+}

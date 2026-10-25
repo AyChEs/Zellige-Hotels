@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Luxury 5 Stars",
+    "starRating": 5,
+    "description": "Premium hotels with full-service amenities"
+  },
+  {
+    "id": 2,
+    "name": "Business 4 Stars",
+    "starRating": 4,
+    "description": "Comfortable hotels for business travellers"
+  },
+  {
+    "id": 3,
+    "name": "Standard 3 Stars",
+    "starRating": 3,
+    "description": "Well-equipped mid-range hotels"
+  },
+  {
+    "id": 4,
+    "name": "Boutique",
+    "starRating": 4,
+    "description": "Small design-led hotels with character"
+  }
+]

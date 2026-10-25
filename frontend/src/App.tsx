@@ -1,15 +1,19 @@
 import { Suspense, lazy } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { PublicShell } from './components/layout/PublicShell'
 import { AdminShell } from './components/layout/AdminShell'
 import { AccountShell } from './components/layout/AccountShell'
 import { ProtectedRoute } from './auth/ProtectedRoute'
-import { LoginPage } from './pages/LoginPage'
-import { RegisterPage } from './pages/RegisterPage'
+import { loadHotelDetail } from './pages/public/loadHotelDetail'
+import { useTransicionesDePagina } from './motion/useTransicionesDePagina'
+import LandingPage from './pages/public/LandingPage' // en el paquete principal: es lo primero que se pinta
 
-const LandingPage = lazy(() => import('./pages/public/LandingPage'))
+const LoginPage = lazy(() => import('./pages/LoginPage').then((m) => ({ default: m.LoginPage })))
+const RegisterPage = lazy(() => import('./pages/RegisterPage').then((m) => ({ default: m.RegisterPage })))
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 const HotelsPage = lazy(() => import('./pages/public/HotelsPage'))
-const HotelDetailPage = lazy(() => import('./pages/public/HotelDetailPage'))
+const HotelDetailPage = lazy(loadHotelDetail)
+const BrandPage = lazy(() => import('./pages/public/BrandPage'))
 
 const MyBookingsPage = lazy(() => import('./pages/account/MyBookingsPage'))
 const MyInvoicesPage = lazy(() => import('./pages/account/MyInvoicesPage'))
@@ -37,6 +41,7 @@ function PageFallback() {
 }
 
 export default function App() {
+  useTransicionesDePagina()
   return (
     <Suspense fallback={<PageFallback />}>
       <Routes>
@@ -45,6 +50,7 @@ export default function App() {
           <Route index element={<LandingPage />} />
           <Route path="hotels" element={<HotelsPage />} />
           <Route path="hotels/:id" element={<HotelDetailPage />} />
+          <Route path="marca" element={<BrandPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
         </Route>
@@ -76,7 +82,9 @@ export default function App() {
           </Route>
         </Route>
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route element={<PublicShell />}>
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
       </Routes>
     </Suspense>
   )

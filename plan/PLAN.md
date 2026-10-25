@@ -24,23 +24,28 @@ Después de la revisión, Opus solo revisa el resultado final (no ejecuta).
 | NN | Sesión | Modelo | Depende de | Estado |
 |---|---|---|---|---|
 | 00 | Arreglos urgentes y entorno | Flash | | hecha |
-| 01 | Auditoría (solo informe) | Flash | 00 | pendiente |
-| 02 | Tokens de diseño y tipografía autoalojada | GLM | 01 | pendiente |
-| 03 | Componentes base | GLM | 02 | pendiente |
-| 04 | Flujo de reserva del cliente | GLM | 03 | pendiente |
-| 05 | Panel de gestión por rol | Flash | 03 | pendiente |
-| 06 | Accesibilidad | GLM | 04, 05 | pendiente |
-| 07 | Arquitectura del frontend | GLM | 06 | pendiente |
-| 08 | Datos de demo que no caducan (backend) | Pro | 00 | pendiente |
-| 09 | Revisión final | Revisión | 07, 08 | pendiente |
+| 01 | Auditoría (solo informe) | Flash | 00 | hecha |
+| 02 | Tokens de diseño y tipografía autoalojada | GLM | 01 | hecha |
+| 03 | Componentes base | GLM | 02 | hecha |
+| 04 | Flujo de reserva del cliente | GLM | 03 | hecha |
+| 05 | Panel de gestión por rol | Flash | 03 | hecha |
+| 06 | Accesibilidad | GLM | 04, 05 | hecha |
+| 07 | Arquitectura del frontend | GLM | 06 | hecha |
+| 08 | Datos de demo que no caducan (backend) | Pro | 00 | hecha |
+| 09 | Revisión final | Revisión | 07, 08 | hecha |
+| 10 | Marca: estudio, logotipo y página `/marca` (`docs/MARCA.md`) | Opus | 09 | hecha |
+| 11 | Movimiento ligado al scroll en la parte pública (GSAP, ScrollTrigger, Lenis) | Opus | 10 | hecha |
+| 12 | Piezas de Rive: «Reservar, paso a paso» y logotipo animado (`docs/MARCA.md` §13) | Opus | 11 | hecha |
 
 ## Orden y paralelo
 
 ```
 00 ─► 01 ─► 02 ─► 03 ─┬─► 04 ─┐
  │                    └─► 05 ─┴─► 06 ─► 07 ─┐
- └─► 08 ─────────────────────────────────────┴─► 09
+ └─► 08 ─────────────────────────────────────┴─► 09 ─► 10 ─► 11
 ```
+
+- 10, 11 y 12 son una fase añadida el 2026-10-24 a petición de Ayman: marca propia y animaciones ligadas al scroll, con la web de Tacho como referencia de oficio (no de estética).
 
 - 04 y 05 pueden ir a la vez: tocan páginas distintas (`pages/public` y `pages/admin`). Si las dos tocan `i18n/locales/*.json`, la segunda en fusionar resuelve el conflicto conservando ambas claves.
 - 08 solo toca el backend y puede ir en paralelo con 01 a 07.

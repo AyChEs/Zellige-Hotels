@@ -1,291 +1,117 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { useState } from 'react'
+import { useParams, useSearchParams } from 'react-router-dom'
+import { Suspense, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { hotelApi, meApi, roomApi } from '../../api/endpoints'
-import type { BoardType, RoomDto } from '../../api/types'
-import { useAuth } from '../../auth/AuthContext'
-import { problemMessage } from '../../api/client'
-import { money, nights, plusDaysIso, todayIso } from '../../lib/format'
-import { useLabels } from '../../lib/labels'
+import { useHotel } from '../../api/hooks/useHotels'
+import { useAvailability } from '../../api/hooks/useRooms'
+import type { BoardType, BookingDto, RoomDto } from '../../api/types'
+import { date, nights, plusDaysIso } from '../../lib/format'
+import { Button } from '../../components/ui/Button'
 import { EmptyState, ErrorNote, ListSkeleton } from '../../components/ui/Feedback'
-
-function roomTotal(room: RoomDto, board: BoardType, guestCount: number, nightCount: number) {
-  const supplement =
-    board === 'HALF_BOARD'
-      ? room.halfBoardSupplement
-      : board === 'FULL_BOARD'
-        ? room.fullBoardSupplement
-        : 0
-  return (room.pricePerNight + supplement * guestCount) * nightCount
-}
+import { useToast } from '../../components/ui/toast-context'
+import { BookingCreated } from './hotel-detail/BookingCreated'
+import { BookingSummary } from './hotel-detail/BookingSummary'
+import { HotelHeader } from './hotel-detail/HotelHeader'
+import { RoomList } from './hotel-detail/RoomList'
+import { StayForm } from './hotel-detail/StayForm'
+import { BOARDS, type Stay } from './hotel-detail/types'
+import { useMenosMovimiento, useNavegadorLibre } from '../../motion/preferencias'
+import { MovimientoFicha } from '../../motion/perezoso'
 
 export default function HotelDetailPage() {
   const { t } = useTranslation()
-  const { tLabel } = useLabels()
-  const { id } = useParams()
-  const hotelId = Number(id)
+  const toast = useToast()
+  const hotelId = Number(useParams().id)
   const [params, setParams] = useSearchParams()
-  const navigate = useNavigate()
-  const { user } = useAuth()
-  const queryClient = useQueryClient()
+  const checkInRef = useRef<HTMLInputElement>(null)
+  const [choice, setChoice] = useState<RoomDto | null>(null)
+  const [created, setCreated] = useState<BookingDto | null>(null)
+  const raiz = useRef<HTMLDivElement>(null)
+  const quieto = useMenosMovimiento()
+  const libre = useNavegadorLibre()
 
-  const checkIn = params.get('checkIn') ?? plusDaysIso(7)
-  const checkOut = params.get('checkOut') ?? plusDaysIso(10)
-  const guests = Number(params.get('guests') ?? 2)
-  const nightCount = Math.max(nights(checkIn, checkOut), 0)
+  const board = params.get('board') as BoardType | null
+  const stay: Stay = {
+    checkIn: params.get('checkIn') ?? plusDaysIso(7),
+    checkOut: params.get('checkOut') ?? plusDaysIso(10),
+    guests: Number(params.get('guests') ?? 2),
+    board: board && BOARDS.includes(board) ? board : 'BED_AND_BREAKFAST',
+  }
+  const nightCount = nights(stay.checkIn, stay.checkOut)
 
-  const [board, setBoard] = useState<BoardType>('BED_AND_BREAKFAST')
-  const [bookedCode, setBookedCode] = useState<string | null>(null)
+  const { data: hotel } = useHotel(hotelId)
+  const availability = useAvailability(hotelId, stay.checkIn, stay.checkOut, stay.guests, nightCount > 0)
 
-  const { data: hotel } = useQuery({
-    queryKey: ['hotel', hotelId],
-    queryFn: () => hotelApi.byId(hotelId),
-  })
+  // Fotos de habitaciones distintas para la galería (las de la API, sin repetir).
+  const fotosHabitaciones = [...new Set((availability.data ?? []).map((r) => r.imageUrl).filter((u): u is string => !!u))]
 
-  const availability = useQuery({
-    queryKey: ['availability', hotelId, checkIn, checkOut, guests],
-    queryFn: () => roomApi.available(hotelId, checkIn, checkOut, guests),
-    enabled: nightCount > 0,
-  })
-
-  const book = useMutation({
-    mutationFn: (roomId: number) =>
-      meApi.book({ roomId, checkInDate: checkIn, checkOutDate: checkOut, guests, boardType: board }),
-    onSuccess: (booking) => {
-      setBookedCode(booking.code)
-      queryClient.invalidateQueries({ queryKey: ['availability'] })
-    },
-  })
-
-  const updateSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const form = new FormData(e.currentTarget)
-    setParams({
-      checkIn: String(form.get('checkIn')),
-      checkOut: String(form.get('checkOut')),
-      guests: String(form.get('guests')),
-    })
-    setBookedCode(null)
+  const updateStay = (next: Stay) => {
+    setParams({ checkIn: next.checkIn, checkOut: next.checkOut, guests: String(next.guests), board: next.board })
+    setCreated(null)
   }
 
-  const canBook = user?.role === 'CLIENT'
+  const onBooked = (booking: BookingDto) => {
+    setChoice(null)
+    setCreated(booking)
+    toast.success(t('booking.created', { code: booking.code }))
+  }
+
+  const onTaken = () => {
+    setChoice(null)
+    toast.error(t('public.hotelDetail.roomTakenHint'))
+    availability.refetch()
+  }
 
   return (
-    <div>
-      {/* Hotel header — brand surface with the hotel's own photography */}
-      <section className="relative isolate overflow-hidden bg-teal-950">
-        {hotel?.imageUrl && (
-          <img
-            src={hotel.imageUrl}
-            alt=""
-            aria-hidden
-            className="absolute inset-0 h-full w-full object-cover opacity-40"
-          />
-        )}
-        <div className="bg-arabesque absolute inset-0 opacity-60" aria-hidden />
-        <div className="relative mx-auto max-w-6xl px-4 py-12">
-          <p className="text-sm text-gold-300">
-            <Link to="/hotels" className="hover:text-gold-200">
-              {t('public.hotelDetail.breadcrumb')}
-            </Link>{' '}
-            / {hotel?.city ?? '…'}
+    <div ref={raiz} className="revelar pb-16 sm:pb-24">
+      <HotelHeader hotel={hotel} fotosHabitaciones={fotosHabitaciones} />
+
+      <div className="mx-auto max-w-6xl space-y-8 px-4 pt-8 sm:pt-12">
+        <StayForm key={params.toString()} stay={stay} onSubmit={updateStay} checkInRef={checkInRef} />
+
+        {created && <BookingCreated booking={created} />}
+
+        <section aria-labelledby="habitaciones">
+          <h2 id="habitaciones" className="font-display text-2xl text-tinta-900">
+            {t('public.hotelDetail.roomsTitle')}
+          </h2>
+          <p className="cifras mt-1 mb-5 text-sm text-tinta-600">
+            {date(stay.checkIn)} - {date(stay.checkOut)} · {t('public.hotelDetail.nights', { count: nightCount })} ·{' '}
+            {t('public.hotelDetail.guests', { count: stay.guests })}
           </p>
-          <h1 className="font-display mt-1 text-3xl text-glaze-50 md:text-4xl">
-            {hotel?.name ?? t('public.hotelDetail.loading')}
-          </h1>
-          {hotel && (
-            <p className="mt-2 max-w-2xl text-sm text-glaze-100/85">
-              {hotel.category.starRating}★ {hotel.category.name} · {hotel.address} ·{' '}
-              {hotel.city}, {hotel.country}
-            </p>
+          {availability.error ? (
+            <ErrorNote error={availability.error} onRetry={() => availability.refetch()} />
+          ) : availability.isPending ? (
+            <ListSkeleton rows={3} />
+          ) : availability.data.length === 0 ? (
+            <EmptyState
+              title={t('public.hotelDetail.noRoomsTitle')}
+              hint={t('public.hotelDetail.noRoomsHint')}
+              action={
+                <Button variant="secondary" onClick={() => checkInRef.current?.focus()}>
+                  {t('booking.changeDates')}
+                </Button>
+              }
+            />
+          ) : (
+            <RoomList rooms={availability.data} stay={stay} onChoose={setChoice} />
           )}
-        </div>
-      </section>
-
-      <div className="mx-auto max-w-6xl px-4 py-10">
-        {hotel?.description && (
-          <p className="mb-8 max-w-3xl text-teal-800">{hotel.description}</p>
-        )}
-
-        {/* Availability controls */}
-        <form
-          onSubmit={updateSearch}
-          className="card-tile mb-8 grid gap-4 p-4 sm:grid-cols-2 sm:p-5 lg:grid-cols-[1fr_1fr_auto_1fr_auto]"
-        >
-          <div>
-            <label htmlFor="checkIn" className="field-label">
-              {t('public.landing.checkIn')}
-            </label>
-            <input
-              id="checkIn"
-              name="checkIn"
-              type="date"
-              className="field-input"
-              defaultValue={checkIn}
-              min={todayIso()}
-            />
-          </div>
-          <div>
-            <label htmlFor="checkOut" className="field-label">
-              {t('public.landing.checkOut')}
-            </label>
-            <input
-              id="checkOut"
-              name="checkOut"
-              type="date"
-              className="field-input"
-              defaultValue={checkOut}
-              min={checkIn}
-            />
-          </div>
-          <div>
-            <label htmlFor="guests" className="field-label">
-              {t('public.landing.guests')}
-            </label>
-            <input
-              id="guests"
-              name="guests"
-              type="number"
-              min={1}
-              max={10}
-              defaultValue={guests}
-              className="field-input w-24"
-            />
-          </div>
-          <div>
-            <label htmlFor="board" className="field-label">
-              {t('public.hotelDetail.board')}
-            </label>
-            <select
-              id="board"
-              className="field-input"
-              value={board}
-              onChange={(e) => setBoard(e.target.value as BoardType)}
-            >
-              {(['ROOM_ONLY','BED_AND_BREAKFAST','HALF_BOARD','FULL_BOARD'] as BoardType[]).map((value) => (
-                <option key={value} value={value}>
-                  {tLabel('boardType', value)}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="flex items-end">
-            <button type="submit" className="btn-primary w-full">
-              {t('public.hotelDetail.update')}
-            </button>
-          </div>
-        </form>
-
-        {bookedCode && (
-          <div
-            role="status"
-            className="mb-6 rounded-(--radius-tile) border border-teal-600/30 bg-teal-50 px-4 py-3 text-sm text-teal-800"
-          >
-            {t('public.hotelDetail.bookedCreated', { code: bookedCode })}{' '}
-            <Link to="/account" className="font-medium text-teal-600 underline">
-              {t('public.hotelDetail.myBookings')}
-            </Link>
-            .
-          </div>
-        )}
-        {book.error && <div className="mb-6"><ErrorNote error={book.error} /></div>}
-
-        {/* Rooms */}
-        <h2 className="font-display mb-4 text-2xl text-teal-900">
-          {t('public.hotelDetail.roomsTitle')}
-          <span className="ml-3 align-middle text-sm font-sans text-teal-800">
-            {checkIn} → {checkOut} ·{' '}
-            {t('public.hotelDetail.nights', { count: nightCount })} ·{' '}
-            {t('public.hotelDetail.guests', { count: guests })}
-          </span>
-        </h2>
-
-        {availability.isPending ? (
-          <ListSkeleton rows={3} />
-        ) : availability.error ? (
-          <ErrorNote error={availability.error} />
-        ) : availability.data && availability.data.length === 0 ? (
-          <EmptyState
-            title={t('public.hotelDetail.noRoomsTitle')}
-            hint={t('public.hotelDetail.noRoomsHint')}
-          />
-        ) : (
-          <div className="space-y-4">
-            {availability.data?.map((room) => {
-              const total = roomTotal(room, board, guests, nightCount)
-              return (
-                <article
-                  key={room.id}
-                  className="card-tile flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:p-5"
-                >
-                  {room.imageUrl && (
-                    <img
-                      src={room.imageUrl}
-                      alt={`${t('public.hotelDetail.roomsTitle')} ${room.number}`}
-                      loading="lazy"
-                      className="h-40 w-full shrink-0 rounded-(--radius-tile) object-cover sm:h-24 sm:w-40"
-                    />
-                  )}
-                  <div className="min-w-0 flex-1">
-                    <h3 className="font-medium text-teal-900">
-                      {tLabel('roomType', room.type)} — {room.number}
-                    </h3>
-                    <p className="mt-0.5 text-sm text-teal-800">
-                      {t('public.hotelDetail.capacity', { count: room.capacity })}
-                      {room.floor != null && ` · ${t('public.hotelDetail.floor', { n: room.floor })}`}
-                      {room.description && ` · ${room.description}`}
-                    </p>
-                    <p className="mt-1 text-sm text-teal-800">
-                      {money(room.pricePerNight)}{t('public.hotelDetail.perNight')}
-                      {board === 'HALF_BOARD' &&
-                        ` · ${t('public.hotelDetail.halfBoardSupplement', { price: money(room.halfBoardSupplement) })}`}
-                      {board === 'FULL_BOARD' &&
-                        ` · ${t('public.hotelDetail.fullBoardSupplement', { price: money(room.fullBoardSupplement) })}`}
-                    </p>
-                  </div>
-                  <div className="flex shrink-0 items-center justify-between gap-3 sm:justify-end sm:gap-4">
-                    <div className="text-right">
-                      <p className="text-lg font-semibold text-teal-900">{money(total)}</p>
-                      <p className="text-xs text-teal-800">{t('public.hotelDetail.total')}</p>
-                    </div>
-                    {canBook ? (
-                      <button
-                        className="btn-gold"
-                        disabled={book.isPending}
-                        onClick={() => book.mutate(room.id)}
-                      >
-                        {book.isPending ? t('public.hotelDetail.bookingPending') : t('public.hotelDetail.booking')}
-                      </button>
-                    ) : user ? (
-                      <span className="text-xs text-teal-800">
-                        {t('public.hotelDetail.clientOnly')}
-                      </span>
-                    ) : (
-                      <button
-                        className="btn-gold"
-                        onClick={() =>
-                          navigate('/login', {
-                            state: { from: `/hotels/${hotelId}?${params.toString()}` },
-                          })
-                        }
-                      >
-                        {t('public.hotelDetail.loginToBook')}
-                      </button>
-                    )}
-                  </div>
-                </article>
-              )
-            })}
-          </div>
-        )}
-
-        {book.error && problemMessage(book.error).includes('available') && (
-          <p className="mt-4 text-sm text-teal-800">
-            {t('public.hotelDetail.roomTakenHint')}
-          </p>
-        )}
+        </section>
       </div>
+
+      <BookingSummary
+        hotel={hotel}
+        room={choice}
+        stay={stay}
+        onClose={() => setChoice(null)}
+        onBooked={onBooked}
+        onTaken={onTaken}
+      />
+
+      {!quieto && libre && (
+        <Suspense fallback={null}>
+          <MovimientoFicha raiz={raiz} listo={!!hotel && !availability.isPending} />
+        </Suspense>
+      )}
     </div>
   )
 }

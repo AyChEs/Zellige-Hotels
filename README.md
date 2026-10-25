@@ -68,8 +68,9 @@ Demo accounts (seeded):
 ## Tests
 
 ```bash
-cd backend && ./mvnw verify          # 28 tests, incl. Testcontainers (real Postgres)
-cd frontend && npm test -- --run     # Vitest unit tests
+cd backend && ./mvnw verify          # 31 tests, incl. Testcontainers (real Postgres)
+cd frontend && npm test -- --run     # Vitest: components, booking flow, query hooks
+cd frontend && npm run test:a11y     # Playwright + axe on 18 screens at 390 and 1440 px
 ```
 
 CI runs both on every push (`.github/workflows/ci.yml`).
@@ -82,16 +83,27 @@ backend/  com.ayches.hotelerp        package-by-feature
 ├── hotel/ room/ person/             CRUD features: controller → service → repository + DTO/mapper
 ├── booking/ invoice/ task/          the ERP core (lifecycle state machine, pricing, numbering)
 ├── dashboard/                       KPI + series aggregation (native SQL, generate_series)
+├── demo/                            opt-in daily refresh of demo bookings (APP_DEMO_REFRESH)
 ├── notification/                    EmailService: no-op (dev/test) / SMTP (Mailpit local, Brevo prod)
 └── resources/db/migration/          Flyway: V1 schema · V2 reference data · V901 images
 
 frontend/  src/
 ├── api/                             axios + single-flight token refresh, typed endpoints
+│   ├── queryKeys.ts                 every TanStack Query key, one factory per resource
+│   └── hooks/                       useBookings, useHotels, useMe…: queries + mutations
 ├── auth/                            AuthContext, role-guarded routes
-├── components/ui/                   DataTable, Modal, badges, feedback states
-├── pages/{public,account,admin}     16 routes, lazy-loaded
+├── components/ErrorBoundary.tsx     a crashing page shows a retry screen, the layout stays
+├── components/ui/                   Button, Field, Card, Modal, Toast, DataTable, badges
+├── pages/{public,account,admin}     every route lazy-loaded, plus a 404 page
 └── styles/theme.css                 tokens (see docs/DESIGN.md)
 ```
+
+Server state goes through `api/hooks/`: pages never write a query key or call
+`invalidateQueries` themselves. Each mutation invalidates exactly what it changes on the
+server (a check-in refreshes bookings, availability, rooms and the dashboard, not the
+hotels), lists keep the previous page while the next one loads, and only network errors
+and 5xx are retried. The hotel list used by five staff screens is fetched once and shared
+for ten minutes.
 
 Auth flow: access token in memory, refresh token rotated on every use.
 Concurrent 401s share a single refresh (single-flight) so they don't

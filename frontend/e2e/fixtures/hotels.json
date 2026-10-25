@@ -1,0 +1,62 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "name": "Alhambra Palace",
+      "address": "Plaza Arquitecto Garcia de Paredes 1",
+      "city": "Granada",
+      "country": "Spain",
+      "phone": "+34 958 221 468",
+      "email": "info@alhambrapalace.example",
+      "description": "Moorish-inspired luxury overlooking the Alhambra.",
+      "imageUrl": "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200",
+      "active": true,
+      "category": {
+        "id": 1,
+        "name": "Luxury 5 Stars",
+        "starRating": 5,
+        "description": "Premium hotels with full-service amenities"
+      }
+    },
+    {
+      "id": 2,
+      "name": "Marrakech Riad Andalus",
+      "address": "Derb Sidi Bouloukat 12",
+      "city": "Marrakech",
+      "country": "Morocco",
+      "phone": "+212 524 391 234",
+      "email": "contact@riadandalus.example",
+      "description": "Traditional riad with arabesque courtyards and rooftop terrace.",
+      "imageUrl": "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=1200",
+      "active": true,
+      "category": {
+        "id": 4,
+        "name": "Boutique",
+        "starRating": 4,
+        "description": "Small design-led hotels with character"
+      }
+    },
+    {
+      "id": 3,
+      "name": "Barcelona Business Tower",
+      "address": "Avinguda Diagonal 640",
+      "city": "Barcelona",
+      "country": "Spain",
+      "phone": "+34 934 052 000",
+      "email": "stay@bcntower.example",
+      "description": "Modern business hotel in the heart of the city.",
+      "imageUrl": "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1200",
+      "active": true,
+      "category": {
+        "id": 2,
+        "name": "Business 4 Stars",
+        "starRating": 4,
+        "description": "Comfortable hotels for business travellers"
+      }
+    }
+  ],
+  "page": 0,
+  "size": 50,
+  "totalElements": 3,
+  "totalPages": 1
+}

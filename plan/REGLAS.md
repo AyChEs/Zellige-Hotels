@@ -48,6 +48,7 @@ Léelo entero antes de empezar cualquier sesión. Si una skill choca con esto, m
    ```
    Las capturas quedan en `/tmp/capt/out/NN/`; cópialas a `plan/capturas/NN/` y súbelas con el PR. El `report.json` no puede tener violaciones `serious` ni `critical` en las pantallas tocadas, ni `hscroll: true`.
    Para páginas con sesión iniciada, añade `"login":["admin@hotel-erp.dev","Admin123!"]` al objeto de la página.
+   Sin acceso a Render (o para no depender de él), añade `SIMULAR=1`: la herramienta intercepta `/api/**` con `plan/herramientas/api-simulada.mjs` y sustituye las fotos. `CAPT_DIR` cambia la carpeta de `node_modules` y de salida (por defecto `/tmp/capt`). Para Lighthouse o para mirar a mano sin backend: `node plan/herramientas/servidor-simulado.mjs` (puerto 8080) y `npm run build && npx vite preview`.
 
 ## Avisos a Ayman
 

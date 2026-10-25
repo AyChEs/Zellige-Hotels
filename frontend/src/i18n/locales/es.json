@@ -33,12 +33,17 @@
     "seeAll": "Ver todos →",
     "viewAll": "Ver todos",
     "created": "Creado",
-    "updated": "Actualizado"
+    "updated": "Actualizado",
+    "dateOrder": "La salida debe ser posterior a la entrada",
+    "savedToast": "Cambios guardados",
+    "deletedToast": "Eliminado",
+    "skipToContent": "Saltar al contenido"
   },
   "dataTable": {
     "page": "Página {{page}} de {{total}} · {{count}} registros",
     "ariaLabel": "Paginación",
-    "scroll": "desliza para ver más"
+    "scroll": "desliza para ver más",
+    "updating": "Actualizando…"
   },
   "labels": {
     "boardType": {
@@ -161,24 +166,69 @@
       "logout": "Cerrar sesión"
     },
     "footer": {
-      "tagline": "Hotel ERP de demostración"
+      "tagline": "Hotel ERP de demostración",
+      "explore": "Explorar",
+      "made": "Proyecto de demostración de Ayman Charoui"
     },
     "landing": {
-      "kicker": "Zellige Hotels · Granada · Marrakech · Barcelona",
-      "title": "La hospitalidad es un oficio. Nosotros lo ejercemos con precisión.",
-      "subtitle": "Tres hoteles con carácter. Reserva directa, confirmación al instante y factura sin sorpresas.",
+      "subtitle": "Tres hoteles con carácter en Granada, Marrakech y Barcelona. Reserva directa, precio cerrado por noche y factura sin sorpresas.",
       "checkIn": "Entrada",
       "checkOut": "Salida",
       "guests": "Huéspedes",
       "search": "Buscar",
       "hotelsTitle": "Nuestros hoteles",
-      "whyTitle": "Reservar directo tiene ventajas",
-      "why1Title": "Confirmación inmediata",
-      "why1Body": "Tu reserva entra directamente en el sistema del hotel, con email al momento.",
-      "why2Title": "Cancelación flexible",
-      "why2Body": "Cancela cualquier reserva pendiente o confirmada desde tu cuenta, sin llamadas.",
-      "why3Title": "Factura sin sorpresas",
-      "why3Body": "Precio cerrado por noche y régimen, con IVA desglosado en tu factura."
+      "hotel": "Hotel",
+      "heroAlt": "Patio con alberca visto a través de un arco de herradura, con zócalo de azulejos verdes",
+      "titleLines": [
+        "La hospitalidad",
+        "es un oficio."
+      ],
+      "ctaSearch": "Buscar disponibilidad",
+      "searchTitle": "Elige tus fechas",
+      "factsLabel": "Zellige en datos",
+      "factHotels_one": "{{count}} hotel",
+      "factHotels_other": "{{count}} hoteles",
+      "facts": [
+        "4 regímenes de pensión",
+        "Precio cerrado por noche",
+        "IVA desglosado en la factura",
+        "Dos reservas nunca se pisan",
+        "Cancela desde tu cuenta",
+        "Español e inglés"
+      ],
+      "hotelsLines": [
+        "Tres casas,",
+        "un mismo oficio."
+      ],
+      "hotelsBody": "Cada hotel es distinto. La forma de reservar, no.",
+      "storyLines": [
+        "Reservar,",
+        "paso a paso."
+      ],
+      "storyStep": "Paso {{n}} de {{total}}",
+      "steps": [
+        {
+          "title": "Eliges las fechas",
+          "body": "Entrada, salida y huéspedes. Ves las noches y el precio total antes de seguir."
+        },
+        {
+          "title": "Nada se solapa",
+          "body": "Como las teselas de un zellige, dos estancias nunca ocupan la misma habitación. Lo garantiza la base de datos, no un aviso."
+        },
+        {
+          "title": "Confirmación del hotel",
+          "body": "La reserva entra en el sistema con su código. Cuando el hotel la confirma, lo ves en tu cuenta."
+        },
+        {
+          "title": "Factura clara",
+          "body": "Base, IVA del 10 % y total, cada cosa en su línea. La tienes en tu cuenta."
+        }
+      ],
+      "closingLines": [
+        "Elige fechas.",
+        "Del resto se encarga el hotel."
+      ],
+      "closingCta": "Ver los hoteles"
     },
     "hotels": {
       "title": "Hoteles",
@@ -188,7 +238,12 @@
       "cityAria": "Filtrar por ciudad",
       "emptyTitle": "Sin resultados",
       "emptyHint": "Prueba con otro nombre u otra ciudad; el buscador no distingue mayúsculas.",
-      "viewRooms": "Ver habitaciones"
+      "viewRooms": "Ver habitaciones",
+      "count_one": "{{count}} hotel",
+      "count_other": "{{count}} hoteles",
+      "searchLabel": "Nombre",
+      "cityLabel": "Ciudad",
+      "viewAvailability": "Ver disponibilidad"
     },
     "hotelDetail": {
       "breadcrumb": "Hoteles",
@@ -214,7 +269,11 @@
       "myBookings": "Mis reservas",
       "noRoomsTitle": "No hay habitaciones libres para esas fechas",
       "noRoomsHint": "Cambia las fechas o reduce el número de huéspedes; el hotel podría tener disponibilidad cercana.",
-      "roomTakenHint": "Otra persona pudo haber reservado esa habitación hace un momento; la lista se actualiza automáticamente."
+      "roomTakenHint": "Otra persona pudo haber reservado esa habitación hace un momento; la lista se actualiza automáticamente.",
+      "stars_one": "{{count}} estrella",
+      "stars_other": "{{count}} estrellas",
+      "breadcrumbLabel": "Ruta de navegación",
+      "photoAlt": "{{name}}"
     }
   },
   "account": {
@@ -268,7 +327,11 @@
       "documentHint": "El documento de identidad solo puede modificarlo la recepción del hotel.",
       "saving": "Guardando…",
       "saved": "Perfil actualizado."
-    }
+    },
+    "cancelConfirm": "¿Cancelar la reserva {{code}}?",
+    "keep": "Mantener",
+    "cancelledToast": "Reserva {{code}} cancelada",
+    "profileSaved": "Perfil guardado"
   },
   "admin": {
     "nav": {
@@ -281,7 +344,8 @@
       "employees": "Empleados",
       "clients": "Clientes",
       "invoices": "Facturas",
-      "tasks": "Tareas"
+      "tasks": "Tareas",
+      "label": "Navegación del panel"
     },
     "dashboard": {
       "title": "Dashboard",
@@ -295,13 +359,15 @@
       "monthBookingsContext": "creadas desde el día 1",
       "pendingTasksContext": "limpieza y mantenimiento",
       "revenueChart": "Ingresos facturados por mes (últimos 12)",
-      "occupancyChart": "Ocupación diaria — 2 semanas atrás y 2 adelante",
+      "occupancyChart": "Ocupación diaria, de 2 semanas atrás a 2 adelante",
       "bookingsByStatus": "Reservas por estado (histórico)",
       "revenue": "Ingresos",
       "occupancy": "Ocupación",
       "noBookings": "No hay reservas registradas este mes.",
       "revPAR": "RevPAR",
-      "adr": "ADR"
+      "adr": "ADR",
+      "month": "Mes",
+      "day": "Día"
     },
     "bookings": {
       "title": "Reservas",
@@ -338,7 +404,15 @@
       "clientSearchPlaceholder": "Buscar por nombre o documento…",
       "clientResults": "Resultados de clientes",
       "emptyTitle": "No hay reservas con este filtro",
-      "emptyHint": "Crea una reserva desde el mostrador con el botón «Nueva reserva»."
+      "emptyHint": "Crea una reserva desde el mostrador con el botón «Nueva reserva».",
+      "caption": "Reservas de todos los hoteles",
+      "done": {
+        "confirm": "Reserva {{code}} confirmada",
+        "checkIn": "Check-in de {{code}} hecho",
+        "checkOut": "Check-out de {{code}} hecho",
+        "cancel": "Reserva {{code}} cancelada"
+      },
+      "cancelConfirm": "¿Cancelar la reserva {{code}}?"
     },
     "calendar": {
       "title": "Calendario de ocupación",
@@ -351,7 +425,12 @@
         "available": "Disponible",
         "occupied": "Ocupada",
         "past": "Pasado"
-      }
+      },
+      "room": "Hab.",
+      "range": "Días visibles",
+      "days_one": "{{count}} día",
+      "days_other": "{{count}} días",
+      "caption": "Ocupación por habitación en {{hotel}}"
     },
     "hotels": {
       "title": "Hoteles",
@@ -370,7 +449,8 @@
       "edit": "Editar «{{name}}»",
       "create": "Nuevo hotel",
       "deleteConfirm": "¿Eliminar «{{name}}»? Sus habitaciones y reservas se perderán.",
-      "emptyTitle": "Sin hoteles"
+      "emptyTitle": "Sin hoteles",
+      "caption": "Hoteles de la cadena"
     },
     "rooms": {
       "title": "Habitaciones",
@@ -393,7 +473,9 @@
       "edit": "Editar habitación {{n}}",
       "create": "Nueva habitación",
       "deleteConfirm": "¿Eliminar la habitación {{n}}?",
-      "emptyTitle": "Sin habitaciones con este filtro"
+      "emptyTitle": "Sin habitaciones con este filtro",
+      "caption": "Habitaciones",
+      "floorValue": "planta {{n}}"
     },
     "categories": {
       "title": "Categorías",
@@ -405,7 +487,8 @@
       "edit": "Editar «{{name}}»",
       "create": "Nueva categoría",
       "deleteConfirm": "¿Eliminar la categoría «{{name}}»?",
-      "emptyTitle": "Sin categorías"
+      "emptyTitle": "Sin categorías",
+      "caption": "Categorías de hotel"
     },
     "clients": {
       "title": "Clientes",
@@ -419,7 +502,9 @@
       "create": "Nuevo cliente (mostrador)",
       "deleteConfirm": "¿Eliminar a {{name}}?",
       "emptyTitle": "Sin clientes con esta búsqueda",
-      "emptyHint": "Los clientes que se registran online aparecen aquí automáticamente."
+      "emptyHint": "Los clientes que se registran online aparecen aquí automáticamente.",
+      "caption": "Clientes",
+      "searchLabel": "Buscar cliente"
     },
     "employees": {
       "title": "Empleados",
@@ -437,7 +522,8 @@
       "edit": "Editar {{name}}",
       "create": "Nuevo empleado",
       "deleteConfirm": "¿Eliminar a {{name}}?",
-      "emptyTitle": "Sin empleados"
+      "emptyTitle": "Sin empleados",
+      "caption": "Personal"
     },
     "invoices": {
       "title": "Facturas",
@@ -461,11 +547,14 @@
       "generating": "Generando…",
       "generate": "Generar factura",
       "emptyTitle": "Sin facturas con este filtro",
-      "emptyHint": "Genera la primera desde una reserva confirmada con «Generar factura»."
+      "emptyHint": "Genera la primera desde una reserva confirmada con «Generar factura».",
+      "caption": "Facturas emitidas",
+      "issuedToast": "Factura {{number}} emitida",
+      "paidToast": "Factura {{number}} cobrada"
     },
     "tasks": {
       "title": "Tareas",
-      "subtitle": "Limpieza y mantenimiento — el check-out crea la limpieza automáticamente",
+      "subtitle": "Limpieza y mantenimiento. El check-out crea la limpieza automáticamente.",
       "new": "+ Nueva tarea",
       "type": "Tipo",
       "titleLabel": "Título",
@@ -487,7 +576,10 @@
       "statusUpdated": "Estado actualizado.",
       "emptyTitle": "Sin tareas",
       "emptyHint": "Crea una tarea o haz un check-out: la limpieza de la habitación aparecerá sola.",
-      "emptyColumn": "Nada aquí"
+      "emptyColumn": "Nada aquí",
+      "created": "Tarea creada",
+      "moved": "«{{title}}»: {{status}}",
+      "moveTo": "Mover a"
     }
   },
   "errors": {
@@ -499,6 +591,86 @@
     "validation": "Revisa los campos marcados.",
     "server": "El servidor ha fallado. Inténtalo en unos minutos.",
     "conflict": "Conflicto con el estado actual.",
-    "loadingFailed": "No se han podido cargar los datos."
+    "loadingFailed": "No se han podido cargar los datos.",
+    "pageTitle": "Esta pantalla ha fallado",
+    "pageBody": "El resto de la aplicación sigue funcionando. Vuelve a intentarlo o usa el menú.",
+    "tryAgain": "Volver a intentarlo",
+    "notFoundTitle": "No encontramos esta página",
+    "notFoundBody": "Puede que la dirección esté mal escrita o que la página ya no exista.",
+    "backHome": "Volver a la portada"
+  },
+  "booking": {
+    "summaryTitle": "Revisa tu reserva",
+    "confirm": "Confirmar reserva",
+    "back": "Volver",
+    "created": "Reserva {{code}} creada",
+    "choose": "Elegir",
+    "changeDates": "Cambiar fechas",
+    "loginToBook": "Inicia sesión para reservar",
+    "hotel": "Hotel",
+    "room": "Habitación",
+    "dates": "Fechas",
+    "nights": "Noches",
+    "guests": "Huéspedes",
+    "board": "Régimen",
+    "total": "Total, IVA incluido",
+    "pendingNote": "El hotel la confirmará y la verás en tu cuenta.",
+    "createdTitle": "Reserva creada",
+    "createdBody": "Está pendiente de confirmación por el hotel. Verás el cambio en tu cuenta.",
+    "code": "Código",
+    "seeMyBookings": "Ver mis reservas",
+    "roomLabel": "{{type}} {{number}}"
+  },
+  "brand": {
+    "title": "Marca",
+    "intro": "Un hotel de Zellige empieza en la puerta. La marca es una tesela con una puerta: oficio y orden por fuera, calma por dentro.",
+    "intro2": "En un zellige cada pieza encaja sin montarse encima de otra. Las reservas, también: dos estancias nunca ocupan la misma habitación.",
+    "download": "Descargar {{name}}",
+    "symbolTitle": "El símbolo",
+    "symbolDiagram": "Construcción del símbolo sobre una retícula de 64 unidades: la tesela, el arco de herradura y la clave.",
+    "tileTitle": "Tesela",
+    "tileBody": "Cuadrado de 64 unidades con radio 14. Las teselas se cortan a mano: esquinas suaves.",
+    "doorTitle": "Puerta",
+    "doorBody": "Arco de herradura de radio 15, abierto hasta el borde. La tesela se convierte en umbral.",
+    "keyTitle": "Clave",
+    "keyBody": "El rombo que cierra el arco. Es el único rombo de la marca y también el separador.",
+    "versionsTitle": "Versiones",
+    "vHorizontal": "Horizontal",
+    "vStacked": "Apilado",
+    "vMono": "Un color",
+    "vLight": "Sobre oscuro",
+    "vFavicon": "Favicon a 64, 32 y 16 px",
+    "colorTitle": "Color",
+    "colorBody": "60 % cal, 30 % verde, 10 % granate como máximo. Contraste comprobado con WCAG 2.2.",
+    "c_cal": "Fondo",
+    "c_tinta": "Texto",
+    "c_fez": "Símbolo, botones y foco",
+    "c_noche": "Superficies oscuras",
+    "c_granate": "Firma: apellido, clave y filetes",
+    "c_fez200": "Acento sobre noche",
+    "contrastOn": "{{ratio}}:1 sobre {{bg}}",
+    "typeTitle": "Tipografía",
+    "typeDisplay": "Marcellus, para el nombre y los titulares",
+    "typeText": "Source Sans 3, para el texto y la interfaz",
+    "typeSample": "Reserva directa, precio cerrado por noche y factura con el IVA desglosado.",
+    "motifTitle": "Motivo",
+    "mGrid": "Retícula de teselas",
+    "mSeparator": "Separador con la clave",
+    "mArcade": "Arquería: el borde de las superficies oscuras",
+    "motionTitle": "Movimiento",
+    "motionBody": "Lento y sin rebote. El scroll manda, solo se animan la posición y la opacidad, y con el movimiento reducido se muestra el estado final.",
+    "curveSereno": "Sereno: entradas de 900 ms",
+    "curveUmbral": "Umbral: cambios de estado y apertura del arco",
+    "motionTry": "Probar las curvas",
+    "usageTitle": "Usos",
+    "doTitle": "Así",
+    "dontTitle": "Así no",
+    "do1": "Símbolo verde sobre cal",
+    "do2": "Claro sobre noche",
+    "dont1": "Deformado",
+    "dont2": "Girado",
+    "dont3": "Con sombra",
+    "dont4": "Fuera de la paleta",
+    "footerLink": "Marca"
   }
 }

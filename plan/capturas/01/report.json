@@ -1,0 +1,343 @@
+[
+ {
+  "id": "landing",
+  "url": "/",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious link-in-text-block (1): a[href$=\"AyChEs\"]"
+  ]
+ },
+ {
+  "id": "hoteles",
+  "url": "/hotels",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious aria-hidden-focus (1): aside",
+   "serious link-in-text-block (1): a[href$=\"AyChEs\"]"
+  ]
+ },
+ {
+  "id": "hotel",
+  "url": "/hotels/1",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious aria-hidden-focus (1): aside",
+   "serious link-in-text-block (1): a[href$=\"AyChEs\"]"
+  ]
+ },
+ {
+  "id": "login",
+  "url": "/login",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious aria-hidden-focus (1): aside",
+   "serious color-contrast (1): .text-gold-600",
+   "serious link-in-text-block (1): a[href$=\"AyChEs\"]"
+  ]
+ },
+ {
+  "id": "registro",
+  "url": "/register",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious aria-hidden-focus (1): aside",
+   "serious color-contrast (1): .text-gold-600",
+   "serious link-in-text-block (1): a[href$=\"AyChEs\"]"
+  ]
+ },
+ {
+  "id": "cuenta",
+  "url": "/account",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious aria-hidden-focus (1): aside",
+   "serious color-contrast (1): .bg-gold-100",
+   "serious link-in-text-block (1): a[href$=\"AyChEs\"]"
+  ]
+ },
+ {
+  "id": "cuenta-facturas",
+  "url": "/account/invoices",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious aria-hidden-focus (1): aside",
+   "serious color-contrast (1): .badge",
+   "serious link-in-text-block (1): a[href$=\"AyChEs\"]"
+  ]
+ },
+ {
+  "id": "cuenta-perfil",
+  "url": "/account/profile",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious aria-hidden-focus (1): aside",
+   "serious link-in-text-block (1): a[href$=\"AyChEs\"]"
+  ]
+ },
+ {
+  "id": "admin",
+  "url": "/admin",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious aria-hidden-focus (1): .fixed"
+  ]
+ },
+ {
+  "id": "reservas-admin",
+  "url": "/admin/bookings",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (8): .text-\\[10px\\] > span:nth-child(2) | .border-glaze-100.last\\:border-0.hover\\:bg-glaze-100\\/60:nth-child(13) > td:nth-child(4) > .bg-gold-100.text-gold-600.badge | .border-glaze-100.last\\:border-0.hover\\:bg-glaze-100\\/60:nth-child(14) > td:nth-child(4) > .bg-gold-100.text-gold-600.badge"
+  ]
+ },
+ {
+  "id": "calendario",
+  "url": "/admin/calendar",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious aria-hidden-focus (1): .fixed",
+   "serious color-contrast (1): .text-gold-600",
+   "serious scrollable-region-focusable (1): .card-tile"
+  ]
+ },
+ {
+  "id": "facturas-admin",
+  "url": "/admin/invoices",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (6): .text-\\[10px\\] > span:nth-child(2) | .border-glaze-100.last\\:border-0.hover\\:bg-glaze-100\\/60:nth-child(1) > td:nth-child(5) > .bg-gold-100.text-gold-600.badge | .border-glaze-100.last\\:border-0.hover\\:bg-glaze-100\\/60:nth-child(2) > td:nth-child(5) > .bg-gold-100.text-gold-600.badge"
+  ]
+ },
+ {
+  "id": "clientes",
+  "url": "/admin/clients",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (4): .text-\\[10px\\] > span:nth-child(2) | .border-glaze-100.last\\:border-0.hover\\:bg-glaze-100\\/60:nth-child(1) > td:nth-child(4) > .bg-gold-100.text-gold-600.badge | .border-glaze-100.last\\:border-0.hover\\:bg-glaze-100\\/60:nth-child(3) > td:nth-child(4) > .bg-gold-100.text-gold-600.badge"
+  ]
+ },
+ {
+  "id": "tareas",
+  "url": "/admin/tasks",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (4): article:nth-child(1) > .items-start.justify-between.gap-2 > .bg-gold-100.text-gold-600.badge | section[aria-label=\"Pendiente\"] > .space-y-3 > article:nth-child(1) > .mt-3.gap-1\\.5 > .btn-danger.px-2\\.5.py-1 | .bg-terra-100"
+  ]
+ },
+ {
+  "id": "hoteles-admin",
+  "url": "/admin/hotels",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (1): .text-\\[10px\\] > span:nth-child(2)"
+  ]
+ },
+ {
+  "id": "habitaciones",
+  "url": "/admin/rooms",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (3): .text-\\[10px\\] > span:nth-child(2) | .bg-gold-100 | .bg-terra-100"
+  ]
+ },
+ {
+  "id": "categorias",
+  "url": "/admin/categories",
+  "w": 390,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "empleados",
+  "url": "/admin/employees",
+  "w": 390,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (2): .text-\\[10px\\] > span:nth-child(2) | .bg-gold-100"
+  ]
+ },
+ {
+  "w": 390,
+  "consoleErrors": []
+ },
+ {
+  "id": "landing",
+  "url": "/",
+  "w": 1440,
+  "hscroll": false,
+  "violations": [
+   "serious link-in-text-block (1): a[href$=\"AyChEs\"]"
+  ]
+ },
+ {
+  "id": "hoteles",
+  "url": "/hotels",
+  "w": 1440,
+  "hscroll": false,
+  "violations": [
+   "serious link-in-text-block (1): a[href$=\"AyChEs\"]"
+  ]
+ },
+ {
+  "id": "hotel",
+  "url": "/hotels/1",
+  "w": 1440,
+  "hscroll": false,
+  "violations": [
+   "serious link-in-text-block (1): a[href$=\"AyChEs\"]"
+  ]
+ },
+ {
+  "id": "login",
+  "url": "/login",
+  "w": 1440,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (1): .text-gold-600",
+   "serious link-in-text-block (1): a[href$=\"AyChEs\"]"
+  ]
+ },
+ {
+  "id": "registro",
+  "url": "/register",
+  "w": 1440,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (1): .text-gold-600",
+   "serious link-in-text-block (1): a[href$=\"AyChEs\"]"
+  ]
+ },
+ {
+  "id": "cuenta",
+  "url": "/account",
+  "w": 1440,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (1): .bg-gold-100",
+   "serious link-in-text-block (1): a[href$=\"AyChEs\"]"
+  ]
+ },
+ {
+  "id": "cuenta-facturas",
+  "url": "/account/invoices",
+  "w": 1440,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (1): .badge",
+   "serious link-in-text-block (1): a[href$=\"AyChEs\"]"
+  ]
+ },
+ {
+  "id": "cuenta-perfil",
+  "url": "/account/profile",
+  "w": 1440,
+  "hscroll": false,
+  "violations": [
+   "serious link-in-text-block (1): a[href$=\"AyChEs\"]"
+  ]
+ },
+ {
+  "id": "admin",
+  "url": "/admin",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "reservas-admin",
+  "url": "/admin/bookings",
+  "w": 1440,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (7): .border-glaze-100.last\\:border-0.hover\\:bg-glaze-100\\/60:nth-child(13) > td:nth-child(4) > .bg-gold-100.text-gold-600.badge | .border-glaze-100.last\\:border-0.hover\\:bg-glaze-100\\/60:nth-child(14) > td:nth-child(4) > .bg-gold-100.text-gold-600.badge | .border-glaze-100.last\\:border-0.hover\\:bg-glaze-100\\/60:nth-child(15) > td:nth-child(4) > .bg-gold-100.text-gold-600.badge"
+  ]
+ },
+ {
+  "id": "calendario",
+  "url": "/admin/calendar",
+  "w": 1440,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (1): .text-gold-600"
+  ]
+ },
+ {
+  "id": "facturas-admin",
+  "url": "/admin/invoices",
+  "w": 1440,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (5): .border-glaze-100.last\\:border-0.hover\\:bg-glaze-100\\/60:nth-child(1) > td:nth-child(5) > .bg-gold-100.text-gold-600.badge | .border-glaze-100.last\\:border-0.hover\\:bg-glaze-100\\/60:nth-child(2) > td:nth-child(5) > .bg-gold-100.text-gold-600.badge | .border-glaze-100.last\\:border-0.hover\\:bg-glaze-100\\/60:nth-child(3) > td:nth-child(5) > .bg-gold-100.text-gold-600.badge"
+  ]
+ },
+ {
+  "id": "clientes",
+  "url": "/admin/clients",
+  "w": 1440,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (3): .border-glaze-100.last\\:border-0.hover\\:bg-glaze-100\\/60:nth-child(1) > td:nth-child(4) > .bg-gold-100.text-gold-600.badge | .border-glaze-100.last\\:border-0.hover\\:bg-glaze-100\\/60:nth-child(3) > td:nth-child(4) > .bg-gold-100.text-gold-600.badge | .border-glaze-100.last\\:border-0.hover\\:bg-glaze-100\\/60:nth-child(7) > td:nth-child(4) > .bg-gold-100.text-gold-600.badge"
+  ]
+ },
+ {
+  "id": "tareas",
+  "url": "/admin/tasks",
+  "w": 1440,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (3): article:nth-child(1) > .items-start.justify-between.gap-2 > .bg-gold-100.text-gold-600.badge | .bg-terra-100 | article:nth-child(2) > .items-start.justify-between.gap-2 > .bg-gold-100.text-gold-600.badge"
+  ]
+ },
+ {
+  "id": "hoteles-admin",
+  "url": "/admin/hotels",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "habitaciones",
+  "url": "/admin/rooms",
+  "w": 1440,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (2): .bg-gold-100 | .bg-terra-100"
+  ]
+ },
+ {
+  "id": "categorias",
+  "url": "/admin/categories",
+  "w": 1440,
+  "hscroll": false,
+  "violations": []
+ },
+ {
+  "id": "empleados",
+  "url": "/admin/employees",
+  "w": 1440,
+  "hscroll": false,
+  "violations": [
+   "serious color-contrast (1): .bg-gold-100"
+  ]
+ },
+ {
+  "w": 1440,
+  "consoleErrors": []
+ }
+]

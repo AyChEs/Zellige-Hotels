@@ -33,12 +33,17 @@
     "seeAll": "See all →",
     "viewAll": "View all",
     "created": "Created",
-    "updated": "Updated"
+    "updated": "Updated",
+    "dateOrder": "Check-out must be after check-in",
+    "savedToast": "Changes saved",
+    "deletedToast": "Deleted",
+    "skipToContent": "Skip to content"
   },
   "dataTable": {
     "page": "Page {{page}} of {{total}} · {{count}} records",
     "ariaLabel": "Pagination",
-    "scroll": "swipe to see more"
+    "scroll": "swipe to see more",
+    "updating": "Updating…"
   },
   "labels": {
     "boardType": {
@@ -161,24 +166,69 @@
       "logout": "Log out"
     },
     "footer": {
-      "tagline": "Demo hotel ERP"
+      "tagline": "Demo hotel ERP",
+      "explore": "Explore",
+      "made": "Demo project by Ayman Charoui"
     },
     "landing": {
-      "kicker": "Zellige Hotels · Granada · Marrakech · Barcelona",
-      "title": "Hospitality is a craft. We practise it with precision.",
-      "subtitle": "Three hotels with character. Direct booking, instant confirmation, no-surprise invoices.",
+      "subtitle": "Three hotels with character in Granada, Marrakech and Barcelona. Direct booking, a fixed price per night and no-surprise invoices.",
       "checkIn": "Check-in",
       "checkOut": "Check-out",
       "guests": "Guests",
       "search": "Search",
       "hotelsTitle": "Our hotels",
-      "whyTitle": "Why book direct",
-      "why1Title": "Instant confirmation",
-      "why1Body": "Your reservation goes straight into the hotel's system, with an email on the spot.",
-      "why2Title": "Flexible cancellation",
-      "why2Body": "Cancel any pending or confirmed booking from your account — no phone calls.",
-      "why3Title": "No surprise invoices",
-      "why3Body": "Locked-in price per night and board, with VAT broken out on the invoice."
+      "hotel": "Hotel",
+      "heroAlt": "Courtyard with a long pool seen through a horseshoe arch, with a green tile dado",
+      "titleLines": [
+        "Hospitality",
+        "is a craft."
+      ],
+      "ctaSearch": "Check availability",
+      "searchTitle": "Choose your dates",
+      "factsLabel": "Zellige in figures",
+      "factHotels_one": "{{count}} hotel",
+      "factHotels_other": "{{count}} hotels",
+      "facts": [
+        "4 board options",
+        "Fixed price per night",
+        "VAT broken out on the invoice",
+        "Two bookings never overlap",
+        "Cancel from your account",
+        "Spanish and English"
+      ],
+      "hotelsLines": [
+        "Three houses,",
+        "one craft."
+      ],
+      "hotelsBody": "Each hotel is different. The way you book is not.",
+      "storyLines": [
+        "Booking,",
+        "step by step."
+      ],
+      "storyStep": "Step {{n}} of {{total}}",
+      "steps": [
+        {
+          "title": "You pick the dates",
+          "body": "Check-in, check-out and guests. You see the nights and the total price before going on."
+        },
+        {
+          "title": "Nothing overlaps",
+          "body": "Like the tiles of a zellige, two stays never share the same room. The database guarantees it, not a warning."
+        },
+        {
+          "title": "Confirmed by the hotel",
+          "body": "The booking enters the system with its code. When the hotel confirms it, you see it in your account."
+        },
+        {
+          "title": "A clear invoice",
+          "body": "Base, 10% VAT and total, each on its own line. It is in your account."
+        }
+      ],
+      "closingLines": [
+        "Pick your dates.",
+        "The hotel takes care of the rest."
+      ],
+      "closingCta": "See the hotels"
     },
     "hotels": {
       "title": "Hotels",
@@ -188,7 +238,12 @@
       "cityAria": "Filter by city",
       "emptyTitle": "No results",
       "emptyHint": "Try a different name or city; the search is case-insensitive.",
-      "viewRooms": "View rooms"
+      "viewRooms": "View rooms",
+      "count_one": "{{count}} hotel",
+      "count_other": "{{count}} hotels",
+      "searchLabel": "Name",
+      "cityLabel": "City",
+      "viewAvailability": "See availability"
     },
     "hotelDetail": {
       "breadcrumb": "Hotels",
@@ -214,7 +269,11 @@
       "myBookings": "My bookings",
       "noRoomsTitle": "No rooms available for those dates",
       "noRoomsHint": "Change the dates or reduce the number of guests; the hotel may have nearby availability.",
-      "roomTakenHint": "Someone else may have just booked that room; the list refreshes automatically."
+      "roomTakenHint": "Someone else may have just booked that room; the list refreshes automatically.",
+      "stars_one": "{{count}} star",
+      "stars_other": "{{count}} stars",
+      "breadcrumbLabel": "Breadcrumb",
+      "photoAlt": "{{name}}"
     }
   },
   "account": {
@@ -268,7 +327,11 @@
       "documentHint": "Your ID document can only be changed by the hotel reception.",
       "saving": "Saving…",
       "saved": "Profile updated."
-    }
+    },
+    "cancelConfirm": "Cancel booking {{code}}?",
+    "keep": "Keep it",
+    "cancelledToast": "Booking {{code}} cancelled",
+    "profileSaved": "Profile saved"
   },
   "admin": {
     "nav": {
@@ -281,7 +344,8 @@
       "employees": "Employees",
       "clients": "Clients",
       "invoices": "Invoices",
-      "tasks": "Tasks"
+      "tasks": "Tasks",
+      "label": "Staff panel navigation"
     },
     "dashboard": {
       "title": "Dashboard",
@@ -295,13 +359,15 @@
       "monthBookingsContext": "created since the 1st",
       "pendingTasksContext": "housekeeping and maintenance",
       "revenueChart": "Invoiced revenue per month (last 12)",
-      "occupancyChart": "Daily occupancy — 2 weeks back, 2 weeks ahead",
+      "occupancyChart": "Daily occupancy, 2 weeks back to 2 weeks ahead",
       "bookingsByStatus": "Bookings by status (all-time)",
       "revenue": "Revenue",
       "occupancy": "Occupancy",
       "noBookings": "No bookings this month.",
       "revPAR": "RevPAR",
-      "adr": "ADR"
+      "adr": "ADR",
+      "month": "Month",
+      "day": "Day"
     },
     "bookings": {
       "title": "Bookings",
@@ -338,7 +404,15 @@
       "clientSearchPlaceholder": "Search by name or document…",
       "clientResults": "Client results",
       "emptyTitle": "No bookings match this filter",
-      "emptyHint": "Create a booking from the front desk with the “New booking” button."
+      "emptyHint": "Create a booking from the front desk with the “New booking” button.",
+      "caption": "Bookings across all hotels",
+      "done": {
+        "confirm": "Booking {{code}} confirmed",
+        "checkIn": "{{code}} checked in",
+        "checkOut": "{{code}} checked out",
+        "cancel": "Booking {{code}} cancelled"
+      },
+      "cancelConfirm": "Cancel booking {{code}}?"
     },
     "calendar": {
       "title": "Occupancy calendar",
@@ -351,7 +425,12 @@
         "available": "Available",
         "occupied": "Occupied",
         "past": "Past"
-      }
+      },
+      "room": "Room",
+      "range": "Days shown",
+      "days_one": "{{count}} day",
+      "days_other": "{{count}} days",
+      "caption": "Occupancy by room at {{hotel}}"
     },
     "hotels": {
       "title": "Hotels",
@@ -370,7 +449,8 @@
       "edit": "Edit “{{name}}”",
       "create": "New hotel",
       "deleteConfirm": "Delete “{{name}}”? Its rooms and bookings will be lost.",
-      "emptyTitle": "No hotels"
+      "emptyTitle": "No hotels",
+      "caption": "Hotels in the chain"
     },
     "rooms": {
       "title": "Rooms",
@@ -394,7 +474,8 @@
       "edit": "Edit room {{n}}",
       "create": "New room",
       "deleteConfirm": "Delete room {{n}}?",
-      "emptyTitle": "No rooms match this filter"
+      "emptyTitle": "No rooms match this filter",
+      "caption": "Rooms"
     },
     "categories": {
       "title": "Categories",
@@ -406,7 +487,8 @@
       "edit": "Edit “{{name}}”",
       "create": "New category",
       "deleteConfirm": "Delete category “{{name}}”?",
-      "emptyTitle": "No categories"
+      "emptyTitle": "No categories",
+      "caption": "Hotel categories"
     },
     "clients": {
       "title": "Clients",
@@ -420,7 +502,9 @@
       "create": "New client (front desk)",
       "deleteConfirm": "Delete {{name}}?",
       "emptyTitle": "No clients match this search",
-      "emptyHint": "Clients who sign up online appear here automatically."
+      "emptyHint": "Clients who sign up online appear here automatically.",
+      "caption": "Clients",
+      "searchLabel": "Search clients"
     },
     "employees": {
       "title": "Employees",
@@ -438,7 +522,8 @@
       "edit": "Edit {{name}}",
       "create": "New employee",
       "deleteConfirm": "Delete {{name}}?",
-      "emptyTitle": "No employees"
+      "emptyTitle": "No employees",
+      "caption": "Staff"
     },
     "invoices": {
       "title": "Invoices",
@@ -462,11 +547,14 @@
       "generating": "Generating…",
       "generate": "Generate invoice",
       "emptyTitle": "No invoices match this filter",
-      "emptyHint": "Generate the first one from a confirmed booking with “Generate invoice”."
+      "emptyHint": "Generate the first one from a confirmed booking with “Generate invoice”.",
+      "caption": "Issued invoices",
+      "issuedToast": "Invoice {{number}} issued",
+      "paidToast": "Invoice {{number}} paid"
     },
     "tasks": {
       "title": "Tasks",
-      "subtitle": "Housekeeping and maintenance — check-out creates the cleaning task automatically",
+      "subtitle": "Housekeeping and maintenance. Check-out creates the cleaning task automatically.",
       "new": "+ New task",
       "type": "Type",
       "titleLabel": "Title",
@@ -488,7 +576,10 @@
       "statusUpdated": "Status updated.",
       "emptyTitle": "No tasks",
       "emptyHint": "Create a task or check someone out: the room cleaning appears on its own.",
-      "emptyColumn": "Nothing here"
+      "emptyColumn": "Nothing here",
+      "created": "Task created",
+      "moved": "\"{{title}}\": {{status}}",
+      "moveTo": "Move to"
     }
   },
   "errors": {
@@ -500,6 +591,86 @@
     "validation": "Please review the highlighted fields.",
     "server": "The server failed. Try again in a few minutes.",
     "conflict": "Conflicts with the current state.",
-    "loadingFailed": "Couldn't load the data."
+    "loadingFailed": "Couldn't load the data.",
+    "pageTitle": "This screen failed",
+    "pageBody": "The rest of the app still works. Try again or use the menu.",
+    "tryAgain": "Try again",
+    "notFoundTitle": "We could not find this page",
+    "notFoundBody": "The address may be mistyped or the page may no longer exist.",
+    "backHome": "Back to the home page"
+  },
+  "booking": {
+    "summaryTitle": "Review your booking",
+    "confirm": "Confirm booking",
+    "back": "Back",
+    "created": "Booking {{code}} created",
+    "choose": "Choose",
+    "changeDates": "Change dates",
+    "loginToBook": "Log in to book",
+    "hotel": "Hotel",
+    "room": "Room",
+    "dates": "Dates",
+    "nights": "Nights",
+    "guests": "Guests",
+    "board": "Board",
+    "total": "Total, VAT included",
+    "pendingNote": "The hotel will confirm it and you will see it in your account.",
+    "createdTitle": "Booking created",
+    "createdBody": "It is waiting for the hotel to confirm it. You will see the change in your account.",
+    "code": "Code",
+    "seeMyBookings": "See my bookings",
+    "roomLabel": "{{type}} {{number}}"
+  },
+  "brand": {
+    "title": "Brand",
+    "intro": "A Zellige hotel begins at the door. The brand is a tile with a doorway: craft and order outside, calm within.",
+    "intro2": "In a zellige every piece fits without overlapping another. So do bookings: two stays never share the same room.",
+    "download": "Download {{name}}",
+    "symbolTitle": "The symbol",
+    "symbolDiagram": "Symbol construction on a 64-unit grid: the tile, the horseshoe arch and the keystone.",
+    "tileTitle": "Tile",
+    "tileBody": "A 64-unit square with a 14-unit radius. Tiles are cut by hand: soft corners.",
+    "doorTitle": "Doorway",
+    "doorBody": "A horseshoe arch with a 15-unit radius, open to the edge. The tile becomes a threshold.",
+    "keyTitle": "Keystone",
+    "keyBody": "The lozenge that closes the arch. It is the brand's only lozenge and also its divider.",
+    "versionsTitle": "Versions",
+    "vHorizontal": "Horizontal",
+    "vStacked": "Stacked",
+    "vMono": "One colour",
+    "vLight": "On dark",
+    "vFavicon": "Favicon at 64, 32 and 16 px",
+    "colorTitle": "Colour",
+    "colorBody": "60% limewash, 30% green, 10% garnet at most. Contrast checked against WCAG 2.2.",
+    "c_cal": "Background",
+    "c_tinta": "Text",
+    "c_fez": "Symbol, buttons and focus",
+    "c_noche": "Dark surfaces",
+    "c_granate": "Signature: surname, keystone and rules",
+    "c_fez200": "Accent on night green",
+    "contrastOn": "{{ratio}}:1 on {{bg}}",
+    "typeTitle": "Typography",
+    "typeDisplay": "Marcellus, for the name and headings",
+    "typeText": "Source Sans 3, for text and interface",
+    "typeSample": "Direct booking, a fixed price per night and an invoice with VAT broken out.",
+    "motifTitle": "Motif",
+    "mGrid": "Tile lattice",
+    "mSeparator": "Divider with the keystone",
+    "mArcade": "Arcade: the edge of dark surfaces",
+    "motionTitle": "Motion",
+    "motionBody": "Slow and without bounce. Scroll leads, only position and opacity animate, and with reduced motion the final state is shown.",
+    "curveSereno": "Serene: 900 ms entrances",
+    "curveUmbral": "Threshold: state changes and the arch opening",
+    "motionTry": "Try the curves",
+    "usageTitle": "Usage",
+    "doTitle": "Do",
+    "dontTitle": "Don't",
+    "do1": "Green symbol on limewash",
+    "do2": "Light on night green",
+    "dont1": "Stretched",
+    "dont2": "Rotated",
+    "dont3": "With a shadow",
+    "dont4": "Off-palette",
+    "footerLink": "Brand"
   }
 }

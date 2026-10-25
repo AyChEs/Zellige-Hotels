@@ -1,0 +1,18 @@
+{
+  "id": 1,
+  "name": "Alhambra Palace",
+  "address": "Plaza Arquitecto Garcia de Paredes 1",
+  "city": "Granada",
+  "country": "Spain",
+  "phone": "+34 958 221 468",
+  "email": "info@alhambrapalace.example",
+  "description": "Moorish-inspired luxury overlooking the Alhambra.",
+  "imageUrl": "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200",
+  "active": true,
+  "category": {
+    "id": 1,
+    "name": "Luxury 5 Stars",
+    "starRating": 5,
+    "description": "Premium hotels with full-service amenities"
+  }
+}

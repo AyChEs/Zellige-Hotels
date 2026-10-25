@@ -12,8 +12,8 @@ export function ProtectedRoute({ roles }: { roles?: Role[] }) {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-glaze-50">
-        <span className="divider-arabesque w-40 font-display text-gold-500">◆</span>
+      <div className="flex min-h-screen items-center justify-center bg-cal-50">
+        <span className="separador w-40 font-display text-granate-700">◆</span>
       </div>
     )
   }

@@ -31,4 +31,11 @@ i18n
     },
   });
 
+// Keep <html lang> in step with the active language so screen readers pronounce it right.
+const syncLang = (lng: string) => {
+  if (typeof document !== 'undefined') document.documentElement.lang = lng.slice(0, 2);
+};
+i18n.on('languageChanged', syncLang);
+if (i18n.resolvedLanguage) syncLang(i18n.resolvedLanguage);
+
 export default i18n;

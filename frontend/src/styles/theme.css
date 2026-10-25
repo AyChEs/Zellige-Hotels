@@ -1,44 +1,75 @@
 @import 'tailwindcss';
 
 /*
- * Zellige Hotels ERP — visual system (see /DESIGN.md, /PRODUCT.md)
- * Deep teal + gold on a teal-tinted near-white ("glaze").
- * The arabesque pattern lives on shell surfaces only, never behind data.
+ * Zellige Hotels: visual system (see plan/DISENO.md and docs/DESIGN.md).
+ * "Cal y azulejo verde": warm limewash neutrals, one strong Fez green for everything
+ * interactive and a garnet accent for brand moments. The tile lattice lives on shell
+ * surfaces only, never behind data.
  */
 @theme {
-  /* Neutrals tinted toward the brand teal (hue ~200), never warm cream */
-  --color-glaze-50: #f4f8f8;
-  --color-glaze-100: #e9f0f0;
-  --color-glaze-200: #d5e2e2;
+  --color-cal-50: #faf8f4;
+  --color-cal-100: #f1ede6;
+  --color-cal-200: #e3ddd3;
+  --color-cal-400: #8e877c;
+  --color-tinta-900: #1c211f;
+  --color-tinta-600: #555c58;
+  --color-fez-50: #e4f0ea;
+  /* Acento sobre superficies oscuras (noche-900 9,3:1). Marca, docs/MARCA.md */
+  --color-fez-200: #9fcfb7;
+  --color-fez-700: #1e5b46;
+  --color-fez-800: #17483a;
+  --color-granate-50: #f6e7e9;
+  --color-granate-700: #8b2e3c;
+  /* Apellido del logotipo sobre noche-900 (9,2:1) */
+  --color-granate-200: #e2b9bf;
+  --color-noche-900: #18231f;
+  --color-noche-800: #2a3b34;
+  --color-noche-ink: #edeae3;
+  --color-noche-muted: #a9b5af;
+  --color-error-50: #fcebea;
+  --color-error-700: #b3261e;
+  --color-error-ink: #8f1d17;
+  --color-aviso-50: #fbf0d2;
+  --color-aviso-ink: #6b4e00;
+  --color-info-50: #e6eef6;
+  --color-info-ink: #1f4b73;
 
-  --color-teal-950: #06282b;
-  --color-teal-900: #0a3a3f;
-  --color-teal-800: #10494f;
-  --color-teal-700: #175d64;
-  --color-teal-600: #1f747d;
-  --color-teal-500: #2b8d97;
-  --color-teal-100: #d3e8ea;
-  --color-teal-50: #ecf5f6;
-
-  --color-gold-600: #a97e2f;
-  --color-gold-500: #c19540;
-  --color-gold-400: #d4ae5e;
-  --color-gold-300: #e3c688;
-  --color-gold-100: #f3e8cf;
-
-  --color-terra-600: #a4552f; /* destructive / error only */
-  --color-terra-100: #f2ddd2;
-
-  /* Display serif is for brand surfaces (hero, auth titles) only — never UI chrome */
+  /* Display serif is for brand surfaces (hero, hotel name, auth titles) only */
   --font-display: 'Marcellus', ui-serif, Georgia, serif;
-  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Source Sans 3 Variable', ui-sans-serif, system-ui, sans-serif;
 
-  --radius-tile: 0.375rem;
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.4;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.45;
+  --text-base: 1rem;
+  --text-base--line-height: 1.55;
+  --text-lg: 1.1875rem;
+  --text-lg--line-height: 1.4;
+  --text-xl: 1.4375rem;
+  --text-xl--line-height: 1.3;
+  --text-2xl: 1.75rem;
+  --text-2xl--line-height: 1.2;
+  --text-4xl: 2.5rem;
+  --text-4xl--line-height: 1.1;
+  --text-6xl: 3.5rem;
+  --text-6xl--line-height: 1.05;
+
+  --radius-control: 6px;
+  --radius-card: 10px;
+  --radius-pill: 999px;
+  --shadow-card: 0 1px 2px rgb(28 33 31 / 0.06), 0 4px 12px rgb(28 33 31 / 0.05);
+
+  /* Movimiento (docs/MARCA.md): lento, sin rebote, distancias cortas. */
+  --ease-sereno: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-umbral: cubic-bezier(0.65, 0, 0.35, 1);
+  --duracion-micro: 180ms;
+  --duracion-entrada: 900ms;
 }
 
 /* ---------- base ---------- */
 html {
-  @apply bg-glaze-50 text-teal-950 antialiased;
+  @apply bg-cal-50 text-tinta-900 antialiased;
 }
 
 body {
@@ -56,6 +87,24 @@ h3 {
   text-wrap: balance;
 }
 
+/* One focus ring everywhere; never depends on a border being present. */
+:focus-visible {
+  outline: 2px solid var(--color-fez-700);
+  outline-offset: 2px;
+}
+/* Headings and <main> only receive focus from code (route change, skip link): no ring. */
+h1[tabindex='-1']:focus,
+main[tabindex='-1']:focus {
+  outline: none;
+}
+.sobre-noche :focus-visible {
+  outline-color: var(--color-noche-ink);
+}
+
+.cifras {
+  font-variant-numeric: tabular-nums;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -66,92 +115,308 @@ h3 {
   }
 }
 
-/* ---------- arabesque shell surfaces ---------- */
+/* ---------- movimiento (docs/MARCA.md §9) ---------- */
 
-/* Eight-point star tessellation, inline SVG so it costs no request. */
-.bg-arabesque {
-  background-color: var(--color-teal-950);
-  background-image: url("data:image/svg+xml,%3Csvg width='96' height='96' viewBox='0 0 96 96' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23c19540' stroke-opacity='0.16' stroke-width='1'%3E%3Cpath d='M48 8 L58 38 L88 48 L58 58 L48 88 L38 58 L8 48 L38 38 Z'/%3E%3Cpath d='M48 20 L55 41 L76 48 L55 55 L48 76 L41 55 L20 48 L41 41 Z'/%3E%3Ccircle cx='48' cy='48' r='6'/%3E%3Cpath d='M0 0 L16 0 L0 16 Z M96 0 L96 16 L80 0 Z M0 96 L0 80 L16 96 Z M96 96 L80 96 L96 80 Z'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 96px 96px;
+/* Titulares por líneas: la máscara deja margen para los descendentes. */
+.linea {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+.linea-int {
+  display: block;
 }
 
-.bg-arabesque-light {
-  background-color: var(--color-glaze-50);
-  background-image: url("data:image/svg+xml,%3Csvg width='96' height='96' viewBox='0 0 96 96' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%2310494f' stroke-opacity='0.07' stroke-width='1'%3E%3Cpath d='M48 8 L58 38 L88 48 L58 58 L48 88 L38 58 L8 48 L38 38 Z'/%3E%3Cpath d='M48 20 L55 41 L76 48 L55 55 L48 76 L41 55 L20 48 L41 41 Z'/%3E%3Ccircle cx='48' cy='48' r='6'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 96px 96px;
+@media (prefers-reduced-motion: no-preference) {
+  /* Titular del inicio y de las páginas: entra al cargar, con CSS (no espera a GSAP). */
+  .linea-entrada {
+    animation: linea-entra var(--duracion-entrada) var(--ease-sereno) both;
+  }
+  /* Solo se desplaza, sin fundido: el texto y los botones tienen su contraste desde el primer fotograma. */
+  .aparecer-tarde {
+    animation: sube 800ms var(--ease-sereno) 380ms both;
+  }
+  /* Si el JavaScript del movimiento no llega, lo que espera para entrar aparece igual. */
+  .revelar:not(.revelar-listo) .revela {
+    animation: aparecer-sube 700ms var(--ease-sereno) 1.6s both;
+  }
+  .tarjeta-viva {
+    transition:
+      transform var(--duracion-micro) ease-out,
+      box-shadow var(--duracion-micro) ease-out;
+  }
+  .tarjeta-viva:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 2px 4px rgb(28 33 31 / 0.06), 0 14px 30px -12px rgb(28 33 31 / 0.22);
+  }
+}
+@keyframes linea-entra {
+  from {
+    transform: translateY(110%);
+  }
+}
+@keyframes sube {
+  from {
+    transform: translateY(16px);
+  }
+}
+@keyframes aparecer-sube {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
 }
 
-/* Ornamental divider: line — diamond — line (brand surfaces) */
-.divider-arabesque {
-  @apply flex items-center gap-3 text-gold-500;
+/* Lenis (lo que pide su hoja de estilos). */
+html.lenis,
+html.lenis body {
+  height: auto;
 }
-.divider-arabesque::before,
-.divider-arabesque::after {
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* Cambio de página con View Transitions: la cabecera se queda, el contenido se funde y sube. */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: 220ms var(--ease-umbral) both vt-sale;
+  }
+  ::view-transition-new(root) {
+    animation: 520ms var(--ease-sereno) 60ms both vt-entra;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+.cabecera-publica {
+  view-transition-name: cabecera;
+}
+@keyframes vt-sale {
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+@keyframes vt-entra {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+/* Piezas de Rive (docs/MARCA.md §13): debajo siempre está la imagen SVG con el estado final. */
+.rive-lienzo {
+  opacity: 0;
+  transition: opacity 420ms var(--ease-sereno);
+}
+[data-rive='lista'] > .rive-lienzo {
+  opacity: 1;
+}
+/* El logotipo animado nace idéntico al símbolo SVG: al estar listo se cambia uno por otro sin fundido. */
+.simbolo-vivo > canvas {
+  opacity: 0;
+}
+.simbolo-vivo[data-rive='lista'] > canvas {
+  opacity: 1;
+}
+.simbolo-vivo[data-rive='lista'] > svg {
+  visibility: hidden;
+}
+
+/* Portada con movimiento activo (data-movimiento lo pone MovimientoPortada). */
+.portada[data-movimiento] .carrusel {
+  padding-block: 0;
+}
+.portada[data-movimiento] .carrusel-pista {
+  flex-direction: row;
+  align-items: center;
+  width: max-content;
+  max-width: none;
+  height: 100svh;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  padding-inline: max(1rem, calc((100vw - 72rem) / 2 + 1rem));
+}
+.portada[data-movimiento] .carrusel-intro {
+  width: min(78vw, 26rem);
+}
+.portada[data-movimiento] .carrusel-tarjetas {
+  display: flex;
+  gap: clamp(1.5rem, 3vw, 3rem);
+}
+.portada[data-movimiento] .carrusel-tarjeta {
+  width: min(80vw, 30rem);
+}
+@media (min-width: 768px) {
+  .portada[data-movimiento] .historia-marco {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: 4rem;
+  }
+  .portada[data-movimiento] .historia-pasos {
+    margin-top: 2.5rem;
+  }
+  .portada[data-movimiento] .paso {
+    grid-area: 1 / 1;
+  }
+  .portada[data-movimiento] .historia-progreso {
+    display: flex;
+  }
+}
+
+/* «Zellige» en contorno a todo el ancho, con fotos que lo cruzan. */
+[data-escena='contorno'] {
+  container-type: inline-size;
+}
+.contorno-zona {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  min-height: 23rem;
+  padding-block: 3rem;
+}
+@media (min-width: 640px) {
+  .contorno-zona {
+    min-height: 46cqw;
+    padding-block: 11cqw;
+  }
+}
+.contorno-texto {
+  font-size: 24cqw;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-fez-700);
+  white-space: nowrap;
+  width: 100%;
+  text-align: center;
+}
+.contorno-foto {
+  z-index: 5;
+  border-radius: var(--radius-card);
+}
+/* Las fotos se asoman por arriba y por abajo del nombre: lo cruzan al hacer scroll, pero en reposo se lee entero. */
+.contorno-foto-0 {
+  left: 3%;
+  top: 0;
+  width: max(5rem, 14cqw);
+  border-radius: 999px 999px var(--radius-card) var(--radius-card);
+}
+.contorno-foto-1 {
+  right: 4%;
+  bottom: 0;
+  width: max(5.5rem, 17cqw);
+}
+.contorno-foto-2 {
+  left: 45%;
+  top: 0;
+  width: max(4.5rem, 11cqw);
+  border-radius: 999px 999px var(--radius-card) var(--radius-card);
+}
+/* En móvil el nombre es bajo: las fotos van arriba y abajo para no taparlo. */
+@media (max-width: 639px) {
+  .contorno-foto-0 {
+    left: 6%;
+    top: 3%;
+    width: 5rem;
+  }
+  .contorno-foto-1 {
+    right: 6%;
+    bottom: auto;
+    top: 3%;
+    width: 5.5rem;
+  }
+  .contorno-foto-2 {
+    left: 38%;
+    top: 68%;
+    width: 4.5rem;
+  }
+}
+
+/* Pie: el nombre a todo el ancho (la relación ancho/cuerpo de ZELLIGE en Marcellus es 3,91). */
+.pie-nombre {
+  container-type: inline-size;
+}
+.pie-nombre span {
+  display: block;
+  font-size: 25.4cqw;
+  line-height: 0.8;
+  letter-spacing: 0.06em;
+  margin-right: -0.06em;
+  white-space: nowrap;
+}
+
+/* ---------- tile lattice (shell surfaces only) ---------- */
+
+/* Squares turned 45 degrees with a small lozenge at each crossing; inline SVG, no request. */
+.reticula {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%231E5B46' stroke-opacity='.06'%3E%3Cpath d='M24 0 48 24 24 48 0 24Z'/%3E%3C/g%3E%3Cpath d='M24 21l3 3-3 3-3-3z' fill='%231E5B46' fill-opacity='.08'/%3E%3C/svg%3E");
+  background-size: 48px 48px;
+}
+.reticula-noche {
+  background-color: var(--color-noche-900);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23EDEAE3' stroke-opacity='.07'%3E%3Cpath d='M24 0 48 24 24 48 0 24Z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 48px 48px;
+}
+
+/* Arquería: el borde superior de las superficies oscuras es una fila de arcos (docs/MARCA.md). */
+.arqueria {
+  position: relative;
+}
+.arqueria::before {
   content: '';
-  @apply h-px flex-1 bg-gold-300;
+  position: absolute;
+  inset-inline: 0;
+  bottom: calc(100% - 1px);
+  height: 24px;
+  background-color: inherit;
+  --arcos: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='24' viewBox='0 0 40 24'%3E%3Cpath d='M0 18h40v6H0zM6 18v-4a14 14 0 0 1 28 0v4z'/%3E%3C/svg%3E");
+  -webkit-mask: var(--arcos) repeat-x left bottom / 40px 24px;
+  mask: var(--arcos) repeat-x left bottom / 40px 24px;
+  pointer-events: none;
 }
 
-/* ---------- surfaces ---------- */
-.card-tile {
-  @apply rounded-(--radius-tile) border border-glaze-200 bg-white shadow-sm;
+/* Brand separator: line, garnet lozenge, line (landing, auth and footer only) */
+.separador {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-granate-700);
 }
-/* Gold top keyline: brand moments (auth, hero cards), not data UI */
-.card-tile-accent {
-  @apply rounded-(--radius-tile) border border-glaze-200 bg-white shadow-sm
-    border-t-2 border-t-gold-500;
-}
-
-/* ---------- buttons (state-complete: hover/focus/disabled) ---------- */
-.btn-primary {
-  @apply inline-flex items-center justify-center gap-2 rounded-(--radius-tile)
-    bg-teal-800 px-4 py-2 text-sm font-medium text-glaze-50
-    transition-colors duration-150 hover:bg-teal-700
-    focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600
-    disabled:cursor-not-allowed disabled:opacity-50;
-}
-.btn-gold {
-  @apply inline-flex items-center justify-center gap-2 rounded-(--radius-tile)
-    bg-gold-500 px-4 py-2 text-sm font-medium text-teal-950
-    transition-colors duration-150 hover:bg-gold-400
-    focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-600
-    disabled:cursor-not-allowed disabled:opacity-50;
-}
-.btn-ghost {
-  @apply inline-flex items-center justify-center gap-2 rounded-(--radius-tile)
-    border border-teal-800/30 px-4 py-2 text-sm font-medium text-teal-900
-    transition-colors duration-150 hover:bg-teal-50
-    focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600
-    disabled:cursor-not-allowed disabled:opacity-50;
-}
-.btn-danger {
-  @apply inline-flex items-center justify-center gap-2 rounded-(--radius-tile)
-    border border-terra-600/40 px-4 py-2 text-sm font-medium text-terra-600
-    transition-colors duration-150 hover:bg-terra-100
-    focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terra-600
-    disabled:cursor-not-allowed disabled:opacity-50;
+.separador::before,
+.separador::after {
+  content: '';
+  height: 1px;
+  flex: 1;
+  background: var(--color-cal-200);
 }
 
-/* ---------- forms ---------- */
-.field-label {
-  @apply mb-1 block text-xs font-semibold tracking-wide text-teal-800 uppercase;
+/* Ejemplo de uso incorrecto en /marca: una diagonal roja cruza la lámina. */
+.no-uso {
+  position: relative;
 }
-.field-input {
-  @apply w-full rounded-(--radius-tile) border border-glaze-200 bg-white px-3 py-2
-    text-sm text-teal-950 placeholder:text-teal-800/60
-    transition-colors duration-150
-    focus:border-gold-500 focus:ring-1 focus:ring-gold-400 focus:outline-none
-    disabled:cursor-not-allowed disabled:bg-glaze-100;
-}
-.field-error {
-  @apply mt-1 text-xs text-terra-600;
-}
-
-/* ---------- status ---------- */
-.badge {
-  @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+.no-uso::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top right, transparent calc(50% - 1px), var(--color-error-700) 50%, transparent calc(50% + 1px));
+  pointer-events: none;
 }
 
 /* ---------- loading ---------- */
 .skeleton {
-  @apply animate-pulse rounded-(--radius-tile) bg-glaze-200;
+  @apply animate-pulse rounded-(--radius-control) bg-cal-100;
+}
+
+/* Textura de azulejo de fondo en «Zellige» gigante: muy suave y difuminada hacia los bordes.
+   Es solo fondo; nunca va detrás de texto largo ni se usa como logotipo. */
+.contorno-textura {
+  opacity: 0.09;
+  -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 45%, #000 20%, transparent 78%);
+  mask-image: radial-gradient(ellipse 70% 65% at 50% 45%, #000 20%, transparent 78%);
 }

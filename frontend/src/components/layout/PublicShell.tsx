@@ -1,34 +1,77 @@
-import { Link, NavLink, Outlet } from 'react-router-dom'
-import { useState } from 'react'
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
+import { ErrorBoundary } from '../ErrorBoundary'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../auth/AuthContext'
 import { homeFor } from '../../auth/ProtectedRoute'
 import { LanguageSwitcher } from '../../i18n/LanguageSwitcher'
+import { Button, ButtonLink } from '../ui/Button'
+import { IconCerrar, IconMenu } from '../ui/icons'
+import { useRouteFocus } from '../../hooks/useRouteFocus'
+import { SkipLink } from './SkipLink'
+import { Logotipo } from '../brand/Marca'
+import { esRutaConMovimiento, useMenosMovimiento, useNavegadorLibre } from '../../motion/preferencias'
+import { ScrollSuave } from '../../motion/perezoso'
 
 const navLink = ({ isActive }: { isActive: boolean }) =>
-  `px-3 py-2 text-sm transition ${
-    isActive ? 'text-gold-400' : 'text-glaze-100 hover:text-gold-300'
+  `inline-flex min-h-11 items-center px-3 text-sm font-semibold transition-colors duration-150 ${
+    isActive
+      ? 'text-fez-700 underline decoration-2 underline-offset-8'
+      : 'text-tinta-900 hover:text-fez-700'
   }`
+
+const drawerLink = ({ isActive }: { isActive: boolean }) =>
+  `flex min-h-11 items-center rounded-(--radius-control) px-3 text-base font-semibold transition-colors duration-150 ${
+    isActive ? 'bg-fez-50 text-fez-700' : 'text-tinta-900 hover:bg-cal-100'
+  }`
+
 
 export function PublicShell() {
   const { t } = useTranslation()
+  const { pathname } = useLocation()
   const { user, logout } = useAuth()
   const [open, setOpen] = useState(false)
+  const menuButton = useRef<HTMLButtonElement>(null)
+  const drawer = useRef<HTMLElement>(null)
 
   const close = () => setOpen(false)
+  const quieto = useMenosMovimiento()
+  const libre = useNavegadorLibre()
+  const suave = !quieto && esRutaConMovimiento(pathname)
+  useRouteFocus()
+
+  // Focus moves into the drawer on open; Esc closes it. Once it is closed (and the page is
+  // no longer inert) focus goes back to the menu button.
+  const wasOpen = useRef(false)
+  useEffect(() => {
+    if (!open) {
+      if (wasOpen.current) menuButton.current?.focus()
+      wasOpen.current = false
+      return
+    }
+    wasOpen.current = true
+    drawer.current?.querySelector<HTMLElement>('a, button')?.focus()
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [open])
+
+  const accountLabel = user?.role === 'CLIENT' ? t('public.nav.myAccount') : t('public.nav.staffPanel')
 
   return (
-    <div className="flex min-h-screen flex-col bg-glaze-50">
-      <header className="bg-teal-950">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3">
-          <Link to="/" className="font-display text-lg text-glaze-50 sm:text-xl">
-            <span className="text-gold-400">◆</span> Zellige Hotels
+    <div className="flex min-h-screen flex-col overflow-x-clip bg-cal-50">
+      <SkipLink />
+      <header className="cabecera-publica relative z-40 border-b border-cal-200 bg-cal-50 print:hidden" inert={open}>
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-4">
+          <Link to="/" className="-my-1 inline-flex min-h-11 items-center rounded-(--radius-control)">
+            <Logotipo animado={suave} />
           </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden items-center gap-1 md:flex">
+          <nav aria-label={t('common.menu')} className="hidden items-center gap-1 md:flex">
             <NavLink to="/" end className={navLink}>
-                {t('public.nav.home')}
+              {t('public.nav.home')}
             </NavLink>
             <NavLink to="/hotels" className={navLink}>
               {t('public.nav.hotels')}
@@ -36,124 +79,162 @@ export function PublicShell() {
             {user ? (
               <>
                 <NavLink to={homeFor(user.role)} className={navLink}>
-                  {user.role === 'CLIENT' ? t('public.nav.myAccount') : t('public.nav.staffPanel')}
+                  {accountLabel}
                 </NavLink>
-                <button
-                  onClick={logout}
-                  className="ml-2 rounded-(--radius-tile) border border-gold-500/50 px-3 py-1.5 text-sm text-gold-300 transition hover:bg-teal-900"
-                >
+                <Button variant="ghost" size="sm" onClick={logout} className="ml-1">
                   {t('public.nav.logout')}
-                </button>
+                </Button>
               </>
             ) : (
               <>
-                <NavLink to="/login" className={navLink}>
+                <ButtonLink to="/login" variant="ghost" size="sm" className="ml-1">
                   {t('public.nav.login')}
-                </NavLink>
-                <Link
-                  to="/register"
-                  className="ml-2 rounded-(--radius-tile) bg-gold-500 px-3 py-1.5 text-sm font-medium text-teal-950 transition hover:bg-gold-400"
-                >
+                </ButtonLink>
+                <ButtonLink to="/register" size="sm" className="ml-1">
                   {t('auth.register.submit')}
-                </Link>
+                </ButtonLink>
               </>
             )}
-            <LanguageSwitcher className="ml-1" />
+            <LanguageSwitcher className="ml-2" />
           </nav>
 
-          {/* Mobile hamburger */}
           <button
+            ref={menuButton}
             type="button"
             onClick={() => setOpen(true)}
             aria-label={t('common.openMenu')}
-            className="rounded-(--radius-tile) border border-gold-500/40 p-2 text-gold-300 md:hidden"
+            aria-expanded={open}
+            aria-controls="menu-movil"
+            className="inline-flex size-11 items-center justify-center rounded-(--radius-control) border border-cal-400 bg-white text-tinta-900 md:hidden"
           >
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M4 7h16M4 12h16M4 17h16" />
-            </svg>
+            <IconMenu size={20} />
           </button>
         </div>
       </header>
 
-      {/* Mobile drawer */}
       {open && (
-        <button
-          type="button"
-          aria-label={t('common.closeMenu')}
-          onClick={close}
-          className="fixed inset-0 z-40 bg-teal-950/60 backdrop-blur-sm md:hidden"
-        />
+        <div aria-hidden className="fixed inset-0 z-40 bg-tinta-900/40 md:hidden" onClick={close} />
       )}
       <aside
-        className={`bg-teal-950 fixed inset-y-0 right-0 z-50 flex w-72 max-w-[85vw] transform flex-col transition-transform duration-200 ease-out md:hidden ${
-          open ? 'translate-x-0' : 'translate-x-full'
+        ref={drawer}
+        id="menu-movil"
+        inert={!open}
+        className={`fixed inset-y-0 right-0 z-50 flex w-80 max-w-[85vw] flex-col bg-white shadow-(--shadow-card) transition-transform duration-200 ease-out md:hidden ${
+          open ? 'translate-x-0' : 'invisible translate-x-full'
         }`}
-        aria-hidden={!open}
       >
-        <div className="flex items-center justify-between border-b border-gold-500/20 px-5 py-4">
-          <span className="font-display text-lg text-glaze-50">
-            <span className="text-gold-400">◆</span> Zellige Hotels
-          </span>
+        <div className="flex h-16 items-center justify-between border-b border-cal-200 px-4">
+          <Logotipo size="sm" />
           <button
             type="button"
             onClick={close}
             aria-label={t('common.closeMenu')}
-            className="rounded-(--radius-tile) p-1.5 text-gold-300 hover:bg-teal-900"
+            className="inline-flex size-11 items-center justify-center rounded-(--radius-control) text-tinta-600 hover:bg-cal-100"
           >
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M6 6l12 12M6 18L18 6" />
-            </svg>
+            <IconCerrar size={20} />
           </button>
         </div>
-        <nav className="flex-1 overflow-y-auto px-4 py-4">
+        <nav aria-label={t('common.menu')} className="flex-1 overflow-y-auto p-4">
           <ul className="space-y-1">
-            <li><NavLink to="/" end onClick={close} className={({ isActive }) => `block rounded-(--radius-tile) px-3 py-2.5 text-sm transition ${isActive ? 'bg-teal-800/80 text-gold-300' : 'text-glaze-100 hover:bg-teal-900'}`}>{t('public.nav.home')}</NavLink></li>
-            <li><NavLink to="/hotels" onClick={close} className={({ isActive }) => `block rounded-(--radius-tile) px-3 py-2.5 text-sm transition ${isActive ? 'bg-teal-800/80 text-gold-300' : 'text-glaze-100 hover:bg-teal-900'}`}>{t('public.nav.hotels')}</NavLink></li>
+            <li>
+              <NavLink to="/" end onClick={close} className={drawerLink}>
+                {t('public.nav.home')}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/hotels" onClick={close} className={drawerLink}>
+                {t('public.nav.hotels')}
+              </NavLink>
+            </li>
             {user && (
-              <li><NavLink to={homeFor(user.role)} onClick={close} className={({ isActive }) => `block rounded-(--radius-tile) px-3 py-2.5 text-sm transition ${isActive ? 'bg-teal-800/80 text-gold-300' : 'text-glaze-100 hover:bg-teal-900'}`}>{user.role === 'CLIENT' ? t('public.nav.myAccount') : t('public.nav.staffPanel')}</NavLink></li>
+              <li>
+                <NavLink to={homeFor(user.role)} onClick={close} className={drawerLink}>
+                  {accountLabel}
+                </NavLink>
+              </li>
             )}
           </ul>
         </nav>
-        <div className="border-t border-gold-500/20 p-4">
-          <LanguageSwitcher className="mb-3" />
+        <div className="space-y-3 border-t border-cal-200 p-4">
+          <LanguageSwitcher />
           {user ? (
-            <button
-              onClick={() => { logout(); close() }}
-              className="w-full rounded-(--radius-tile) border border-gold-500/50 px-3 py-2 text-sm text-gold-300 transition hover:bg-teal-900"
+            <Button
+              variant="secondary"
+              className="w-full"
+              onClick={() => {
+                logout()
+                close()
+              }}
             >
               {t('public.nav.logout')}
-            </button>
+            </Button>
           ) : (
             <div className="flex flex-col gap-2">
-              <NavLink to="/login" onClick={close} className="rounded-(--radius-tile) border border-gold-500/40 px-3 py-2 text-center text-sm text-gold-300">
-                {t('public.nav.login')}
-              </NavLink>
-              <Link to="/register" onClick={close} className="rounded-(--radius-tile) bg-gold-500 px-3 py-2 text-center text-sm font-medium text-teal-950">
+              <ButtonLink to="/register" onClick={close} className="w-full">
                 {t('auth.register.submit')}
-              </Link>
+              </ButtonLink>
+              <ButtonLink to="/login" onClick={close} variant="secondary" className="w-full">
+                {t('public.nav.login')}
+              </ButtonLink>
             </div>
           )}
         </div>
       </aside>
 
-      <main className="flex-1">
-        <Outlet />
+      <main id="contenido" tabIndex={-1} className={`flex-1 outline-none ${esRutaConMovimiento(pathname) ? 'min-h-svh' : ''}`} inert={open}>
+        <ErrorBoundary resetKey={pathname}>
+          <Outlet />
+        </ErrorBoundary>
       </main>
 
-      <footer className="bg-teal-950 py-6">
-        <div className="mx-auto max-w-6xl px-4 text-center text-xs text-glaze-100/60">
-          <div className="divider-arabesque mx-auto mb-3 max-w-xs">◆</div>
-          Zellige Hotels · {t('public.footer.tagline')} ·{' '}
-          <a
-            href="https://github.com/AyChEs"
-            className="text-gold-400 hover:text-gold-300"
-            target="_blank"
-            rel="noreferrer"
-          >
-            AyChEs
-          </a>
+      <footer className="arqueria mt-10 bg-noche-900 text-noche-ink print:hidden" inert={open}>
+        <div className="sobre-noche mx-auto max-w-6xl px-4 pt-14 sm:pt-20">
+          <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+            <div className="max-w-sm">
+              <Link to="/" className="inline-flex min-h-11 items-center">
+                <Logotipo tono="claro" animado={suave} />
+              </Link>
+              <p className="mt-4 text-sm text-noche-muted">{t('public.footer.tagline')}</p>
+            </div>
+            <nav aria-label={t('public.footer.explore')}>
+              <h2 className="text-sm font-semibold text-fez-200">{t('public.footer.explore')}</h2>
+              <ul className="mt-3 grid grid-cols-2 gap-x-10 text-sm sm:grid-cols-1">
+                {[
+                  ['/', t('public.nav.home')],
+                  ['/hotels', t('public.nav.hotels')],
+                  ['/marca', t('brand.footerLink')],
+                ].map(([to, label]) => (
+                  <li key={to}>
+                    <Link to={to} className="pie-enlace inline-flex min-h-11 items-center text-noche-ink hover:text-fez-200">
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+                <li>
+                  <a
+                    href="https://github.com/AyChEs"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="pie-enlace inline-flex min-h-11 items-center text-noche-ink hover:text-fez-200"
+                  >
+                    GitHub · AyChEs
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div aria-hidden className="pie-nombre font-display mt-12 select-none overflow-hidden text-noche-ink uppercase sm:mt-16">
+            <span>Zellige</span>
+          </div>
+          <p className="border-t border-noche-800 py-5 text-xs text-noche-muted">{t('public.footer.made')}</p>
         </div>
       </footer>
+
+      {suave && libre && (
+        <Suspense fallback={null}>
+          <ScrollSuave />
+        </Suspense>
+      )}
     </div>
   )
 }

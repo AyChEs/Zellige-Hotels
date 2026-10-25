@@ -1,5 +1,7 @@
 # Dirección de diseño · Zellige Hotels
 
+> Desde la sesión 10 (2026-10-24) la marca está en `docs/MARCA.md`: logotipo, dos tonos nuevos para superficies oscuras (`fez-200`, `granate-200`), arquería y principios de movimiento. Lo que aquí no se contradice sigue vigente. La regla «nada de animaciones de entrada en cascada en la portada» la sustituye la sesión 11 por encargo de Ayman.
+
 Decidida el 2026-10-18 tras revisar la demo (`plan/capturas/antes/`) y el código (`frontend/src/styles/theme.css`, `docs/DESIGN.md`). Cada decisión lleva su porqué en una línea.
 
 ## Qué hay hoy y qué cambia
