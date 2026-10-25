@@ -1,5 +1,5 @@
 import { useParams, useSearchParams } from 'react-router-dom'
-import { useRef, useState } from 'react'
+import { Suspense, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHotel } from '../../api/hooks/useHotels'
 import { useAvailability } from '../../api/hooks/useRooms'
@@ -14,6 +14,8 @@ import { HotelHeader } from './hotel-detail/HotelHeader'
 import { RoomList } from './hotel-detail/RoomList'
 import { StayForm } from './hotel-detail/StayForm'
 import { BOARDS, type Stay } from './hotel-detail/types'
+import { useMenosMovimiento, useNavegadorLibre } from '../../motion/preferencias'
+import { MovimientoFicha } from '../../motion/perezoso'
 
 export default function HotelDetailPage() {
   const { t } = useTranslation()
@@ -23,6 +25,9 @@ export default function HotelDetailPage() {
   const checkInRef = useRef<HTMLInputElement>(null)
   const [choice, setChoice] = useState<RoomDto | null>(null)
   const [created, setCreated] = useState<BookingDto | null>(null)
+  const raiz = useRef<HTMLDivElement>(null)
+  const quieto = useMenosMovimiento()
+  const libre = useNavegadorLibre()
 
   const board = params.get('board') as BoardType | null
   const stay: Stay = {
@@ -35,6 +40,9 @@ export default function HotelDetailPage() {
 
   const { data: hotel } = useHotel(hotelId)
   const availability = useAvailability(hotelId, stay.checkIn, stay.checkOut, stay.guests, nightCount > 0)
+
+  // Fotos de habitaciones distintas para la galería (las de la API, sin repetir).
+  const fotosHabitaciones = [...new Set((availability.data ?? []).map((r) => r.imageUrl).filter((u): u is string => !!u))]
 
   const updateStay = (next: Stay) => {
     setParams({ checkIn: next.checkIn, checkOut: next.checkOut, guests: String(next.guests), board: next.board })
@@ -54,8 +62,8 @@ export default function HotelDetailPage() {
   }
 
   return (
-    <div className="pb-16 sm:pb-24">
-      <HotelHeader hotel={hotel} />
+    <div ref={raiz} className="revelar pb-16 sm:pb-24">
+      <HotelHeader hotel={hotel} fotosHabitaciones={fotosHabitaciones} />
 
       <div className="mx-auto max-w-6xl space-y-8 px-4 pt-8 sm:pt-12">
         <StayForm key={params.toString()} stay={stay} onSubmit={updateStay} checkInRef={checkInRef} />
@@ -98,6 +106,12 @@ export default function HotelDetailPage() {
         onBooked={onBooked}
         onTaken={onTaken}
       />
+
+      {!quieto && libre && (
+        <Suspense fallback={null}>
+          <MovimientoFicha raiz={raiz} listo={!!hotel && !availability.isPending} />
+        </Suspense>
+      )}
     </div>
   )
 }

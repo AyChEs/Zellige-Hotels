@@ -11,17 +11,18 @@ interface Props {
   stay: Stay
   total: number
   action: ReactNode
+  className?: string
 }
 
-export function RoomCard({ room, stay, total, action }: Props) {
+export function RoomCard({ room, stay, total, action, className = '' }: Props) {
   const { t } = useTranslation()
   const { tLabel } = useLabels()
   const name = t('booking.roomLabel', { type: tLabel('roomType', room.type), number: room.number })
   return (
-    <Card as="article" className="grid overflow-hidden sm:grid-cols-[16rem_1fr]">
-      <div className="aspect-[3/2] bg-cal-100 sm:aspect-auto">
+    <Card as="article" className={`tarjeta-viva group grid overflow-hidden sm:grid-cols-[16rem_1fr] ${className}`}>
+      <div className="aspect-[3/2] overflow-hidden bg-cal-100 sm:aspect-auto">
         {room.imageUrl && (
-          <img src={room.imageUrl} alt="" width={480} height={320} loading="lazy" className="h-full w-full object-cover" />
+          <img src={room.imageUrl} alt="" width={480} height={320} loading="lazy" className="h-full w-full object-cover transition-transform duration-[900ms] ease-(--ease-sereno) group-hover:scale-[1.04]" />
         )}
       </div>
       <div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-end sm:justify-between sm:p-5">

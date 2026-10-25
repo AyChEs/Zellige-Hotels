@@ -3,23 +3,21 @@ import type { HotelDto } from '../../api/types'
 import { ButtonLink } from '../../components/ui/Button'
 import { Card } from '../../components/ui/Card'
 import { loadHotelDetail } from './loadHotelDetail'
+import { FotoHotel } from '../../components/ui/Foto'
 
 /** One hotel: photo 3:2, name, city and stars, and the way into its availability. */
 export function HotelCard({ hotel, headingLevel: H = 'h3' }: { hotel: HotelDto; headingLevel?: 'h2' | 'h3' }) {
   const { t } = useTranslation()
   return (
-    <Card as="article" className="flex flex-col overflow-hidden">
-      <div className="aspect-[3/2] bg-cal-100">
-        {hotel.imageUrl && (
-          <img
-            src={hotel.imageUrl}
-            alt=""
-            width={600}
-            height={400}
-            loading="lazy"
-            className="h-full w-full object-cover"
-          />
-        )}
+    <Card as="article" className="revela tarjeta-viva group flex flex-col overflow-hidden">
+      <div className="aspect-[3/2] overflow-hidden bg-cal-100">
+        <FotoHotel
+          hotel={hotel}
+          alt=""
+          sizes="(min-width: 1024px) 24rem, (min-width: 640px) 50vw, 100vw"
+          loading="lazy"
+          className="h-full w-full object-cover transition-transform duration-[900ms] ease-(--ease-sereno) group-hover:scale-[1.04]"
+        />
       </div>
       <div className="flex flex-1 flex-col p-4 sm:p-5">
         <H className="font-display text-2xl text-tinta-900">{hotel.name}</H>

@@ -40,6 +40,7 @@ export function RoomList({ rooms, stay, onChoose }: Props) {
           )
         return (
           <RoomCard
+            className="revela"
             key={room.id}
             room={room}
             stay={stay}

@@ -226,17 +226,80 @@ export function responder(metodo, ruta, q, cuerpo) {
   return null
 }
 
-const TONOS = [['#D9CFC0', '#B7A58C'], ['#CFD8CF', '#8FA596'], ['#E1D3C9', '#A98F86'], ['#D6D2C4', '#9C9684']]
-/** Foto sustituta en SVG: Unsplash no es accesible desde el entorno de verificación. */
+// Paletas sobrias (piedra, verde, rosa piedra, gris azulado): sin naranjas.
+const TONOS = [
+  { cielo: ['#C9D6DA', '#EEF0EC'], muro: ['#E8E1D6', '#BFB3A2'], sombra: ['#24352F', '#121B17'], teselas: ['#1E5B46', '#E9E4DA'] },
+  { cielo: ['#BFD0CB', '#ECEFEA'], muro: ['#E2E2D8', '#A9B09F'], sombra: ['#1F302B', '#0F1714'], teselas: ['#2C6A55', '#F1EDE6'] },
+  { cielo: ['#D3D5DD', '#F1EEEC'], muro: ['#EADCD8', '#BCA6A2'], sombra: ['#2B2629', '#151214'], teselas: ['#8B2E3C', '#EFE6E2'] },
+  { cielo: ['#C6CFD8', '#EDEFF1'], muro: ['#E3E0D9', '#ABA79D'], sombra: ['#232B30', '#11161A'], teselas: ['#1F4B73', '#ECEAE4'] },
+]
+/** Arco de herradura relleno, de luz w y alto total h, con la base en y0. */
+const arco = (x, y0, w, h) => {
+  const r = w / 2 / 0.96, res = Math.sqrt(r * r - (w / 2) ** 2), cy = y0 - h + r
+  return `M${x - w / 2} ${y0}V${cy + res}A${r} ${r} 0 1 1 ${x + w / 2} ${cy + res}V${y0}Z`
+}
+/**
+ * Foto sustituta en SVG: Unsplash no es accesible desde el entorno de verificación.
+ * No es un bloque plano: dibuja una galería de arcos que da a un patio (hoteles) o una
+ * habitación con ventana en arco (habitaciones), con luz rasante, sombras proyectadas,
+ * zócalo de teselas, textura de estuco y grano, para que las capturas transmitan la marca.
+ */
 export function fotoSustituta(url) {
   let h = 0
   for (const c of url) h = (h * 31 + c.charCodeAt(0)) >>> 0
-  const [a, b] = TONOS[h % TONOS.length]
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient><pattern id="p" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M24 0 48 24 24 48 0 24Z" fill="none" stroke="#fff" stroke-opacity=".18"/></pattern></defs><rect width="1200" height="800" fill="url(#g)"/><rect width="1200" height="800" fill="url(#p)"/><path d="M440 800V420a160 160 0 0 1 320 0v380" fill="#fff" fill-opacity=".22"/></svg>`
+  const t = TONOS[(h >>> 3) % TONOS.length]
+  const habitacion = /w=900/.test(url)
+  const defs = `<defs>
+<linearGradient id="cielo" x2="0" y2="1"><stop offset="0" stop-color="${t.cielo[0]}"/><stop offset="1" stop-color="${t.cielo[1]}"/></linearGradient>
+<linearGradient id="muro" x2="1" y2=".35"><stop offset="0" stop-color="${t.muro[0]}"/><stop offset="1" stop-color="${t.muro[1]}"/></linearGradient>
+<linearGradient id="patio" x2="0" y2="1"><stop offset="0" stop-color="${t.sombra[1]}"/><stop offset=".55" stop-color="${t.sombra[0]}"/><stop offset="1" stop-color="${t.muro[1]}"/></linearGradient>
+<linearGradient id="suelo" x2="0" y2="1"><stop offset="0" stop-color="${t.muro[1]}"/><stop offset="1" stop-color="${t.sombra[0]}"/></linearGradient>
+<linearGradient id="cipres" x2="1"><stop offset="0" stop-color="#3D5E4C"/><stop offset="1" stop-color="#1B2C23"/></linearGradient>
+<radialGradient id="vineta" cx=".45" cy=".4" r=".8"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".42"/></radialGradient>
+<pattern id="tes" width="24" height="24" patternUnits="userSpaceOnUse"><rect width="24" height="24" fill="${t.teselas[1]}"/><path d="M12 1 23 12 12 23 1 12Z" fill="${t.teselas[0]}"/><path d="M12 7 17 12 12 17 7 12Z" fill="${t.teselas[1]}" opacity=".85"/><circle cx="0" cy="0" r="3" fill="${t.sombra[0]}"/><circle cx="24" cy="24" r="3" fill="${t.sombra[0]}"/></pattern>
+<filter id="estuco"><feTurbulence type="fractalNoise" baseFrequency=".012 .05" numOctaves="3" seed="${h % 50}"/><feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .1 0"/></filter>
+<filter id="grano"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="${h % 97}"/><feColorMatrix values="0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .14 0"/></filter>
+<filter id="suave"><feGaussianBlur stdDeviation="14"/></filter>
+</defs>`
+  let escena
+  if (habitacion) {
+    const v = arco(800, 560, 280, 440)
+    escena = `<rect width="1200" height="800" fill="url(#muro)"/><rect width="1200" height="800" filter="url(#estuco)"/>
+<path d="${v}" fill="url(#cielo)"/><ellipse cx="800" cy="520" rx="130" ry="40" fill="${t.teselas[0]}" opacity=".35" filter="url(#suave)"/>
+<path d="${v}" fill="none" stroke="${t.muro[1]}" stroke-width="26"/><path d="M800 120V560M660 380H940" stroke="${t.muro[1]}" stroke-width="7"/>
+<path d="M800 560 1060 800H520Z" fill="#fff" opacity=".22" filter="url(#suave)"/>
+<rect y="610" width="1200" height="190" fill="url(#suelo)"/><rect y="566" width="1200" height="44" fill="url(#tes)" opacity=".92"/>
+<rect x="90" y="420" width="560" height="38" rx="6" fill="${t.sombra[0]}" opacity=".85"/>
+<rect x="110" y="500" width="520" height="130" rx="12" fill="#F6F3EE"/><rect x="110" y="590" width="520" height="40" fill="${t.teselas[0]}" opacity=".6"/>
+<rect x="140" y="462" width="160" height="58" rx="22" fill="#FFFDF9"/><rect x="320" y="462" width="160" height="58" rx="22" fill="#FFFDF9"/>
+<rect x="110" y="630" width="520" height="22" fill="#000" opacity=".25" filter="url(#suave)"/>`
+  } else {
+    const n = 3 + (h % 2) * 2, paso = 1200 / n, w = paso * 0.66, alto = Math.min(w * 1.7, 470)
+    let arcos = '', luces = ''
+    for (let i = 0; i < n; i++) {
+      const x = paso * (i + 0.5)
+      arcos += `<path d="${arco(x, 600, w, alto)}" fill="url(#patio)"/><path d="${arco(x, 600, w, alto)}" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="3"/>
+<rect x="${x - w / 2 - 22}" y="${600 - alto - 26}" width="${w + 44}" height="${alto + 26}" fill="none" stroke="${t.muro[1]}" stroke-width="5"/>
+<rect x="${x - w * 0.18}" y="${600 - alto * 0.42}" width="${w * 0.36}" height="${alto * 0.42}" fill="${t.cielo[1]}" opacity=".18"/>`
+      luces += `<path d="M${x - w / 2 + 40} 640h${w - 20}l${w * 0.7} 160h-${w}Z" fill="#fff" opacity=".2"/>`
+    }
+    escena = `<rect width="1200" height="800" fill="url(#cielo)"/>
+<rect y="60" width="1200" height="580" fill="url(#muro)"/><rect y="60" width="1200" height="580" filter="url(#estuco)"/>
+<rect y="60" width="1200" height="22" fill="${t.sombra[0]}" opacity=".35"/><rect y="82" width="1200" height="10" fill="url(#tes)" opacity=".7"/>
+${arcos}
+<rect y="600" width="1200" height="40" fill="url(#tes)"/>
+<path d="M0 640H1200V800H0Z" fill="url(#suelo)"/>${luces}
+<path d="M0 60H460L1200 520V640H880L0 140Z" fill="#000" opacity=".1"/>
+<path d="M70 640c-40 0-46-90-36-200s30-190 46-190 36 80 46 190-16 200-56 200Z" fill="url(#cipres)"/>
+<path d="M1130 640c-40 0-46-80-36-170s30-160 46-160 36 70 46 160-16 170-56 170Z" fill="url(#cipres)"/>
+<rect x="40" y="620" width="80" height="40" rx="4" fill="${t.teselas[0]}"/><rect x="1100" y="620" width="80" height="40" rx="4" fill="${t.teselas[0]}"/>`
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">${defs}${escena}<rect width="1200" height="800" fill="url(#vineta)"/><rect width="1200" height="800" filter="url(#grano)"/></svg>`
 }
 
-export async function instalarApiSimulada(page, { retardo = 0 } = {}) {
-  await page.route(/images\.unsplash\.com/, (route) =>
+export async function instalarApiSimulada(page, { retardo = 0, fotosReales = process.env.FOTOS_REALES === '1' } = {}) {
+  // FOTOS_REALES=1: deja pasar las fotos de Unsplash (cuando hay red); si no, sustitutos en SVG.
+  if (!fotosReales) await page.route(/images\.unsplash\.com/, (route) =>
     route.fulfill({ status: 200, contentType: 'image/svg+xml', body: fotoSustituta(route.request().url()) }))
   await page.route(/\/api\//, async (route) => {
     const req = route.request()

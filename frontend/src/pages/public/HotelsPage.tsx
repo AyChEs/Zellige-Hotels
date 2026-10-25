@@ -1,14 +1,20 @@
-import { useState } from 'react'
+import { Suspense, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHotelList } from '../../api/hooks/useHotels'
 import { EmptyState, ErrorNote } from '../../components/ui/Feedback'
 import { Field, Input } from '../../components/ui/Field'
 import { HotelCard, HotelCardSkeleton } from './HotelCard'
+import { Lineas } from '../../components/brand/Lineas'
+import { useMenosMovimiento, useNavegadorLibre } from '../../motion/preferencias'
+import { MovimientoLista } from '../../motion/perezoso'
 
 export default function HotelsPage() {
   const { t } = useTranslation()
   const [search, setSearch] = useState('')
   const [city, setCity] = useState('')
+  const raiz = useRef<HTMLDivElement>(null)
+  const quieto = useMenosMovimiento()
+  const libre = useNavegadorLibre()
 
   const { data, isPending, error, refetch } = useHotelList({
     active: true,
@@ -18,8 +24,10 @@ export default function HotelsPage() {
   })
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 sm:py-16">
-      <h1 className="font-display text-2xl text-tinta-900 sm:text-4xl">{t('public.hotels.title')}</h1>
+    <div ref={raiz} className="revelar mx-auto max-w-6xl px-4 py-10 sm:py-16">
+      <h1 className="font-display text-[clamp(2.25rem,6vw,5rem)] leading-[1.02] text-tinta-900">
+        <Lineas lineas={[t('public.hotels.title')]} entrada />
+      </h1>
 
       <form role="search" onSubmit={(e) => e.preventDefault()} className="mt-6 grid gap-4 sm:max-w-2xl sm:grid-cols-2">
         <Field id="hotels-search" label={t('public.hotels.searchLabel')}>
@@ -60,6 +68,12 @@ export default function HotelsPage() {
             <HotelCard key={hotel.id} hotel={hotel} headingLevel="h2" />
           ))}
         </div>
+      )}
+
+      {!quieto && libre && (
+        <Suspense fallback={null}>
+          <MovimientoLista raiz={raiz} listo={!!data} />
+        </Suspense>
       )}
     </div>
   )
