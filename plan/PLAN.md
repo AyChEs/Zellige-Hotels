@@ -35,7 +35,7 @@ Después de la revisión, Opus solo revisa el resultado final (no ejecuta).
 | 09 | Revisión final | Revisión | 07, 08 | hecha |
 | 10 | Marca: estudio, logotipo y página `/marca` (`docs/MARCA.md`) | Opus | 09 | hecha |
 | 11 | Movimiento ligado al scroll en la parte pública (GSAP, ScrollTrigger, Lenis) | Opus | 10 | hecha |
-| 12 | Piezas de Rive: «Reservar, paso a paso» y logotipo animado (`docs/MARCA.md` §13) | Opus | 11 | en curso |
+| 12 | Piezas de Rive: «Reservar, paso a paso» y logotipo animado (`docs/MARCA.md` §13) | Opus | 11 | hecha |
 
 ## Orden y paralelo
 
