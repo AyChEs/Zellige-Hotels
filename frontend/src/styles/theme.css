@@ -133,8 +133,9 @@ main[tabindex='-1']:focus {
   .linea-entrada {
     animation: linea-entra var(--duracion-entrada) var(--ease-sereno) both;
   }
+  /* Solo se desplaza, sin fundido: el texto y los botones tienen su contraste desde el primer fotograma. */
   .aparecer-tarde {
-    animation: aparecer-sube 800ms var(--ease-sereno) 380ms both;
+    animation: sube 800ms var(--ease-sereno) 380ms both;
   }
   /* Si el JavaScript del movimiento no llega, lo que espera para entrar aparece igual. */
   .revelar:not(.revelar-listo) .revela {
@@ -153,6 +154,11 @@ main[tabindex='-1']:focus {
 @keyframes linea-entra {
   from {
     transform: translateY(110%);
+  }
+}
+@keyframes sube {
+  from {
+    transform: translateY(16px);
   }
 }
 @keyframes aparecer-sube {

@@ -42,3 +42,14 @@ for (const { path, role } of ROUTES) {
     expect(overflows, 'no horizontal scroll').toBe(false)
   })
 }
+
+// The hero text and buttons slide in on load; they must keep their contrast from the first frame
+// (a fade-in made axe fail on slow runners).
+test('the home hero keeps its contrast while the entrance plays', async ({ page }) => {
+  await mockApi(page)
+  await page.goto('/', { waitUntil: 'commit' })
+  await page.waitForSelector('main h1')
+  await page.waitForTimeout(700)
+  const results = await new AxeBuilder({ page }).withRules(['color-contrast']).analyze()
+  expect(results.violations.map((v) => v.nodes.map((n) => n.target.join(' ')))).toEqual([])
+})
