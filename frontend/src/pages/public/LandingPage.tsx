@@ -122,7 +122,7 @@ export default function LandingPage() {
             {t('public.landing.searchTitle')}
           </h2>
           <Card as="div" variant="brand" className="mt-6 p-4 sm:p-6">
-            <form onSubmit={search} className="grid gap-4 md:grid-cols-[2fr_1fr_7rem_auto] md:items-end">
+            <form onSubmit={search} className="grid gap-4 md:grid-cols-[2fr_1fr_7rem_auto] md:items-start">
               <DateRangeField
                 className="md:col-span-1"
                 checkIn={checkIn}
@@ -145,7 +145,7 @@ export default function LandingPage() {
               <Field id="landing-guests" label={t('public.landing.guests')}>
                 <Input type="number" min={1} max={10} value={guests} onChange={(e) => setGuests(Number(e.target.value))} />
               </Field>
-              <span data-magnetico className="flex md:inline-flex">
+              <span data-magnetico className="flex md:mt-[1.625rem] md:inline-flex">
                 <Button type="submit" disabled={!chosen} className="w-full px-6 md:w-auto">
                   {t('public.landing.search')}
                 </Button>
