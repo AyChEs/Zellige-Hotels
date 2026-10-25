@@ -1,0 +1,434 @@
+[
+ {
+  "ruta": "/",
+  "w": 1440,
+  "alto": 9315,
+  "vh": 900,
+  "secciones": [
+   {
+    "tag": "div.pin-spacer",
+    "id": "",
+    "top": 65,
+    "h": 1826
+   },
+   {
+    "tag": "section.relative.isolate",
+    "id": "umbral",
+    "top": 65,
+    "h": 836
+   },
+   {
+    "tag": "section.relative.z-10",
+    "id": "buscar",
+    "top": 1891,
+    "h": 280
+   },
+   {
+    "tag": "section.mt-16.overflow-hidden",
+    "id": "cinta",
+    "top": 2267,
+    "h": 66
+   },
+   {
+    "tag": "div.pin-spacer",
+    "id": "",
+    "top": 2332,
+    "h": 1853
+   },
+   {
+    "tag": "section.carrusel.overflow-hidden",
+    "id": "carrusel",
+    "top": 2332,
+    "h": 900
+   },
+   {
+    "tag": "div.pin-spacer",
+    "id": "",
+    "top": 4225,
+    "h": 3195
+   },
+   {
+    "tag": "section.historia.arqueria",
+    "id": "historia",
+    "top": 4225,
+    "h": 900
+   },
+   {
+    "tag": "section.relative.isolate",
+    "id": "contorno",
+    "top": 7420,
+    "h": 1215
+   },
+   {
+    "tag": "footer.arqueria.mt-10",
+    "id": "",
+    "top": 8676,
+    "h": 639
+   }
+  ],
+  "pins": [
+   {
+    "h": 1826,
+    "hijo": 836
+   },
+   {
+    "h": 1853,
+    "hijo": 900
+   },
+   {
+    "h": 3195,
+    "hijo": 900
+   }
+  ],
+  "hscroll": false
+ },
+ {
+  "ruta": "/hotels",
+  "w": 1440,
+  "alto": 1644,
+  "vh": 900,
+  "secciones": [
+   {
+    "tag": "footer.arqueria.mt-10",
+    "id": "",
+    "top": 1005,
+    "h": 639
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/hotels/1",
+  "w": 1440,
+  "alto": 2787,
+  "vh": 900,
+  "secciones": [
+   {
+    "tag": "section.rounded-(--radius-card).border",
+    "id": "",
+    "top": 1214,
+    "h": 139
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "top": 1384,
+    "h": 628
+   },
+   {
+    "tag": "footer.arqueria.mt-10",
+    "id": "",
+    "top": 2148,
+    "h": 639
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/marca",
+  "w": 1440,
+  "alto": 5353,
+  "vh": 900,
+  "secciones": [
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 585,
+    "h": 589
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 1174,
+    "h": 880
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 2054,
+    "h": 759
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 2813,
+    "h": 413
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 3226,
+    "h": 413
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 3639,
+    "h": 485
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 4124,
+    "h": 453
+   },
+   {
+    "tag": "footer.arqueria.mt-10",
+    "id": "",
+    "top": 4714,
+    "h": 639
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/login",
+  "w": 1440,
+  "alto": 1550,
+  "vh": 900,
+  "secciones": [
+   {
+    "tag": "footer.arqueria.mt-10",
+    "id": "",
+    "top": 910,
+    "h": 639
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/register",
+  "w": 1440,
+  "alto": 1569,
+  "vh": 900,
+  "secciones": [
+   {
+    "tag": "footer.arqueria.mt-10",
+    "id": "",
+    "top": 930,
+    "h": 639
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "w": 1440,
+  "errores": []
+ },
+ {
+  "ruta": "/",
+  "w": 390,
+  "alto": 7072,
+  "vh": 844,
+  "secciones": [
+   {
+    "tag": "div.pin-spacer",
+    "id": "",
+    "top": 65,
+    "h": 1371
+   },
+   {
+    "tag": "section.relative.isolate",
+    "id": "umbral",
+    "top": 65,
+    "h": 780
+   },
+   {
+    "tag": "section.relative.z-10",
+    "id": "buscar",
+    "top": 1436,
+    "h": 470
+   },
+   {
+    "tag": "section.mt-16.overflow-hidden",
+    "id": "cinta",
+    "top": 1970,
+    "h": 62
+   },
+   {
+    "tag": "div.pin-spacer",
+    "id": "",
+    "top": 2032,
+    "h": 1610
+   },
+   {
+    "tag": "section.carrusel.overflow-hidden",
+    "id": "carrusel",
+    "top": 2032,
+    "h": 844
+   },
+   {
+    "tag": "section.historia.arqueria",
+    "id": "historia",
+    "top": 3682,
+    "h": 2135
+   },
+   {
+    "tag": "section.relative.isolate",
+    "id": "contorno",
+    "top": 5817,
+    "h": 737
+   },
+   {
+    "tag": "footer.arqueria.mt-10",
+    "id": "",
+    "top": 6594,
+    "h": 479
+   }
+  ],
+  "pins": [
+   {
+    "h": 1371,
+    "hijo": 780
+   },
+   {
+    "h": 1610,
+    "hijo": 844
+   }
+  ],
+  "hscroll": false
+ },
+ {
+  "ruta": "/hotels",
+  "w": 390,
+  "alto": 2320,
+  "vh": 844,
+  "secciones": [
+   {
+    "tag": "footer.arqueria.mt-10",
+    "id": "",
+    "top": 1841,
+    "h": 479
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/hotels/1",
+  "w": 390,
+  "alto": 3206,
+  "vh": 844,
+  "secciones": [
+   {
+    "tag": "section.rounded-(--radius-card).border",
+    "id": "",
+    "top": 789,
+    "h": 363
+   },
+   {
+    "tag": "section",
+    "id": "",
+    "top": 1185,
+    "h": 1439
+   },
+   {
+    "tag": "footer.arqueria.mt-10",
+    "id": "",
+    "top": 2727,
+    "h": 479
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/marca",
+  "w": 390,
+  "alto": 7980,
+  "vh": 844,
+  "secciones": [
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 600,
+    "h": 837
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 1437,
+    "h": 1302
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 2739,
+    "h": 1640
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 4379,
+    "h": 603
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 4982,
+    "h": 835
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 5817,
+    "h": 673
+   },
+   {
+    "tag": "section.border-t.border-cal-200",
+    "id": "",
+    "top": 6490,
+    "h": 907
+   },
+   {
+    "tag": "footer.arqueria.mt-10",
+    "id": "",
+    "top": 7501,
+    "h": 479
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/login",
+  "w": 390,
+  "alto": 1341,
+  "vh": 844,
+  "secciones": [
+   {
+    "tag": "footer.arqueria.mt-10",
+    "id": "",
+    "top": 862,
+    "h": 479
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "ruta": "/register",
+  "w": 390,
+  "alto": 1574,
+  "vh": 844,
+  "secciones": [
+   {
+    "tag": "footer.arqueria.mt-10",
+    "id": "",
+    "top": 1095,
+    "h": 479
+   }
+  ],
+  "pins": [],
+  "hscroll": false
+ },
+ {
+  "w": 390,
+  "errores": []
+ }
+]

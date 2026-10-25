@@ -143,7 +143,9 @@
       "submit": "Create account",
       "submitting": "Creating account…",
       "hasAccount": "Already have an account?",
-      "login": "Sign in"
+      "login": "Sign in",
+      "privacyBefore": "I have read the ",
+      "privacyLink": "privacy policy"
     },
     "validation": {
       "emailInvalid": "Invalid email",
@@ -153,7 +155,8 @@
       "firstNameMin": "Enter your first name",
       "lastNameMin": "Enter your last name",
       "phonePattern": "Invalid phone number",
-      "documentIdMin": "Enter your ID document"
+      "documentIdMin": "Enter your ID document",
+      "privacyRequired": "You must accept the privacy policy"
     }
   },
   "public": {
@@ -168,7 +171,9 @@
     "footer": {
       "tagline": "Demo hotel ERP",
       "explore": "Explore",
-      "made": "Demo project by Ayman Charoui"
+      "made": "Demo project by Ayman Charoui",
+      "legal": "Legal notice",
+      "privacy": "Privacy"
     },
     "landing": {
       "subtitle": "Three hotels with character in Granada, Marrakech and Barcelona. Direct booking, a fixed price per night and no-surprise invoices.",
@@ -672,5 +677,121 @@
     "dont3": "With a shadow",
     "dont4": "Off-palette",
     "footerLink": "Brand"
+  },
+  "legal": {
+    "back": "Back to home",
+    "updated": "Last updated: 25 October 2026",
+    "aviso": {
+      "title": "Legal notice",
+      "intro": "Information required by article 10 of the Spanish Law 34/2002 on Information Society Services (LSSI-CE).",
+      "sections": [
+        {
+          "h": "Owner",
+          "p": [
+            "This site is a demo project by Ayman Charoui Essamadi, a full-stack developer. Contact: aymanessamadi72@gmail.com."
+          ]
+        },
+        {
+          "h": "Purpose and no commercial activity",
+          "p": [
+            "Zellige Hotels is a portfolio demo. There is no commercial activity: nothing is sold and nothing is charged.",
+            "The hotels, rooms, prices, bookings and invoices are fictional. A booking made here has no effect outside the demo and no hotel will honour it."
+          ]
+        },
+        {
+          "h": "Intellectual property",
+          "p": [
+            "The code belongs to its author and is published on GitHub (AyChEs). The brand images and the hotel images on the home page were generated with AI by the owner. The room photos come from Unsplash and belong to their authors."
+          ]
+        },
+        {
+          "h": "Liability",
+          "p": [
+            "The demo is provided as is and may change, stop working or be wiped at any time. Do not rely on it for anything that matters.",
+            "Do not use real data. Anyone who enters it does so at their own risk."
+          ]
+        },
+        {
+          "h": "Governing law",
+          "p": [
+            "This notice is governed by Spanish law."
+          ]
+        }
+      ]
+    },
+    "privacidad": {
+      "title": "Privacy",
+      "intro": "How personal data is handled in this demo, under Regulation (EU) 2016/679 (GDPR) and the Spanish Organic Law 3/2018 (LOPDGDD).",
+      "sections": [
+        {
+          "h": "Controller",
+          "p": [
+            "Ayman Charoui Essamadi. Contact: aymanessamadi72@gmail.com."
+          ]
+        },
+        {
+          "h": "Purpose",
+          "p": [
+            "So you can try the demo: create an account, sign in, make test bookings and see your invoices and profile."
+          ]
+        },
+        {
+          "h": "Data stored",
+          "p": [
+            "Only what you type when you register and use the demo:"
+          ],
+          "list": [
+            "email and password (the password is stored hashed with bcrypt, never in plain text);",
+            "first name, last name, ID document and phone (optional) from the registration form;",
+            "your test bookings and invoices;",
+            "in your browser, the session token and the chosen language, in local storage."
+          ],
+          "after": "The servers may log technical connection data, such as the IP address, to run and secure the service."
+        },
+        {
+          "h": "Legal basis",
+          "p": [
+            "Your consent (article 6.1.a GDPR), given by ticking the box on the registration form. You can withdraw it at any time by writing to the contact email."
+          ]
+        },
+        {
+          "h": "Retention",
+          "p": [
+            "Demo data is wiped periodically. If you want it deleted sooner, write to me and I will do it."
+          ]
+        },
+        {
+          "h": "Cookies",
+          "p": [
+            "The site uses no analytics or advertising cookies. It only keeps in your browser's local storage what it needs to work (the session and the language), so it needs no cookie banner."
+          ]
+        },
+        {
+          "h": "Processors",
+          "p": [
+            "These providers are used to host the demo:"
+          ],
+          "list": [
+            "Vercel: hosts the frontend.",
+            "Render: hosts the API.",
+            "Neon: hosts the database.",
+            "Brevo: sends the demo emails."
+          ],
+          "after": "Some of them may process data outside the European Economic Area. In that case, international transfers rely on the European Commission's standard contractual clauses."
+        },
+        {
+          "h": "Your rights",
+          "p": [
+            "You can exercise your rights of access, rectification, erasure, objection, restriction and portability by writing to aymanessamadi72@gmail.com. If you think your request was not handled properly, you can complain to the Spanish Data Protection Agency (aepd.es)."
+          ]
+        },
+        {
+          "h": "Recommendation",
+          "p": [
+            "This is a demo: use made-up data. You do not need your real ID document or phone number to try it."
+          ]
+        }
+      ]
+    }
   }
 }

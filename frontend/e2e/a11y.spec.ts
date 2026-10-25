@@ -10,6 +10,8 @@ const ROUTES: { path: string; role?: Role }[] = [
   { path: '/marca' },
   { path: '/login' },
   { path: '/register' },
+  { path: '/aviso-legal' },
+  { path: '/privacidad' },
   { path: '/account', role: 'CLIENT' },
   { path: '/account/invoices', role: 'CLIENT' },
   { path: '/account/profile', role: 'CLIENT' },

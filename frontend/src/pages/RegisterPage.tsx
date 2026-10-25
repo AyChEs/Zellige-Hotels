@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
+import { z } from '../lib/zod'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/AuthContext'
 import { Button } from '../components/ui/Button'
@@ -27,6 +27,7 @@ export function RegisterPage() {
       .string()
       .min(8, t('auth.validation.passwordMin'))
       .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/, t('auth.validation.passwordPattern')),
+    privacy: z.boolean().refine((v) => v, t('auth.validation.privacyRequired')),
   })
   type FormValues = z.infer<typeof schema>
 
@@ -39,7 +40,8 @@ export function RegisterPage() {
   const onSubmit = async (values: FormValues) => {
     setServerError(null)
     try {
-      await registerUser(values)
+      const { privacy: _privacy, ...datos } = values
+      await registerUser(datos)
       navigate('/account', { replace: true })
     } catch (error) {
       setServerError(error)
@@ -59,7 +61,7 @@ export function RegisterPage() {
   )
 
   return (
-    <div className="reticula flex min-h-[70vh] items-center justify-center px-4 py-12 sm:py-16">
+    <div className="reticula flex min-h-[60vh] items-center justify-center px-4 py-bloque">
       <Card variant="brand" className="w-full max-w-lg p-6 sm:p-8">
         <Simbolo size={40} className="mx-auto mb-4 block text-fez-700" />
         <h1 className="font-display text-center text-2xl text-tinta-900">{t('auth.register.title')}</h1>
@@ -79,6 +81,31 @@ export function RegisterPage() {
           </div>
           {field('email', t('auth.register.email'), 'email', 'email')}
           {field('password', t('auth.register.password'), 'password', 'new-password', t('auth.register.passwordHint'))}
+
+          <div>
+            <div className="flex items-start gap-3">
+              <input
+                id="privacy"
+                type="checkbox"
+                required
+                aria-invalid={errors.privacy ? true : undefined}
+                aria-describedby={errors.privacy ? 'privacy-error' : undefined}
+                className="mt-0.5 size-5 shrink-0 accent-fez-700"
+                {...register('privacy')}
+              />
+              <label htmlFor="privacy" className="text-sm text-tinta-900">
+                {t('auth.register.privacyBefore')}
+                <Link to="/privacidad" className="font-semibold text-fez-700 underline underline-offset-2 hover:text-fez-800">
+                  {t('auth.register.privacyLink')}
+                </Link>
+              </label>
+            </div>
+            {errors.privacy && (
+              <p id="privacy-error" className="mt-1 text-sm text-error-ink">
+                {errors.privacy.message}
+              </p>
+            )}
+          </div>
 
           {serverError != null && <ErrorNote error={serverError} />}
 

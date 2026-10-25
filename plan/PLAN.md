@@ -36,6 +36,7 @@ Después de la revisión, Opus solo revisa el resultado final (no ejecuta).
 | 10 | Marca: estudio, logotipo y página `/marca` (`docs/MARCA.md`) | Opus | 09 | hecha |
 | 11 | Movimiento ligado al scroll en la parte pública (GSAP, ScrollTrigger, Lenis) | Opus | 10 | hecha |
 | 12 | Piezas de Rive: «Reservar, paso a paso» y logotipo animado (`docs/MARCA.md` §13) | Opus | 11 | hecha |
+| 13 | Espacios verticales, cabeceras de seguridad y textos legales (`docs/MARCA.md` §14 y §15) | Opus | 12 | hecha |
 
 ## Orden y paralelo
 
@@ -45,6 +46,7 @@ Después de la revisión, Opus solo revisa el resultado final (no ejecuta).
  └─► 08 ─────────────────────────────────────┴─► 09 ─► 10 ─► 11
 ```
 
+- 13 se añadió el 2026-10-25 a petición de Ayman: menos hueco vertical en la parte pública, CSP y cabeceras en Vercel, y aviso legal y privacidad (LSSI-CE, RGPD y LOPDGDD).
 - 10, 11 y 12 son una fase añadida el 2026-10-24 a petición de Ayman: marca propia y animaciones ligadas al scroll, con la web de Tacho como referencia de oficio (no de estética).
 
 - 04 y 05 pueden ir a la vez: tocan páginas distintas (`pages/public` y `pages/admin`). Si las dos tocan `i18n/locales/*.json`, la segunda en fusionar resuelve el conflicto conservando ambas claves.

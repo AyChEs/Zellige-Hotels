@@ -14,7 +14,7 @@ export function HotelHeader({ hotel, fotosHabitaciones = [] }: { hotel: HotelDto
   const extra = fotosHabitaciones.slice(0, 2)
   return (
     <header className="bg-cal-50">
-      <div className="mx-auto max-w-6xl px-4 pt-8 sm:pt-12">
+      <div className="mx-auto max-w-6xl px-4 pt-bloque">
         <nav aria-label={t('public.hotelDetail.breadcrumbLabel')}>
           <ol className="flex flex-wrap items-center gap-2 text-sm text-tinta-600">
             <li>
