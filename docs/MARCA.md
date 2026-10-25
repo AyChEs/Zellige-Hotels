@@ -109,10 +109,12 @@ Escala display nueva (solo portada): titular del inicio `clamp(2.75rem, 8vw, 7re
 
 ## 8. Fotografía
 
-- Solo fotos de los propios hoteles y habitaciones (las que devuelve la API). Nada de bancos de imágenes nuevos.
+- Desde la sesión 11 la marca tiene fotos propias: un patio visto a través de un arco (portada), una foto por hotel (Granada, Marrakech y Barcelona) y una textura de azulejo. Son **imágenes generadas con IA por Ayman Charoui**, sin derechos de terceros. Están en `frontend/public/img/` como AVIF y WebP en varios anchos (`plan/herramientas/optimizar-fotos.mjs`); el componente `Foto` las sirve con `srcset` y `sizes`, y `lib/fotos.ts` decide cuál va a cada hotel por su ciudad. Si un hotel nuevo no tiene foto propia, se usa la que devuelve la API.
+- Las fotos de las habitaciones siguen siendo las de la API. Nada de bancos de imágenes nuevos.
+- La textura de azulejo lleva una estrella de ocho puntas: solo va de fondo, al 9 % de opacidad y difuminada hacia los bordes, detrás del «Zellige» gigante. Nunca como logotipo ni como motivo protagonista.
 - Luz natural, patios, materiales, habitaciones vacías y ordenadas. Sin personas posando.
-- Recorte en arco para la foto protagonista; el resto en rectángulo con radio de tarjeta.
-- Cada foto tiene su texto alternativo con el nombre del hotel, o `alt=""` si se repite junto al nombre.
+- Recorte en arco para la foto protagonista (la ficha del hotel y dos de las fotos del «Zellige» en contorno); el resto en rectángulo con radio de tarjeta.
+- Cada foto tiene su texto alternativo, o `alt=""` si se repite junto al nombre.
 
 ## 9. Movimiento
 
@@ -150,3 +152,25 @@ Dónde: solo en la parte pública (portada, lista de hoteles y ficha). El panel 
 | El nombre en Marcellus mayúsculas. | Rehacer el nombre en otra fuente o en minúsculas. |
 | Logotipo mono sobre fotos claras con velo. | Logotipo en color sobre una foto sin contraste. |
 | Granate en pequeño: apellido, clave, filetes. | Fondos de sección en granate o degradados. |
+
+## 11. Créditos de las imágenes
+
+Imágenes generadas con IA por Ayman Charoui: `hero`, `granada`, `marrakech`, `barcelona` y `textura` en `frontend/public/img/`. Los originales en JPG no están en el repositorio; las versiones AVIF y WebP se generan con `plan/herramientas/optimizar-fotos.mjs`.
+
+## 12. Cómo se mueve la portada (sesión 11)
+
+Todo el movimiento vive en `frontend/src/motion/` y solo se carga en la portada, la lista de hoteles y la ficha, sin `prefers-reduced-motion` y cuando el navegador ya ha terminado de cargar.
+
+| Escena | Qué hace |
+|---|---|
+| El umbral | El arco de herradura crece con el scroll hasta que la foto ocupa toda la pantalla (sección fijada). |
+| Titulares | Entran línea a línea (máscara y `translateY`); el del inicio, con CSS al cargar. |
+| Cinta de datos | Avanza al ritmo del scroll, no se mueve sola. |
+| Tres casas | Carrusel horizontal fijado; las tarjetas llegan inclinadas, se enderezan y se apilan. |
+| Reservar, paso a paso | Sección fijada en cuatro pasos; en móvil, cada paso entra al llegar. |
+| «Zellige» en contorno | El nombre deriva despacio y las tres fotos lo cruzan a distinta velocidad (paralaje). |
+| Botones magnéticos | Se acercan un poco al puntero; solo con ratón. |
+| Cambio de página | View Transitions API: la cabecera se queda, el contenido se funde y sube. |
+| Lista y ficha | Tarjetas y habitaciones entran escalonadas; en la ficha, paralaje dentro de cada foto de la galería. |
+
+Con `prefers-reduced-motion` se ve el estado final, sin fijar secciones y sin Lenis. El teclado no cambia: si el foco entra en una sección fijada, el scroll lleva a ese elemento.
