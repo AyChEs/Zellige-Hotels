@@ -33,6 +33,13 @@ for (const { path, role } of ROUTES) {
     await page.goto(path)
     await expect(page.locator('main h1')).toBeVisible()
     await page.waitForLoadState('networkidle')
+    // Las tarjetas y habitaciones (.revela) que ya se ven entran con un fundido escalonado: axe mide
+    // el contraste del estado final, no de un fotograma intermedio (en CI lento fallaba al azar).
+    await page.waitForFunction(() =>
+      [...document.querySelectorAll('.revela')]
+        .filter((e) => e.getBoundingClientRect().top < innerHeight * 0.85)
+        .every((e) => getComputedStyle(e).opacity === '1'),
+    )
 
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
